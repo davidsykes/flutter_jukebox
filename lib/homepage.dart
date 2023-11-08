@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jukebox/potentiallibrary/webaccess/webaccess.dart';
 
 import 'currenttrackinformation.dart';
 import 'potentiallibrary/widgets/futurebuilder.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final IWebAccess webAccess;
+  const HomePage(this.webAccess, {super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -18,10 +20,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<CurrentTrackInformation> getCurrentTrackInformation() async {
-    return CurrentTrackInformation();
+    var text = await widget.webAccess.getJsonWebData('currenttrack');
+    return CurrentTrackInformation('text');
   }
 
   Widget makeHomePage(CurrentTrackInformation currentTrackInformation) {
-    return const Text('afdsfafasfsdaf!!!');
+    return Text(currentTrackInformation.text);
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/homepage.dart';
+import 'package:flutter_jukebox/tests/alltests.dart';
+import 'dependencies.dart';
+import 'potentiallibrary/webaccess/webaccess.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var dependencies = Dependencies();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -32,13 +36,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Lynda\'s Super Jukebox'),
+      home: MyHomePage(
+        title: 'Lynda\'s Super Jukebox',
+        webAccess: dependencies.webAccess,
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.webAccess});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -50,6 +57,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final IWebAccess webAccess;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -58,6 +66,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   var selectedIndex = 0;
+  var testResults = AllTests().runTests();
 
   void _incrementCounter() {
     setState(() {
@@ -75,19 +84,19 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = const HomePage();
+        page = HomePage(widget.webAccess);
         break;
       case 1:
         page = const Text('TO DO');
         break;
       case 2:
-        page = const Text('TO DO');
+        page = const Text('TO DO2');
         break;
       case 3:
-        page = const Text('TO DO');
+        page = Text(_counter.toString());
         break;
       case 4:
-        page = const Text('TO DO');
+        page = Text(testResults.summary);
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -114,26 +123,26 @@ class _MyHomePageState extends State<MyHomePage> {
           SafeArea(
             child: NavigationRail(
               extended: true,
-              destinations: const [
-                NavigationRailDestination(
+              destinations: [
+                const NavigationRailDestination(
                   icon: Icon(Icons.home),
                   label: Text('Home'),
                 ),
-                NavigationRailDestination(
+                const NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('TO DO'),
+                ),
+                const NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('TO DO'),
+                ),
+                const NavigationRailDestination(
                   icon: Icon(Icons.favorite),
                   label: Text('TO DO'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('TO DO'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('TO DO'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('TO DO'),
+                  icon: const Icon(Icons.favorite),
+                  label: Text(testResults.summary),
                 ),
               ],
               selectedIndex: selectedIndex,

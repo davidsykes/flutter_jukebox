@@ -1,4 +1,5 @@
 import 'testmodule.dart';
+import 'testresults.dart';
 import 'testunit.dart';
 
 class TestRunner {
@@ -9,7 +10,7 @@ class TestRunner {
     tests.addAll(newTests);
   }
 
-  List<String> runTests() {
+  TestResults runTests() {
     List<String> results = List.empty(growable: true);
     var numberOfPassingTests = 0;
 
@@ -39,6 +40,6 @@ class TestRunner {
     }
     results.add('$numberOfPassingTests tests pass');
 
-    return results;
+    return TestResults(tests.length, numberOfPassingTests, results);
   }
 }
