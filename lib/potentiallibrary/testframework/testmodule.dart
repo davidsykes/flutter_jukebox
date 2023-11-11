@@ -9,7 +9,7 @@ abstract class TestModule {
   void setUpMocks() {}
   void setUpObjectUnderTest() {}
 
-  TestUnit createTest(void Function() action) {
+  TestUnit createTest(Future<void> Function() action) {
     return TestUnit(testModule: this, action: action);
   }
 

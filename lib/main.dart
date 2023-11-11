@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/homepage.dart';
+import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'dependencies.dart';
+import 'potentiallibrary/testframework/testresults.dart';
 import 'potentiallibrary/webaccess/webaccess.dart';
 
 void main() {
@@ -96,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = Text(_counter.toString());
         break;
       case 4:
-        page = Text(testResults.summary);
+        page = createFutureBuilder(testRunner, testPageMaker);
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -123,26 +125,26 @@ class _MyHomePageState extends State<MyHomePage> {
           SafeArea(
             child: NavigationRail(
               extended: true,
-              destinations: [
-                const NavigationRailDestination(
+              destinations: const [
+                NavigationRailDestination(
                   icon: Icon(Icons.home),
                   label: Text('Home'),
                 ),
-                const NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('TO DO'),
-                ),
-                const NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('TO DO'),
-                ),
-                const NavigationRailDestination(
+                NavigationRailDestination(
                   icon: Icon(Icons.favorite),
                   label: Text('TO DO'),
                 ),
                 NavigationRailDestination(
-                  icon: const Icon(Icons.favorite),
-                  label: Text(testResults.summary),
+                  icon: Icon(Icons.favorite),
+                  label: Text('TO DO'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('TO DO'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('Tests'),
                 ),
               ],
               selectedIndex: selectedIndex,
@@ -167,5 +169,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Future<TestResults> testRunner() {
+    return AllTests().runTests();
+  }
+
+  Widget testPageMaker(TestResults results) {
+    return Text(results.summary);
   }
 }

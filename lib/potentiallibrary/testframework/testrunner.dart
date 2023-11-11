@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'testmodule.dart';
 import 'testresults.dart';
 import 'testunit.dart';
@@ -10,17 +11,20 @@ class TestRunner {
     tests.addAll(newTests);
   }
 
-  TestResults runTests() {
+  Future<TestResults> runTests() async {
     List<String> results = List.empty(growable: true);
     var numberOfPassingTests = 0;
+    var numberOfFailingTests = 0;
 
     for (final test in tests) {
       try {
         test.setUpData();
         test.setUpMocks();
         test.setUpObjectUnderTest();
-        test.runTest();
-        numberOfPassingTests++;
+        await test
+            .runTest()
+            .then((_) => numberOfPassingTests++)
+            .catchError((_) => numberOfFailingTests++);
       } on TestAssertFailException catch (e) {
         var cause = e.cause;
         results.add('Fail: $cause');

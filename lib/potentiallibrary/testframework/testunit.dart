@@ -2,7 +2,7 @@ import 'testmodule.dart';
 
 class TestUnit {
   TestModule testModule;
-  void Function() action;
+  Future<void> Function() action;
 
   TestUnit({required this.testModule, required this.action});
 
@@ -18,7 +18,7 @@ class TestUnit {
     testModule.setUpObjectUnderTest();
   }
 
-  runTest() {
-    action();
+  Future<void> runTest() async {
+    await action();
   }
 }

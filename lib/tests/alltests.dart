@@ -5,12 +5,12 @@ import 'package:flutter_jukebox/potentiallibrary/testframework/testresults.dart'
 class AllTests {
   String summary = 'not run';
 
-  TestResults runTests() {
+  Future<TestResults> runTests() async {
     var runner = TestRunner();
 
     runner.addTests(WebRequestorTests());
 
-    var results = runner.runTests();
+    var results = await runner.runTests();
 
     return results;
   }
