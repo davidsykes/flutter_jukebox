@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/homepage.dart';
+import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'dependencies.dart';
@@ -41,13 +42,18 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(
         title: 'Lynda\'s Super Jukebox',
         webAccess: dependencies.webAccess,
+        webRequestor: dependencies.webRequestor,
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.webAccess});
+  const MyHomePage(
+      {super.key,
+      required this.title,
+      required this.webAccess,
+      required this.webRequestor});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -60,6 +66,7 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
   final IWebAccess webAccess;
+  final IWebRequestor webRequestor;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -86,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = HomePage(widget.webAccess);
+        page = HomePage(widget.webAccess, widget.webRequestor);
         break;
       case 1:
         page = const Text('TO DO');

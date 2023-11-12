@@ -1,3 +1,4 @@
+import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import 'potentiallibrary/webaccess/webaccess.dart';
 
 class Dependencies {
@@ -5,7 +6,11 @@ class Dependencies {
   //One instance, needs factory
   static Dependencies? _instance;
   factory Dependencies() => _instance ??= Dependencies._();
-  Dependencies._();
+  Dependencies._() {
+    webAccess = WebAccess(ipAddress);
+    webRequestor = WebRequestor(webAccess);
+  }
 
-  WebAccess webAccess = WebAccess(ipAddress);
+  late WebAccess webAccess;
+  late IWebRequestor webRequestor;
 }
