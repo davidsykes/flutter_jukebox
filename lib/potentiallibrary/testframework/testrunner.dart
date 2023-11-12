@@ -12,9 +12,7 @@ class TestRunner {
   }
 
   Future<TestResults> runTests() async {
-    List<String> results = List.empty(growable: true);
-    var numberOfPassingTests = 0;
-    var numberOfFailingTests = 0;
+    var testResults = TestResults();
 
     for (final test in tests) {
       try {
@@ -23,27 +21,35 @@ class TestRunner {
         test.setUpObjectUnderTest();
         await test
             .runTest()
-            .then((_) => numberOfPassingTests++)
-            .catchError((_) => numberOfFailingTests++);
+            .then((_) => aTestHasPassed(testResults))
+            .catchError((_) => aTestHasFailed(test, testResults));
       } on TestAssertFailException catch (e) {
         var cause = e.cause;
-        results.add('Fail: $cause');
+        testResults.results.add('Fail: $cause');
         for (final extraCause in e.causes) {
-          results.add(extraCause);
+          testResults.results.add(extraCause);
         }
-        results.add('-------------------');
+        testResults.results.add('-------------------');
       } on Exception catch (e) {
         // Anything else that is an exception
-        results.add('Unknown exception: $e');
+        testResults.results.add('Unknown exception: $e');
       } catch (e, s) {
         // No specified type, handles all
-        results.add('Fail: Unknown error: $e');
-        results.add('$s');
-        results.add('-------------------');
+        testResults.results.add('Fail: Unknown error: $e');
+        testResults.results.add('$s');
+        testResults.results.add('-------------------');
       }
     }
-    results.add('$numberOfPassingTests tests pass');
 
-    return TestResults(tests.length, numberOfPassingTests, results);
+    return testResults;
+  }
+
+  aTestHasPassed(TestResults testResults) {
+    testResults.numberOfTests++;
+    testResults.numberOfPassingTests++;
+  }
+
+  aTestHasFailed(TestUnit test, TestResults testResults) {
+    testResults.numberOfTests++;
   }
 }

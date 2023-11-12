@@ -1,14 +1,12 @@
 class TestResults {
-  int numberOfTests;
-  int numberOfPassingTests;
-  List<String> results;
-
-  TestResults(this.numberOfTests, this.numberOfPassingTests, this.results);
+  int numberOfTests = 0;
+  int numberOfPassingTests = 0;
+  List<String> results = List.empty(growable: true);
 
   String get summary => getSummary();
 
   String getSummary() {
     int failed = numberOfTests - numberOfPassingTests;
-    return (failed == 110 ? 'All Passed' : '$failed failed');
+    return ('$numberOfTests tests. $failed failed');
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/homepage.dart';
-import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'dependencies.dart';
 import 'potentiallibrary/testframework/testresults.dart';
-import 'potentiallibrary/webaccess/webaccess.dart';
+import 'potentiallibrary/webaccess/mp3playeraccess.dart';
+import 'tests/webaccess/jukeboxdatabaseapiaccess.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(
         title: 'Lynda\'s Super Jukebox',
-        webAccess: dependencies.webAccess,
-        webRequestor: dependencies.webRequestor,
+        mp3PlayerAccess: dependencies.mp3PlayerAccess,
+        jukeboxDatabaseApiAccess: dependencies.jukeboxDatabaseApiAccess,
       ),
     );
   }
@@ -52,8 +52,8 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage(
       {super.key,
       required this.title,
-      required this.webAccess,
-      required this.webRequestor});
+      required this.mp3PlayerAccess,
+      required this.jukeboxDatabaseApiAccess});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -65,8 +65,8 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
-  final IWebAccess webAccess;
-  final IWebRequestor webRequestor;
+  final IMP3PlayerAccess mp3PlayerAccess;
+  final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -93,7 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = HomePage(widget.webAccess, widget.webRequestor);
+        page =
+            HomePage(widget.mp3PlayerAccess, widget.jukeboxDatabaseApiAccess);
         break;
       case 1:
         page = const Text('TO DO');

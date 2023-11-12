@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/currenttrack.dart';
-import 'package:flutter_jukebox/potentiallibrary/webaccess/webaccess.dart';
 import 'currenttrackinformation.dart';
-import 'potentiallibrary/webaccess/webrequestor.dart';
+import 'potentiallibrary/webaccess/mp3playeraccess.dart';
 import 'potentiallibrary/widgets/futurebuilder.dart';
+import 'tests/webaccess/jukeboxdatabaseapiaccess.dart';
 
 class HomePage extends StatefulWidget {
-  final IWebAccess webAccess;
-  final IWebRequestor webRequestor;
-  const HomePage(this.webAccess, this.webRequestor, {super.key});
+  final IMP3PlayerAccess mp3PlayerAccess;
+  final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
+  const HomePage(this.mp3PlayerAccess, this.jukeboxDatabaseApiAccess,
+      {super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,11 +23,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<CurrentTrackInformation> getCurrentTrackInformation() async {
-    var currentTrackJson =
-        await widget.webAccess.getJsonWebData('currenttrack');
-    var currentTrackId = (await widget.webRequestor
-            .get<CurrentTrack>('currenttrack', deserialiseCurrentTrack))
-        .currentTrackId;
+    var currentTrackId = await widget.mp3PlayerAccess.getCurrentTrackId();
     return CurrentTrackInformation('Current track $currentTrackId');
   }
 
