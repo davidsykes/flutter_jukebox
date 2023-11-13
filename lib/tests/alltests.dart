@@ -1,4 +1,5 @@
 import '../potentiallibrary/testframework/testrunner.dart';
+import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
 import 'webaccess/mp3playeraccesstests.dart';
 import 'webaccess/webrequestortests.dart';
 import 'package:flutter_jukebox/potentiallibrary/testframework/testresults.dart';
@@ -11,6 +12,7 @@ class AllTests {
 
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
+    runner.addTests(JukeboxDatabaseApiAccessTests());
 
     var results = await runner.runTests();
 

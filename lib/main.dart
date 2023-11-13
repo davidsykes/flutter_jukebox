@@ -5,7 +5,7 @@ import 'package:flutter_jukebox/tests/alltests.dart';
 import 'dependencies.dart';
 import 'potentiallibrary/testframework/testresults.dart';
 import 'potentiallibrary/webaccess/mp3playeraccess.dart';
-import 'tests/webaccess/jukeboxdatabaseapiaccess.dart';
+import 'potentiallibrary/webaccess/jukeboxdatabaseapiaccess.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,7 +74,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  var selectedIndex = 0;
+  var selectedIndex = 4;
   var testResults = AllTests().runTests();
 
   void _incrementCounter() {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/currenttrack.dart';
-import 'currenttrackinformation.dart';
+import 'dataobjects/trackinformation.dart';
 import 'potentiallibrary/webaccess/mp3playeraccess.dart';
 import 'potentiallibrary/widgets/futurebuilder.dart';
-import 'tests/webaccess/jukeboxdatabaseapiaccess.dart';
+import 'potentiallibrary/webaccess/jukeboxdatabaseapiaccess.dart';
 
 class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
@@ -18,20 +18,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return createFutureBuilder<CurrentTrackInformation>(
+    return createFutureBuilder<TrackInformation>(
         getCurrentTrackInformation, makeHomePage);
   }
 
-  Future<CurrentTrackInformation> getCurrentTrackInformation() async {
+  Future<TrackInformation> getCurrentTrackInformation() async {
     var currentTrackId = await widget.mp3PlayerAccess.getCurrentTrackId();
-    return CurrentTrackInformation('Current track $currentTrackId');
+    return widget.jukeboxDatabaseApiAccess.getTrackInformation(currentTrackId);
   }
 
   CurrentTrack deserialiseCurrentTrack(Map<String, dynamic> data) {
     return CurrentTrack(data['currentTrackId']);
   }
 
-  Widget makeHomePage(CurrentTrackInformation currentTrackInformation) {
-    return Text(currentTrackInformation.text);
+  Widget makeHomePage(TrackInformation currentTrackInformation) {
+    return Text(currentTrackInformation.trackName);
   }
 }
