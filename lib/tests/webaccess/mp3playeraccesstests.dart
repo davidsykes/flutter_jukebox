@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
-import '../../potentiallibrary/webaccess/mp3playeraccess.dart';
+import '../../webaccess/mp3playeraccess.dart';
 
 class MP3PlayerAccessTests extends TestModule {
   late IMP3PlayerAccess _access;

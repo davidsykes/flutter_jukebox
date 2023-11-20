@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
-import '../../potentiallibrary/webaccess/jukeboxdatabaseapiaccess.dart';
+import '../../webaccess/jukeboxdatabaseapiaccess.dart';
 
 class JukeboxDatabaseApiAccessTests extends TestModule {
   late IJukeboxDatabaseApiAccess _access;

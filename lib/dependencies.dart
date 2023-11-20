@@ -1,7 +1,7 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
-import 'potentiallibrary/webaccess/mp3playeraccess.dart';
 import 'potentiallibrary/webaccess/webaccess.dart';
-import 'potentiallibrary/webaccess/jukeboxdatabaseapiaccess.dart';
+import 'webaccess/jukeboxdatabaseapiaccess.dart';
+import 'webaccess/mp3playeraccess.dart';
 
 class Dependencies {
   static const String mp3PlayerIpAddress = '192.168.1.125:5001';

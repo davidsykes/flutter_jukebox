@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../tools/logger.dart';
 
 abstract class IWebAccess {
   Future<String> getTextWebData(String url);
@@ -19,6 +20,7 @@ class WebAccess extends IWebAccess {
 
   @override
   dynamic getJsonWebData(String url) async {
+    Logger().log('getJsonWebData $url');
     final httpPackageUrl = Uri.parse(makeUrl(url));
     final httpPackageInfo = await http.read(httpPackageUrl);
     final decoded = json.decode(httpPackageInfo);
@@ -27,8 +29,16 @@ class WebAccess extends IWebAccess {
 
   @override
   Future<String> getTextWebData(String url) async {
+    Logger().log('getTextWebData $url');
     final httpPackageUrl = Uri.parse(makeUrl(url));
+
+    var rr = await http.get(httpPackageUrl);
+    Logger().log('---------------');
+    Logger().log(rr.body);
+    Logger().log('---------------');
+
     final httpPackageInfo = await http.read(httpPackageUrl);
+    Logger().log('result $httpPackageInfo');
     return httpPackageInfo;
   }
 

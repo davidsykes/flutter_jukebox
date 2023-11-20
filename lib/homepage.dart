@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/currenttrack.dart';
 import 'dataobjects/trackinformation.dart';
-import 'potentiallibrary/webaccess/mp3playeraccess.dart';
 import 'potentiallibrary/widgets/futurebuilder.dart';
-import 'potentiallibrary/webaccess/jukeboxdatabaseapiaccess.dart';
+import 'tools/logger.dart';
+import 'webaccess/jukeboxdatabaseapiaccess.dart';
+import 'webaccess/mp3playeraccess.dart';
 
 class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
@@ -23,8 +24,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<TrackInformation> getCurrentTrackInformation() async {
-    var currentTrackId = await widget.mp3PlayerAccess.getCurrentTrackId();
-    return widget.jukeboxDatabaseApiAccess.getTrackInformation(currentTrackId);
+    try {
+      var currentTrackId = await widget.mp3PlayerAccess.getCurrentTrackId();
+      return widget.jukeboxDatabaseApiAccess
+          .getTrackInformation(currentTrackId);
+    } on Exception catch (e) {
+      Logger().log('an exception $e');
+    }
+    return TrackInformation(
+      0,
+      'tr',
+      'rt',
+      2,
+      'tr',
+      'gg',
+      1,
+      'g',
+    );
   }
 
   CurrentTrack deserialiseCurrentTrack(Map<String, dynamic> data) {
@@ -32,6 +48,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget makeHomePage(TrackInformation currentTrackInformation) {
-    return Text(currentTrackInformation.trackName);
+    var texts = List.empty(growable: true);
+    texts.add(currentTrackInformation.trackName);
+    texts.addAll(Logger.logs);
+    var textiesi = texts.map(
+      (e) => Text(e),
+    );
+    return Column(
+      children: textiesi.toList(),
+    );
   }
 }

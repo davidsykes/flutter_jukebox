@@ -4,8 +4,8 @@ import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'dependencies.dart';
 import 'potentiallibrary/testframework/testresults.dart';
-import 'potentiallibrary/webaccess/mp3playeraccess.dart';
-import 'potentiallibrary/webaccess/jukeboxdatabaseapiaccess.dart';
+import 'webaccess/jukeboxdatabaseapiaccess.dart';
+import 'webaccess/mp3playeraccess.dart';
 
 void main() {
   runApp(const MyApp());
@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
-                  label: Text('Home'),
+                  label: Text('Home 222'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
