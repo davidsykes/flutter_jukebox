@@ -10,10 +10,17 @@ class Dependencies {
   static Dependencies? _instance;
   factory Dependencies() => _instance ??= Dependencies._();
   Dependencies._() {
+    var testing = false;
+    testing = true;
     var mp3WebAccess = WebAccess(mp3PlayerIpAddress);
+    var jbdbWebAccess = WebAccess(jbdbApiIpAddress);
+    if (testing) {
+      var testIp = '192.168.1.142';
+      mp3WebAccess = WebAccess('$testIp:5001');
+      jbdbWebAccess = WebAccess('$testIp:5003');
+    }
     var mp3WebRequestor = WebRequestor(mp3WebAccess);
     mp3PlayerAccess = MP3PlayerAccess(mp3WebRequestor);
-    var jbdbWebAccess = WebAccess(jbdbApiIpAddress);
     var jbdbWebRequestor = WebRequestor(jbdbWebAccess);
     jukeboxDatabaseApiAccess = JukeboxDatabaseApiAccess(jbdbWebRequestor);
   }
