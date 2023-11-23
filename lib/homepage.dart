@@ -26,14 +26,16 @@ class _HomePageState extends State<HomePage> {
   Future<TrackInformation> getCurrentTrackInformation() async {
     try {
       var currentTrackId = await widget.mp3PlayerAccess.getCurrentTrackId();
-      return widget.jukeboxDatabaseApiAccess
-          .getTrackInformation(currentTrackId);
+      if (currentTrackId > 0) {
+        return widget.jukeboxDatabaseApiAccess
+            .getTrackInformation(currentTrackId);
+      }
     } on Exception catch (e) {
       Logger().log('an exception $e');
     }
     return TrackInformation(
       0,
-      'tr',
+      'No track playing',
       'rt',
       2,
       'tr',
