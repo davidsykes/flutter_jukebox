@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/currenttrack.dart';
-import 'dataobjects/trackinformation.dart';
-import 'potentiallibrary/widgets/futurebuilder.dart';
-import 'tools/logger.dart';
-import 'webaccess/jukeboxdatabaseapiaccess.dart';
-import 'webaccess/mp3playeraccess.dart';
+import '../../dataobjects/trackinformation.dart';
+import '../../potentiallibrary/widgets/futurebuilder.dart';
+import '../../tools/logger.dart';
+import '../../webaccess/jukeboxdatabaseapiaccess.dart';
+import '../../webaccess/mp3playeraccess.dart';
+import 'currentlyplaying.dart';
+import 'playlistselector.dart';
 
 class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
@@ -50,14 +52,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget makeHomePage(TrackInformation currentTrackInformation) {
-    var texts = List.empty(growable: true);
-    texts.add(currentTrackInformation.trackName);
-    texts.addAll(Logger.logs);
-    var textiesi = texts.map(
-      (e) => Text(e),
-    );
+    var rows = List<Widget>.empty(growable: true);
+    rows.add(const Text(''));
+    rows.add(const PlayLstSelectorgWidget());
+    rows.add(const Text(''));
+    rows.add(const CurrentlyPlayingWidget());
+
     return Column(
-      children: textiesi.toList(),
+      children: rows,
     );
   }
 }

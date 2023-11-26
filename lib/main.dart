@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jukebox/homepage.dart';
+import 'package:flutter_jukebox/pages/homepage/homepage.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'dependencies.dart';
+import 'pages/homepage/logspage.dart';
 import 'potentiallibrary/testframework/testresults.dart';
 import 'webaccess/jukeboxdatabaseapiaccess.dart';
 import 'webaccess/mp3playeraccess.dart';
@@ -97,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
             HomePage(widget.mp3PlayerAccess, widget.jukeboxDatabaseApiAccess);
         break;
       case 1:
-        page = const Text('TO DO');
+        page = const LogsPage();
         break;
       case 2:
         page = const Text('TO DO2');
@@ -136,11 +137,11 @@ class _MyHomePageState extends State<MyHomePage> {
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
-                  label: Text('Home 222'),
+                  label: Text('Home'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
-                  label: Text('TO DO'),
+                  label: Text('Logs'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
