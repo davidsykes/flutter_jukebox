@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/pages/homepage/homepage.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
-import 'application/dependencies.dart';
+import 'dependencies.dart';
 import 'pages/homepage/logspage.dart';
 import 'potentiallibrary/testframework/testresults.dart';
 import 'webaccess/jukeboxdatabaseapiaccess.dart';
