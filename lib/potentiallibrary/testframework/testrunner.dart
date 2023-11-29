@@ -22,7 +22,7 @@ class TestRunner {
         await test
             .runTest()
             .then((_) => aTestHasPassed(testResults))
-            .catchError((_) => aTestHasFailed(test, testResults));
+            .catchError((error) => aTestHasFailed(test, testResults, error));
       } on TestAssertFailException catch (e) {
         var cause = e.cause;
         testResults.results.add('Fail: $cause');
@@ -49,7 +49,7 @@ class TestRunner {
     testResults.numberOfPassingTests++;
   }
 
-  aTestHasFailed(TestUnit test, TestResults testResults) {
+  aTestHasFailed(TestUnit test, TestResults testResults, dynamic error) {
     testResults.numberOfTests++;
   }
 }

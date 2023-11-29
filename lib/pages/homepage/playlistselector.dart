@@ -5,6 +5,12 @@ class PlayLstSelectorgWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Play Lists');
+    return Row(
+      children: [
+        ElevatedButton(onPressed: () {}, child: const Text('Play Lists')),
+        const Text('Play Lists'),
+        const Text('Play Lists'),
+      ],
+    );
   }
 }

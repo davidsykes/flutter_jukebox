@@ -16,4 +16,17 @@ class TrackInformation {
       this.albumPath,
       this.artistId,
       this.artistName);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'trackId': trackId,
+      'trackName': trackName,
+      'trackFileName': trackFileName,
+      'albumId': albumId,
+      'albumName': albumName,
+      'albumPath': albumPath,
+      'artistId': artistId,
+      'artistName': artistName,
+    };
+  }
 }

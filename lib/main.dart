@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/pages/homepage/homepage.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
+import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
 import 'dependencies.dart';
 import 'pages/homepage/logspage.dart';
 import 'potentiallibrary/testframework/testresults.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         title: 'Lynda\'s Super Jukebox',
         mp3PlayerAccess: dependencies.mp3PlayerAccess,
         jukeboxDatabaseApiAccess: dependencies.jukeboxDatabaseApiAccess,
+        serviceController: dependencies.serviceController,
       ),
     );
   }
@@ -54,7 +56,8 @@ class MyHomePage extends StatefulWidget {
       {super.key,
       required this.title,
       required this.mp3PlayerAccess,
-      required this.jukeboxDatabaseApiAccess});
+      required this.jukeboxDatabaseApiAccess,
+      required this.serviceController});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -68,6 +71,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
+  final IServiceController serviceController;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -94,8 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page =
-            HomePage(widget.mp3PlayerAccess, widget.jukeboxDatabaseApiAccess);
+        page = HomePage(widget.mp3PlayerAccess, widget.jukeboxDatabaseApiAccess,
+            widget.serviceController);
         break;
       case 1:
         page = const LogsPage();

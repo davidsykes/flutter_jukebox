@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jukebox/dataobjects/currenttrack.dart';
+import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
+import '../../dataobjects/homescreendata.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
 import '../../tools/logger.dart';
@@ -11,7 +12,9 @@ import 'playlistselector.dart';
 class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
+  final IServiceController serviceController;
   const HomePage(this.mp3PlayerAccess, this.jukeboxDatabaseApiAccess,
+      this.serviceController,
       {super.key});
 
   @override
@@ -21,13 +24,39 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return createFutureBuilder<TrackInformation>(
-        getCurrentTrackInformation, makeHomePage);
+    return createFutureBuilder<HomeScreenData>(
+        getHomeScreenInformation, makeHomePage);
   }
 
-  Future<TrackInformation> getCurrentTrackInformation() async {
+  Future<HomeScreenData> getHomeScreenInformation() async {
     try {
-      var currentTrackId = await widget.mp3PlayerAccess.getCurrentTrackId();
+      var currentTrackInformationFuture =
+          widget.serviceController.getCurrentTrackInformation();
+      var jukeboxCollectionsFuture =
+          widget.serviceController.getJukeboxCollections();
+
+      return HomeScreenData(
+          await jukeboxCollectionsFuture, await currentTrackInformationFuture);
+    } on Exception catch (e) {
+      Logger().log('an exception $e');
+    }
+    return HomeScreenData(
+        [],
+        TrackInformation(
+          0,
+          'Big fat exception',
+          'rt',
+          2,
+          'tr',
+          'gg',
+          1,
+          'g',
+        ));
+  }
+
+  Future<TrackInformation> getCurrentTrackInformation(
+      int currentTrackId) async {
+    try {
       if (currentTrackId > 0) {
         return widget.jukeboxDatabaseApiAccess
             .getTrackInformation(currentTrackId);
@@ -47,11 +76,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  CurrentTrack deserialiseCurrentTrack(Map<String, dynamic> data) {
-    return CurrentTrack(data['currentTrackId']);
-  }
-
-  Widget makeHomePage(TrackInformation currentTrackInformation) {
+  Widget makeHomePage(HomeScreenData homeScreenInformation) {
     var rows = List<Widget>.empty(growable: true);
     rows.add(const Text(''));
     rows.add(const PlayLstSelectorgWidget());
