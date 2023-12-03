@@ -36,7 +36,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<JukeboxCollection>> getCollections() {
-    var url = 'colections';
+    var url = 'collections';
     var collections = _webRequestor.get<List<JukeboxCollection>>(
         url, deserialiseJukeboxCollectionList);
     return collections;
@@ -44,6 +44,10 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   List<JukeboxCollection> deserialiseJukeboxCollectionList(
       Map<String, dynamic> data) {
-    throw UnimplementedError();
+    var collections = data["collections"]
+        .map((c) => JukeboxCollection(c["collectionId"], c["collectionName"]))
+        .cast<JukeboxCollection>()
+        .toList();
+    return collections;
   }
 }

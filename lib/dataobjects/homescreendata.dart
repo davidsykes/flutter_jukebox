@@ -1,8 +1,9 @@
+import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'trackinformation.dart';
 
 class HomeScreenData {
-  List<String> playLists;
-  TrackInformation trackInformation;
+  List<JukeboxCollection> jukeboxCollections;
+  TrackInformation? trackInformation;
 
-  HomeScreenData(this.playLists, this.trackInformation);
+  HomeScreenData(this.jukeboxCollections, this.trackInformation);
 }

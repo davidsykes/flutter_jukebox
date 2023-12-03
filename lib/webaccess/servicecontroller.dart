@@ -3,7 +3,7 @@ import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 
 abstract class IServiceController {
-  Future<TrackInformation> getCurrentTrackInformation();
+  Future<TrackInformation?> getCurrentTrackInformation();
   getJukeboxCollections();
 }
 
@@ -14,15 +14,16 @@ class ServiceController extends IServiceController {
   ServiceController(this._dbAccess, this._mp3PlayerAccess);
 
   @override
-  Future<TrackInformation> getCurrentTrackInformation() async {
+  Future<TrackInformation?> getCurrentTrackInformation() async {
     var currentTrackId = await _mp3PlayerAccess.getCurrentTrackId();
-    return _dbAccess.getTrackInformation(currentTrackId);
+    if (currentTrackId > 0) {
+      return _dbAccess.getTrackInformation(currentTrackId);
+    }
+    return null;
   }
 
   @override
   getJukeboxCollections() {
-    //var playListsFuture = widget.jukeboxDatabaseApiAccess.getPlayLists();
-    // TODO: implement getJukeboxCollections
-    throw UnimplementedError();
+    return _dbAccess.getCollections();
   }
 }

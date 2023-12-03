@@ -7,7 +7,7 @@ import '../../tools/logger.dart';
 import '../../webaccess/jukeboxdatabaseapiaccess.dart';
 import '../../webaccess/mp3playeraccess.dart';
 import 'currentlyplaying.dart';
-import 'playlistselector.dart';
+import 'jukeboxcollectionselectorwidget.dart';
 
 class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
@@ -79,9 +79,10 @@ class _HomePageState extends State<HomePage> {
   Widget makeHomePage(HomeScreenData homeScreenInformation) {
     var rows = List<Widget>.empty(growable: true);
     rows.add(const Text(''));
-    rows.add(const PlayLstSelectorgWidget());
+    rows.add(JukeboxCollectionSelectorWidget(
+        homeScreenInformation.jukeboxCollections));
     rows.add(const Text(''));
-    rows.add(const CurrentlyPlayingWidget());
+    rows.add(CurrentlyPlayingWidget(homeScreenInformation.trackInformation));
 
     return Column(
       children: rows,
