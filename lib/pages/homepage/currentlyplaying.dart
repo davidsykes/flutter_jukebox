@@ -12,6 +12,31 @@ class CurrentlyPlayingWidget extends StatelessWidget {
       return const Text('No music is playing right now');
     }
 
-    return const Text('Currently Playing');
+    var currentTrack = trackInformation!;
+
+    return Align(
+        alignment: Alignment.centerLeft,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Currently Playing',
+              style: TextStyle(fontSize: 18, fontFamily: 'Comic Sans MS'),
+            ),
+            Text(
+              'Track: ${currentTrack.trackName}',
+              style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
+            ),
+            Text(
+              'Album: ${currentTrack.albumName}',
+              style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
+            ),
+            Text(
+              'Artist: ${currentTrack.artistName}',
+              style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
+            ),
+          ],
+        ));
   }
 }

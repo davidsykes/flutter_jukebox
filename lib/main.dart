@@ -80,7 +80,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  var selectedIndex = 4;
+  var selectedIndex = Version().version.selectedIndex;
   var testResults = AllTests().runTests();
 
   void _incrementCounter() {
