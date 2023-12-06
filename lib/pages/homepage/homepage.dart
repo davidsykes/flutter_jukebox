@@ -35,8 +35,9 @@ class _HomePageState extends State<HomePage> {
       var jukeboxCollectionsFuture =
           widget.serviceController.getJukeboxCollections();
 
-      return HomeScreenData(
+      var homeScreen = HomeScreenData(
           await jukeboxCollectionsFuture, await currentTrackInformationFuture);
+      return homeScreen;
     } on Exception catch (e) {
       Logger().log('an exception $e');
     }

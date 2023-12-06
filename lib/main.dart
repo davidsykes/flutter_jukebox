@@ -6,6 +6,7 @@ import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
 import 'dependencies.dart';
 import 'pages/homepage/logspage.dart';
 import 'potentiallibrary/testframework/testresults.dart';
+import 'version.dart';
 import 'webaccess/jukeboxdatabaseapiaccess.dart';
 import 'webaccess/mp3playeraccess.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: MyHomePage(
-        title: 'Lynda\'s Super Jukebox',
+        title: Version().mainTitle(),
         mp3PlayerAccess: dependencies.mp3PlayerAccess,
         jukeboxDatabaseApiAccess: dependencies.jukeboxDatabaseApiAccess,
         serviceController: dependencies.serviceController,
