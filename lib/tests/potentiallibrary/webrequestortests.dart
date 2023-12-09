@@ -20,7 +20,7 @@ class WebRequestorTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest(aSimpleRequestCanBeMade),
+      createTest('Simple web request', aSimpleRequestCanBeMade),
     ];
   }
 

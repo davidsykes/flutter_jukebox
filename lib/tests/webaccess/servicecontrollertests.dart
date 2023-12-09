@@ -12,15 +12,18 @@ class ServiceControllerTests extends TestModule {
   late IJukeboxDatabaseApiAccess _mockDbAccess;
   late MockPlayerAccess _mockPlayerAccess;
 
-  late TrackInformation testTrackInfo;
-  late List<JukeboxCollection> testCollections;
+  late TrackInformation _testTrackInfo;
+  late List<JukeboxCollection> _testCollections;
+  late List<TrackInformation> _testAllTracks;
 
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest(theCurrentTrackCanBeRequested),
-      createTest(getCurrentTrackInformationReturnsNullifNoTrackIsPlaying),
-      createTest(testGetJukeboxCollections),
+      createTest('current track', theCurrentTrackCanBeRequested),
+      createTest('null if no track',
+          getCurrentTrackInformationReturnsNullifNoTrackIsPlaying),
+      createTest('get collections', testGetJukeboxCollections),
+      createTest('call get all tracks', getAllTracksCallsDbApiGetAllTracks),
     ];
   }
 
@@ -28,7 +31,7 @@ class ServiceControllerTests extends TestModule {
     var trackInfoFuture = _controller.getCurrentTrackInformation();
     var trackInfo = await trackInfoFuture;
 
-    assertEqual(testTrackInfo, trackInfo);
+    assertEqual(_testTrackInfo, trackInfo);
   }
 
   Future<void> getCurrentTrackInformationReturnsNullifNoTrackIsPlaying() async {
@@ -42,24 +45,38 @@ class ServiceControllerTests extends TestModule {
     var collectionsFuture = _controller.getJukeboxCollections();
     var collections = await collectionsFuture;
 
-    assertEqual(testCollections, collections);
+    assertEqual(_testCollections, collections);
+  }
+
+  Future<void> getAllTracksCallsDbApiGetAllTracks() async {
+    var allTracks = _controller.getAllTracks();
+
+    assertEqual(_testAllTracks, allTracks);
   }
 
   // Support Code
 
   @override
   void setUpData() {
-    testTrackInfo = TrackInformation(
+    _testTrackInfo = TrackInformation(
         12, 'name', 'file name', 34, 'album', 'album path', 56, 'artist');
-    testCollections = [
+    _testCollections = [
       JukeboxCollection(1, 'first'),
       JukeboxCollection(2, 'second'),
+    ];
+    _testAllTracks = [
+      _testTrackInfo = TrackInformation(
+          12, 'Track 1', 'file name', 34, 'album', 'album path', 56, 'artist'),
+      _testTrackInfo = TrackInformation(
+          12, 'Track 2', 'file name', 34, 'album', 'album path', 56, 'artist'),
+      _testTrackInfo = TrackInformation(
+          12, 'Track 3', 'file name', 34, 'album', 'album path', 56, 'artist'),
     ];
   }
 
   @override
   void setUpMocks() {
-    _mockDbAccess = MockDbAccess(testTrackInfo, testCollections);
+    _mockDbAccess = MockDbAccess(_testTrackInfo, _testCollections);
     _mockPlayerAccess = MockPlayerAccess();
   }
 
@@ -84,6 +101,12 @@ class MockDbAccess extends IJukeboxDatabaseApiAccess {
     if (trackId == 12) {
       return Future<TrackInformation>.value(testTrackInfo);
     }
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<TrackInformation>> getAllTracks() {
+    // TODO: implement getAllTracks
     throw UnimplementedError();
   }
 }

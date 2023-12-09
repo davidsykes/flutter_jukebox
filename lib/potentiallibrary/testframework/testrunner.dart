@@ -51,5 +51,12 @@ class TestRunner {
 
   aTestHasFailed(TestUnit test, TestResults testResults, dynamic error) {
     testResults.numberOfTests++;
+    testResults.results.add('Failed: ${test.name}');
+
+    if (error is TestAssertFailException) {
+      testResults.results.add(error.causes.join(' - '));
+    } else {
+      testResults.results.add(error.toString());
+    }
   }
 }

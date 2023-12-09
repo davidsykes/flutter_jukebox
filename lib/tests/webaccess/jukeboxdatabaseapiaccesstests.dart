@@ -11,11 +11,13 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest(trackInformationCanBeRetrieved),
+      createTest('Single track', individualTrackInformationCanBeRetrieved),
+      createTest(
+          'get all tracks information', allTrackInformationCanBeRetrieved),
     ];
   }
 
-  Future<void> trackInformationCanBeRetrieved() async {
+  Future<void> individualTrackInformationCanBeRetrieved() async {
     var trackInfo = await _access.getTrackInformation(123);
 
     assertEqual(900, trackInfo.trackId);
@@ -26,6 +28,15 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     assertEqual('The Very Best Of The Eagles', trackInfo.albumPath);
     assertEqual(148, trackInfo.artistId);
     assertEqual('The Eagles', trackInfo.artistName);
+  }
+
+  Future<void> allTrackInformationCanBeRetrieved() async {
+    var trackInfo = await _access.getAllTracks();
+
+    assertEqual(3, trackInfo.length);
+    assertEqual('Hotel California', trackInfo[0].trackName);
+    assertEqual('Hotel California', trackInfo[1].trackName);
+    assertEqual('Hotel California', trackInfo[2].trackName);
   }
 
   // Support Code

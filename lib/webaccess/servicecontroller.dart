@@ -5,6 +5,7 @@ import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 abstract class IServiceController {
   Future<TrackInformation?> getCurrentTrackInformation();
   getJukeboxCollections();
+  Future<List<TrackInformation>> getAllTracks();
 }
 
 class ServiceController extends IServiceController {
@@ -25,5 +26,10 @@ class ServiceController extends IServiceController {
   @override
   getJukeboxCollections() {
     return _dbAccess.getCollections();
+  }
+
+  @override
+  Future<List<TrackInformation>> getAllTracks() {
+    return _dbAccess.getAllTracks();
   }
 }

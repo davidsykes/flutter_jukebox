@@ -5,6 +5,7 @@ import '../dataobjects/jukeboxcollection.dart';
 abstract class IJukeboxDatabaseApiAccess {
   Future<TrackInformation> getTrackInformation(int trackId);
   Future<List<JukeboxCollection>> getCollections();
+  Future<List<TrackInformation>> getAllTracks();
 }
 
 class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
@@ -49,5 +50,14 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
         .cast<JukeboxCollection>()
         .toList();
     return collections;
+  }
+
+  @override
+  Future<List<TrackInformation>> getAllTracks() {
+    var url = 'tracks';
+    var trackInfo =
+        _webRequestor.get<TrackInformation>(url, deserialiseTrackInformation);
+
+    throw UnimplementedError();
   }
 }

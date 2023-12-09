@@ -5,6 +5,7 @@ import 'package:flutter_jukebox/tests/alltests.dart';
 import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
 import 'dependencies.dart';
 import 'pages/homepage/logspage.dart';
+import 'pages/searchpage/searchpage.dart';
 import 'potentiallibrary/testframework/testresults.dart';
 import 'version.dart';
 import 'webaccess/jukeboxdatabaseapiaccess.dart';
@@ -103,10 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
             widget.serviceController);
         break;
       case 1:
-        page = const LogsPage();
+        page = SearchPage(widget.serviceController);
         break;
       case 2:
-        page = const Text('TO DO2');
+        page = const LogsPage();
         break;
       case 3:
         page = Text(_counter.toString());
@@ -146,11 +147,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
-                  label: Text('Logs'),
+                  label: Text('Search'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
-                  label: Text('TO DO'),
+                  label: Text('Logs'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
@@ -190,6 +191,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget testPageMaker(TestResults results) {
-    return Text(results.summary);
+    var widgets = List<Widget>.empty(growable: true);
+    widgets.add(Text(results.summary));
+    widgets.addAll(results.results.map((e) => Text(e)));
+    return Column(
+      children: widgets,
+    );
   }
 }

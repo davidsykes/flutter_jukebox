@@ -9,8 +9,8 @@ abstract class TestModule {
   void setUpMocks() {}
   void setUpObjectUnderTest() {}
 
-  TestUnit createTest(Future<void> Function() action) {
-    return TestUnit(testModule: this, action: action);
+  TestUnit createTest(String name, Future<void> Function() action) {
+    return TestUnit(name: name, testModule: this, action: action);
   }
 
   void assertTrue(bool value) {
