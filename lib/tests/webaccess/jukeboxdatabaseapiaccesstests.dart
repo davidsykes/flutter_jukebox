@@ -34,9 +34,9 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     var trackInfo = await _access.getAllTracks();
 
     assertEqual(3, trackInfo.length);
-    assertEqual('Hotel California', trackInfo[0].trackName);
-    assertEqual('Hotel California', trackInfo[1].trackName);
-    assertEqual('Hotel California', trackInfo[2].trackName);
+    assertEqual('Track 1', trackInfo[0].trackName);
+    assertEqual('Track 2', trackInfo[1].trackName);
+    assertEqual('Track 3', trackInfo[2].trackName);
   }
 
   // Support Code
@@ -62,6 +62,41 @@ class MockMp3WebRequestor extends IWebRequestor {
       {
         "trackId": 900,
         "trackName": "Hotel California",
+        "trackFileName": "Hotel California.mp3",
+        "albumId": 60,
+        "albumName": "The Very Best Of The Eagles",
+        "albumPath": "The Very Best Of The Eagles",
+        "artistId": 148,
+        "artistName": "The Eagles"
+      }
+    ]
+  }''');
+      var obj = deserialise(data);
+      return obj;
+    } else if (url == 'tracks') {
+      var data = jsonDecode('''{
+    "tracks": [
+      {
+        "trackId": 900,
+        "trackName": "Track 1",
+        "trackFileName": "Hotel California.mp3",
+        "albumId": 60,
+        "albumName": "The Very Best Of The Eagles",
+        "albumPath": "The Very Best Of The Eagles",
+        "artistId": 148,
+        "artistName": "The Eagles"
+      },{
+        "trackId": 900,
+        "trackName": "Track 2",
+        "trackFileName": "Hotel California.mp3",
+        "albumId": 60,
+        "albumName": "The Very Best Of The Eagles",
+        "albumPath": "The Very Best Of The Eagles",
+        "artistId": 148,
+        "artistName": "The Eagles"
+      },{
+        "trackId": 900,
+        "trackName": "Track 3",
         "trackFileName": "Hotel California.mp3",
         "albumId": 60,
         "albumName": "The Very Best Of The Eagles",

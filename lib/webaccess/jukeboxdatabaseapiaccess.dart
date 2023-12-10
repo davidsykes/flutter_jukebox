@@ -15,15 +15,21 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
   @override
   Future<TrackInformation> getTrackInformation(int trackId) async {
     var url = 'tracks?trackId=$trackId';
-    var trackInfo =
-        _webRequestor.get<TrackInformation>(url, deserialiseTrackInformation);
+    var trackInfo = await _webRequestor.get<List<TrackInformation>>(
+        url, deserialiseTracksInformation);
 
-    return trackInfo;
+    return trackInfo[0];
   }
 
-  TrackInformation deserialiseTrackInformation(Map<String, dynamic> data) {
+  List<TrackInformation> deserialiseTracksInformation(
+      Map<String, dynamic> data) {
     var tracks = data['tracks'];
-    var track = tracks[0];
+    var tracks2 = tracks.map((track) => deserialiseTrackInformation(track));
+
+    return tracks2.cast<TrackInformation>().toList();
+  }
+
+  TrackInformation deserialiseTrackInformation(Map<String, dynamic> track) {
     return TrackInformation(
         track['trackId'],
         track['trackName'],
@@ -55,9 +61,9 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
   @override
   Future<List<TrackInformation>> getAllTracks() {
     var url = 'tracks';
-    var trackInfo =
-        _webRequestor.get<TrackInformation>(url, deserialiseTrackInformation);
+    var trackInfo = _webRequestor.get<List<TrackInformation>>(
+        url, deserialiseTracksInformation);
 
-    throw UnimplementedError();
+    return trackInfo;
   }
 }
