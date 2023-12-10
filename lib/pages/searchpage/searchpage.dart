@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
+import '../../tools/tracksearcher.dart';
 import '../../webaccess/servicecontroller.dart';
 
 class SearchScreenData {
-  SearchScreenData(List<TrackInformation> list);
+  late TrackSearcher _searcher;
+  SearchScreenData(List<TrackInformation> tracks) {
+    _searcher = TrackSearcher(tracks);
+  }
+
+  String trackToText(TrackInformation track) {
+    return track.trackName;
+  }
+
+  List<String> getList(String searchText) {
+    return _searcher.getTracks(searchText);
+  }
 }
 
 class SearchPage extends StatefulWidget {
@@ -16,6 +28,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  String searchText = '';
+
   @override
   Widget build(BuildContext context) {
     return createFutureBuilder<SearchScreenData>(
@@ -30,11 +44,38 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
     var rows = List<Widget>.empty(growable: true);
-    rows.add(const Text('sfsdff'));
-    rows.add(const Text('asfsaf'));
+    rows.add(makeSearchBar());
+    rows.addAll(searchScreenInformation
+        .getList(searchText)
+        .map((track) => trackToText(track)));
 
     return Column(
       children: rows,
     );
+  }
+
+  Widget makeSearchBar() {
+    return Row(
+      children: [
+        const Text('Search'),
+        SizedBox(
+          width: 350,
+          child: TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Search',
+              ),
+              onChanged: (text) {
+                setState(() {
+                  searchText = text;
+                });
+              }),
+        )
+      ],
+    );
+  }
+
+  Widget trackToText(String track) {
+    return Text(track);
   }
 }

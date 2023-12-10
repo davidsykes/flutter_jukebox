@@ -1,4 +1,5 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
+import 'package:flutter_jukebox/version.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
 
@@ -60,6 +61,16 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<TrackInformation>> getAllTracks() {
+    if (Version().version.testAllTracks) {
+      return Future<List<TrackInformation>>.value([
+        TrackInformation(
+            1, 'Track 1', 'file name', 34, 'album', 'album path', 56, 'artist'),
+        TrackInformation(
+            2, 'Track 2', 'file name', 34, 'album', 'album path', 56, 'artist'),
+        TrackInformation(
+            3, 'Track 3', 'file name', 34, 'album', 'album path', 56, 'artist'),
+      ]);
+    }
     var url = 'tracks';
     var trackInfo = _webRequestor.get<List<TrackInformation>>(
         url, deserialiseTracksInformation);
