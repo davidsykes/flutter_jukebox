@@ -14,7 +14,7 @@ class SearchScreenData {
     return track.trackName;
   }
 
-  List<String> getList(String searchText) {
+  List<TrackInformation> getList(String searchText) {
     return _searcher.getTracks(searchText);
   }
 }
@@ -75,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget trackToText(String track) {
-    return Text(track);
+  Widget trackToText(TrackInformation track) {
+    return Text(track.trackName);
   }
 }

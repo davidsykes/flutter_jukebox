@@ -7,13 +7,14 @@ import '../../tools/tracksearcher.dart';
 class TrackSearcherTests extends TestModule {
   late ITrackSearcher _searcher;
 
-  late List<String> _tracks;
+  late List<TrackInformation> _tracks;
 
   @override
   Iterable<TestUnit> getTests() {
     return [
       createTest('All tracks can be retrieved', allTracksCanBeRetrieved),
       createTest('A simple search', simpleSearch),
+      createTest('Searches are case insensitive', searchesAreCaseInsensitive),
     ];
   }
 
@@ -30,23 +31,31 @@ class TrackSearcherTests extends TestModule {
     assertEqual(expected, tracks);
   }
 
+  Future<void> searchesAreCaseInsensitive() async {
+    var tracks = _searcher.getTracks('HAN');
+    var expected = _tracks.getRange(2, 3).toList();
+
+    assertEqual(expected, tracks);
+  }
+
   // Support Code
 
   @override
   void setUpData() {
     super.setUpData();
-    _tracks = [
+    var trackNames = [
       'Track 1',
       'Track 2',
-      'Track 3',
+      'Changes',
     ];
+    _tracks = trackNames
+        .map((e) =>
+            TrackInformation(1, e, '$e.txt', 1, 'album', 'album', 1, 'artist'))
+        .toList();
   }
 
   @override
   void setUpObjectUnderTest() {
-    var tracks = _tracks.map((e) =>
-        TrackInformation(1, e, '$e.txt', 1, 'album', 'album', 1, 'artist'));
-
-    _searcher = TrackSearcher(tracks.toList());
+    _searcher = TrackSearcher(_tracks);
   }
 }

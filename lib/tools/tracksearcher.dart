@@ -1,14 +1,25 @@
 import '../dataobjects/trackinformation.dart';
 
 abstract class ITrackSearcher {
-  List<String> getTracks(String searchText);
+  List<TrackInformation> getTracks(String searchText);
+}
+
+class SearchItem {
+  String searchText;
+  TrackInformation track;
+  SearchItem(this.searchText, this.track);
 }
 
 class TrackSearcher extends ITrackSearcher {
-  late List<String> _tracks;
+  late List<SearchItem> _tracks;
 
   TrackSearcher(List<TrackInformation> tracks) {
-    _tracks = tracks.map((track) => trackToText(track)).toList();
+    _tracks = tracks.map((track) => trackToSearchItem(track)).toList();
+  }
+
+  SearchItem trackToSearchItem(TrackInformation track) {
+    var searchText = trackToText(track).toLowerCase();
+    return SearchItem(searchText, track);
   }
 
   String trackToText(TrackInformation track) {
@@ -16,8 +27,12 @@ class TrackSearcher extends ITrackSearcher {
   }
 
   @override
-  List<String> getTracks(String searchText) {
-    return _tracks.where((s) => stringMatches(s, searchText)).toList();
+  List<TrackInformation> getTracks(String searchText) {
+    searchText = searchText.toLowerCase();
+    return _tracks
+        .where((s) => stringMatches(s.searchText, searchText))
+        .map((t) => t.track)
+        .toList();
   }
 
   stringMatches(String track, String searchText) {
