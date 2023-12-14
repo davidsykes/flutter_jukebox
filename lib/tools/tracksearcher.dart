@@ -23,7 +23,7 @@ class TrackSearcher extends ITrackSearcher {
   }
 
   String trackToText(TrackInformation track) {
-    return track.trackName;
+    return track.trackName + track.albumName + track.artistName;
   }
 
   @override

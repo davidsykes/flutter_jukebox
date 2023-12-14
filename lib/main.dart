@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
-                  label: Text('Home'),
+                  label: Text('Home 14'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),

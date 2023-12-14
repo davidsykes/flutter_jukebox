@@ -76,6 +76,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget trackToText(TrackInformation track) {
-    return Text(track.trackName);
+    var t = track.trackName;
+    var artist = track.artistName;
+    var album = track.albumName;
+    return Text('$t - $artist - $album');
   }
 }

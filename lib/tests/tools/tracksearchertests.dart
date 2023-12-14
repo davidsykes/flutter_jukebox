@@ -15,6 +15,7 @@ class TrackSearcherTests extends TestModule {
       createTest('All tracks can be retrieved', allTracksCanBeRetrieved),
       createTest('A simple search', simpleSearch),
       createTest('Searches are case insensitive', searchesAreCaseInsensitive),
+      createTest('Search all', searchesCoverAllNamedFields),
     ];
   }
 
@@ -25,17 +26,23 @@ class TrackSearcherTests extends TestModule {
   }
 
   Future<void> simpleSearch() async {
-    var tracks = _searcher.getTracks('2');
-    var expected = _tracks.getRange(1, 2).toList();
+    var tracks = _searcher.getTracks('Track');
+    var expected = _tracks.getRange(1, 4).toList();
 
     assertEqual(expected, tracks);
   }
 
   Future<void> searchesAreCaseInsensitive() async {
-    var tracks = _searcher.getTracks('HAN');
-    var expected = _tracks.getRange(2, 3).toList();
+    var tracks = _searcher.getTracks('track');
+    var expected = _tracks.getRange(1, 4).toList();
 
     assertEqual(expected, tracks);
+  }
+
+  Future<void> searchesCoverAllNamedFields() async {
+    assertEqual(_tracks.getRange(0, 1).toList(), _searcher.getTracks('all'));
+    assertEqual(_tracks.getRange(0, 1).toList(), _searcher.getTracks('leet'));
+    assertEqual(_tracks.getRange(0, 1).toList(), _searcher.getTracks('rumen'));
   }
 
   // Support Code
@@ -43,15 +50,16 @@ class TrackSearcherTests extends TestModule {
   @override
   void setUpData() {
     super.setUpData();
-    var trackNames = [
-      'Track 1',
-      'Track 2',
-      'Changes',
-    ];
-    _tracks = trackNames
-        .map((e) =>
-            TrackInformation(1, e, '$e.txt', 1, 'album', 'album', 1, 'artist'))
-        .toList();
+    _tracks = List.empty(growable: true);
+    addTrack('Allbatross', 'Fleetwood Mac', 'Instrumental Moods');
+    addTrack('Track 1', 'Artist 1', 'Album 1');
+    addTrack('Track 2', 'Artist 2', 'Album 2');
+    addTrack('Track 3', 'Artist 3', 'Album 3');
+  }
+
+  addTrack(String trackName, String artist, String album) {
+    _tracks.add(TrackInformation(
+        1, trackName, '$trackName.txt', 1, album, '$album.txt', 1, artist));
   }
 
   @override
