@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../tools/logger.dart';
+import '../programexception.dart';
 
 abstract class IWebAccess {
   Future<String> getTextWebData(String url);
@@ -29,11 +30,15 @@ class WebAccess extends IWebAccess {
 
   @override
   Future<String> getTextWebData(String url) async {
-    Logger().log('getTextWebData $url');
-    final httpPackageUrl = Uri.parse(makeUrl(url));
-    final httpPackageInfo = await http.read(httpPackageUrl);
-    Logger().log('result $httpPackageInfo');
-    return httpPackageInfo;
+    try {
+      Logger().log('getTextWebData $url');
+      final httpPackageUrl = Uri.parse(makeUrl(url));
+      final httpPackageInfo = await http.read(httpPackageUrl);
+      Logger().log('result $httpPackageInfo');
+      return httpPackageInfo;
+    } on Exception catch (ex) {
+      throw ProgramException('$ex.message $url');
+    }
   }
 
   Future<String> post(String url) async {

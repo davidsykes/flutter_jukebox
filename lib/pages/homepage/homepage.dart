@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
 import '../../dataobjects/homescreendata.dart';
 import '../../dataobjects/trackinformation.dart';
+import '../../potentiallibrary/programexception.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
 import '../../tools/logger.dart';
 import '../../webaccess/jukeboxdatabaseapiaccess.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return createFutureBuilder<HomeScreenData>(
-        dataFetcher: getHomeScreenInformation, pageMaker: makeHomePage);
+        dataFetcher: getHomeScreenInformation(), pageMaker: makeHomePage);
   }
 
   Future<HomeScreenData> getHomeScreenInformation() async {
@@ -38,21 +39,21 @@ class _HomePageState extends State<HomePage> {
       var homeScreen = HomeScreenData(
           await jukeboxCollectionsFuture, await currentTrackInformationFuture);
       return homeScreen;
-    } on Exception catch (e) {
+    } on ProgramException catch (e) {
       Logger().log('an exception $e');
+      return HomeScreenData(
+          [],
+          TrackInformation(
+            0,
+            e.cause,
+            '',
+            2,
+            '',
+            '',
+            1,
+            '',
+          ));
     }
-    return HomeScreenData(
-        [],
-        TrackInformation(
-          0,
-          'Big fat exception',
-          'rt',
-          2,
-          'tr',
-          'gg',
-          1,
-          'g',
-        ));
   }
 
   Future<TrackInformation> getCurrentTrackInformation(
