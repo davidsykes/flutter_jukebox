@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../tools/logger.dart';
 
 class LogsPage extends StatelessWidget {

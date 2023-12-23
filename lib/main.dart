@@ -4,7 +4,7 @@ import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
 import 'dependencies.dart';
-import 'pages/homepage/logspage.dart';
+import 'pages/logspage/logspage.dart';
 import 'pages/searchpage/searchpage.dart';
 import 'potentiallibrary/testframework/testresults.dart';
 import 'version.dart';
@@ -113,7 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
         page = Text(_counter.toString());
         break;
       case 4:
-        page = createFutureBuilder(testRunner, testPageMaker);
+        page = createFutureBuilder(
+            dataFetcher: testRunner(), pageMaker: testPageMaker);
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -143,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
-                  label: Text('Home 14'),
+                  label: Text('Home 23'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),

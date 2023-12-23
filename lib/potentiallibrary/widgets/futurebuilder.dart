@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 createFutureBuilder<T extends Object>(
-    Future<T> Function() dataFetcher, Widget Function(T) pageMaker) {
+    {required Future<T> dataFetcher,
+    required Widget Function(T) pageMaker,
+    Widget Function()? waitMessageMaker}) {
   return FutureBuilder(
-    future: dataFetcher(),
+    future: dataFetcher,
     builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
       List<Widget> children;
       if (snapshot.hasData) {
@@ -21,15 +23,17 @@ createFutureBuilder<T extends Object>(
           ),
         ];
       } else {
-        children = const <Widget>[
-          SizedBox(
+        children = <Widget>[
+          const SizedBox(
             width: 60,
             height: 60,
             child: CircularProgressIndicator(),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: Text('Awaiting result...'),
+            padding: const EdgeInsets.only(top: 16),
+            child: waitMessageMaker == null
+                ? const Text('Awaiting result...')
+                : waitMessageMaker(),
           ),
         ];
       }

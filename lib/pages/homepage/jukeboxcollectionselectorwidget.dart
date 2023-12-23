@@ -22,6 +22,6 @@ class JukeboxCollectionSelectorWidget extends StatelessWidget {
   }
 
   void onPressed(int id) {
-    print('pressed $id');
+    //print('pressed $id');
   }
 }

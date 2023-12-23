@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return createFutureBuilder<HomeScreenData>(
-        getHomeScreenInformation, makeHomePage);
+        dataFetcher: getHomeScreenInformation, pageMaker: makeHomePage);
   }
 
   Future<HomeScreenData> getHomeScreenInformation() async {

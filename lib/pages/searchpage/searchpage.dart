@@ -33,7 +33,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return createFutureBuilder<SearchScreenData>(
-        getSearchScreenInformation, makeSearchPage);
+        dataFetcher: getSearchScreenInformation(), pageMaker: makeSearchPage);
   }
 
   Future<SearchScreenData> getSearchScreenInformation() async {
