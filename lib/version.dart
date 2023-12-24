@@ -27,6 +27,13 @@ class Version {
       selectedIndex: 4,
       currentlyPlayingTrackId: 999,
       testAllTracks: false);
+  var version126 = VersionDetails(
+      name: '126',
+      jbdbApiIpAddress: '192.168.1.126:5003',
+      mp3PlayerIpAddress: '192.168.1.126:5001',
+      selectedIndex: 4,
+      currentlyPlayingTrackId: 999,
+      testAllTracks: false);
 
   late VersionDetails version;
 
@@ -34,7 +41,7 @@ class Version {
   static Version? _instance;
   factory Version() => _instance ??= Version._();
   Version._() {
-    version = version142;
+    version = version126;
   }
 
   String mainTitle() => 'Lynda\'s Super Jukebox (${version.name})';
