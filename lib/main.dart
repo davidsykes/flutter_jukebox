@@ -57,7 +57,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  var selectedIndex = Version().version.selectedIndex;
+  var selectedIndex = Version().version.selectedTabOnStartUp;
   var testResults = AllTests().runTests();
 
   void _incrementCounter() {

@@ -54,7 +54,7 @@ class WebRequestorTests extends TestModule {
     } on ProgramException catch (e) {
       assertEqual('WebRequest error: Error Message', e.cause);
       return;
-    } on Exception catch (e) {}
+    }
     throwAssert(['Exception expected']);
   }
 
