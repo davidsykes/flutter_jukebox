@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
-import '../../tools/tracksearcher.dart';
+import '../../tools/search/searchparameters.dart';
+import '../../tools/search/tracksearcher.dart';
 import '../../webaccess/servicecontroller.dart';
 
 class SearchScreenData {
@@ -14,8 +15,8 @@ class SearchScreenData {
     return track.trackName;
   }
 
-  List<TrackInformation> getList(String searchText) {
-    return _searcher.getTracks(searchText);
+  List<TrackInformation> getList(SearchParameters searchParameters) {
+    return _searcher.getTracks(searchParameters);
   }
 }
 
@@ -46,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
     var rows = List<Widget>.empty(growable: true);
     rows.add(makeSearchBar());
     rows.addAll(searchScreenInformation
-        .getList(searchText)
+        .getList(SearchParameters(searchText: searchText))
         .map((track) => trackToText(track)));
 
     return Column(

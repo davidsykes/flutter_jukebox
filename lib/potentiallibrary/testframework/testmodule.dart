@@ -13,8 +13,18 @@ abstract class TestModule {
     return TestUnit(name: name, testModule: this, action: action);
   }
 
+  TestUnit createTest2(Future<void> Function() action) {
+    return createTest('Test', action);
+  }
+
   void assertTrue(bool value) {
     if (!value) {
+      throwAssert([]);
+    }
+  }
+
+  void assertFalse(bool value) {
+    if (value) {
       throwAssert([]);
     }
   }

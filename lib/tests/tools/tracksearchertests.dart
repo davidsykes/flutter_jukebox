@@ -2,7 +2,8 @@ import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
-import '../../tools/tracksearcher.dart';
+import '../../tools/search/searchparameters.dart';
+import '../../tools/search/tracksearcher.dart';
 
 class TrackSearcherTests extends TestModule {
   late ITrackSearcher _searcher;
@@ -12,38 +13,19 @@ class TrackSearcherTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest('All tracks can be retrieved', allTracksCanBeRetrieved),
-      createTest('A simple search', simpleSearch),
-      createTest('Searches are case insensitive', searchesAreCaseInsensitive),
-      createTest('Search all', searchesCoverAllNamedFields),
+      createTest2(tracksThatAreMatchesAreRetrieved),
     ];
   }
 
-  Future<void> allTracksCanBeRetrieved() async {
-    var tracks = _searcher.getTracks('');
+  //#region Text Searches
+
+  Future<void> tracksThatAreMatchesAreRetrieved() async {
+    var tracks = _searcher.getTracks(sp(''));
 
     assertEqual(_tracks, tracks);
   }
 
-  Future<void> simpleSearch() async {
-    var tracks = _searcher.getTracks('Track');
-    var expected = _tracks.getRange(1, 4).toList();
-
-    assertEqual(expected, tracks);
-  }
-
-  Future<void> searchesAreCaseInsensitive() async {
-    var tracks = _searcher.getTracks('track');
-    var expected = _tracks.getRange(1, 4).toList();
-
-    assertEqual(expected, tracks);
-  }
-
-  Future<void> searchesCoverAllNamedFields() async {
-    assertEqual(_tracks.getRange(0, 1).toList(), _searcher.getTracks('all'));
-    assertEqual(_tracks.getRange(0, 1).toList(), _searcher.getTracks('leet'));
-    assertEqual(_tracks.getRange(0, 1).toList(), _searcher.getTracks('rumen'));
-  }
+  //#endregion
 
   // Support Code
 
@@ -51,19 +33,24 @@ class TrackSearcherTests extends TestModule {
   void setUpData() {
     super.setUpData();
     _tracks = List.empty(growable: true);
-    addTrack('Allbatross', 'Fleetwood Mac', 'Instrumental Moods');
-    addTrack('Track 1', 'Artist 1', 'Album 1');
-    addTrack('Track 2', 'Artist 2', 'Album 2');
-    addTrack('Track 3', 'Artist 3', 'Album 3');
+    addTrack(1);
+    addTrack(2);
+    addTrack(3);
+    addTrack(4);
+    addTrack(5);
   }
 
-  addTrack(String trackName, String artist, String album) {
-    _tracks.add(TrackInformation(
-        1, trackName, '$trackName.txt', 1, album, '$album.txt', 1, artist));
+  addTrack(int id) {
+    _tracks.add(TrackInformation(id, 'track $id', 'track $id.txt', id,
+        'album $id', 'album $id.txt', id, 'artist $id'));
   }
 
   @override
   void setUpObjectUnderTest() {
     _searcher = TrackSearcher(_tracks);
+  }
+
+  SearchParameters sp(String searchText) {
+    return SearchParameters(searchText: searchText);
   }
 }

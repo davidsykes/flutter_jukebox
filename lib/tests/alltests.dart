@@ -1,4 +1,5 @@
 import '../potentiallibrary/testframework/testrunner.dart';
+import 'tools/searchitemtests.dart';
 import 'tools/tracksearchertests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
 import 'webaccess/mp3playeraccesstests.dart';
@@ -17,6 +18,7 @@ class AllTests {
     runner.addTests(JukeboxDatabaseApiAccessTests());
     runner.addTests(ServiceControllerTests());
     runner.addTests(TrackSearcherTests());
+    runner.addTests(SearchItemTests());
 
     var results = await runner.runTests();
 
