@@ -11,8 +11,7 @@ class MP3PlayerAccessTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest(
-          'The current track can be requested', theCurrentTrackCanBeRequested),
+      createTest(theCurrentTrackCanBeRequested),
     ];
   }
 

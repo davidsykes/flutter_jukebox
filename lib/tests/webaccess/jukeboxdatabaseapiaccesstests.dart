@@ -11,9 +11,8 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest('Single track', individualTrackInformationCanBeRetrieved),
-      createTest(
-          'get all tracks information', allTrackInformationCanBeRetrieved),
+      createTest(individualTrackInformationCanBeRetrieved),
+      createTest(allTrackInformationCanBeRetrieved),
     ];
   }
 

@@ -13,7 +13,7 @@ class TrackSearcherTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest2(tracksThatAreMatchesAreRetrieved),
+      createTest(tracksThatAreMatchesAreRetrieved),
     ];
   }
 

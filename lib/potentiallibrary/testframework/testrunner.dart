@@ -25,7 +25,7 @@ class TestRunner {
             .then((_) => aTestHasPassed(testResults))
             .catchError((error) => aTestHasFailed(test, testResults, error));
       } on TestAssertFailException catch (e) {
-        var cause = e.cause;
+        var cause = e.testName;
         testResults.results.add('Fail: $cause');
         for (final extraCause in e.causes) {
           testResults.results.add(extraCause);
@@ -78,8 +78,10 @@ class TestRunner {
   String findTestName(dynamic error) {
     if (error is Error) {
       return findTestNameFromError(error);
+    } else if (error is TestAssertFailException) {
+      return error.testName;
     } else {
-      return 'The Error Type has not been recognised';
+      return 'The Error Type ${error.runtimeType.toString()} has not been recognised';
     }
   }
 

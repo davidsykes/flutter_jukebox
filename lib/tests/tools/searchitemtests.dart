@@ -10,13 +10,12 @@ class SearchItemTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest2(aSimpleMatch),
-      createTest2(aSimpleNonMatch),
-      createTest('Searches are case insensitive', searchesAreCaseInsensitive),
-      createTest('Search all', searchesCoverAllNamedFields),
-      createTest('Search artist', searchesCanBeNarrowedDownByArtist),
-      createTest('Search artist case insensitive',
-          searchesCanBeNarrowedDownByArtistCaseInsensitive),
+      createTest(aSimpleMatch),
+      createTest(aSimpleNonMatch),
+      createTest(searchesAreCaseInsensitive),
+      createTest(searchesCoverAllNamedFields),
+      createTest(searchesCanBeNarrowedDownByArtist),
+      createTest(searchesCanBeNarrowedDownByArtistCaseInsensitive),
     ];
   }
 

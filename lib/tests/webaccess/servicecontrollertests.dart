@@ -18,11 +18,10 @@ class ServiceControllerTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest('current track', theCurrentTrackCanBeRequested),
-      createTest('null if no track',
-          getCurrentTrackInformationReturnsNullifNoTrackIsPlaying),
-      createTest('get collections', testGetJukeboxCollections),
-      createTest('call get all tracks', getAllTracksCallsDbApiGetAllTracks),
+      createTest(theCurrentTrackCanBeRequested),
+      createTest(getCurrentTrackInformationReturnsNullifNoTrackIsPlaying),
+      createTest(testGetJukeboxCollections),
+      createTest(getAllTracksCallsDbApiGetAllTracks),
     ];
   }
 

@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'testunit.dart';
+import 'stacktracehandler.dart';
 
 abstract class TestModule {
   Iterable<TestUnit> getTests();
@@ -9,12 +9,8 @@ abstract class TestModule {
   void setUpMocks() {}
   void setUpObjectUnderTest() {}
 
-  TestUnit createTest(String name, Future<void> Function() action) {
-    return TestUnit(name: name, testModule: this, action: action);
-  }
-
-  TestUnit createTest2(Future<void> Function() action) {
-    return createTest('Test', action);
+  TestUnit createTest(Future<void> Function() action) {
+    return TestUnit(testModule: this, action: action);
   }
 
   void assertTrue(bool value) {
@@ -45,13 +41,13 @@ abstract class TestModule {
 
   void throwAssert(List<String> causes) {
     var st = StackTrace.current.toString();
-    var ls = const LineSplitter().convert(st)[2];
-    throw TestAssertFailException(ls, causes);
+    var test = getTestNameFromAssertStackTrace(st);
+    throw TestAssertFailException(test, causes);
   }
 }
 
 class TestAssertFailException implements Exception {
-  String cause;
+  String testName;
   List<String> causes = List.empty();
-  TestAssertFailException(this.cause, this.causes);
+  TestAssertFailException(this.testName, this.causes);
 }

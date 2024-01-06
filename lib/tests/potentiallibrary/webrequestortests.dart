@@ -21,9 +21,8 @@ class WebRequestorTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
-      createTest('Simple web request', aSimpleRequestCanBeMade),
-      createTest('Web request with error',
-          ifARequestReturnsAnErrorAnExceptionIsThrown),
+      createTest(aSimpleRequestCanBeMade),
+      createTest(ifARequestReturnsAnErrorAnExceptionIsThrown),
     ];
   }
 

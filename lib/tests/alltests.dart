@@ -1,4 +1,5 @@
 import '../potentiallibrary/testframework/testrunner.dart';
+import 'potentiallibrary/testframework/teststacktracehandlertests.dart';
 import 'tools/searchitemtests.dart';
 import 'tools/tracksearchertests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
@@ -13,6 +14,7 @@ class AllTests {
   Future<TestResults> runTests() async {
     var runner = TestRunner();
 
+    runner.addTests(TestStactTraceHandlerTests());
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
     runner.addTests(JukeboxDatabaseApiAccessTests());
