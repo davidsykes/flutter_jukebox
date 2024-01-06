@@ -1,7 +1,7 @@
 import '../potentiallibrary/testframework/testrunner.dart';
 import 'potentiallibrary/testframework/teststacktracehandlertests.dart';
-import 'tools/searchitemtests.dart';
-import 'tools/tracksearchertests.dart';
+import 'tools/trackmatchertests.dart';
+import 'tools/listoftracksformatchingtests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
 import 'webaccess/mp3playeraccesstests.dart';
 import 'potentiallibrary/webrequestortests.dart';
@@ -19,8 +19,8 @@ class AllTests {
     runner.addTests(MP3PlayerAccessTests());
     runner.addTests(JukeboxDatabaseApiAccessTests());
     runner.addTests(ServiceControllerTests());
-    runner.addTests(TrackSearcherTests());
-    runner.addTests(SearchItemTests());
+    runner.addTests(ListOfTracksForMatchingTests());
+    runner.addTests(TrackMatcherTests());
 
     var results = await runner.runTests();
 

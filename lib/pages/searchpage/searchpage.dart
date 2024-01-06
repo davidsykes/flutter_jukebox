@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
-import '../../tools/search/searchparameters.dart';
-import '../../tools/search/tracksearcher.dart';
+import '../../tools/search/trackmatcher.dart';
+import '../../tools/search/trackmatchparameters.dart';
+import '../../tools/search/listoftracksformatching.dart';
 import '../../webaccess/servicecontroller.dart';
 
 class SearchScreenData {
-  late TrackSearcher _searcher;
+  late IListOfTracksForMatching _matcher;
   SearchScreenData(List<TrackInformation> tracks) {
-    _searcher = TrackSearcher(tracks);
+    _matcher = ListOfTracksForMatching(tracks, TrackMatcher());
   }
 
   String trackToText(TrackInformation track) {
     return track.trackName;
   }
 
-  List<TrackInformation> getList(SearchParameters searchParameters) {
-    return _searcher.getTracks(searchParameters);
+  List<TrackInformation> getList(TrackMatchParameters parameters) {
+    return _matcher.getTracks(parameters);
   }
 }
 
@@ -47,7 +48,7 @@ class _SearchPageState extends State<SearchPage> {
     var rows = List<Widget>.empty(growable: true);
     rows.add(makeSearchBar());
     rows.addAll(searchScreenInformation
-        .getList(SearchParameters(searchText: searchText))
+        .getList(TrackMatchParameters(searchText: searchText))
         .map((track) => trackToText(track)));
 
     return Column(
