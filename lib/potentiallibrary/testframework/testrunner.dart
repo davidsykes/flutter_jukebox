@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'stacktracehandler.dart';
 import 'testmodule.dart';
 import 'testresults.dart';
 import 'testunit.dart';
@@ -87,12 +88,6 @@ class TestRunner {
 
   String findTestNameFromError(Error error) {
     var st = error.stackTrace.toString();
-    var lines = const LineSplitter().convert(st);
-    for (var i = 1; i < lines.length; i++) {
-      if (lines[i].contains('TestUnit')) {
-        return lines[i - 1];
-      }
-    }
-    return 'Test name was not found';
+    return getTestNameFromAssertStackTrace(st);
   }
 }

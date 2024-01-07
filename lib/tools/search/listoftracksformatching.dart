@@ -28,6 +28,5 @@ class ListOfTracksForMatching extends IListOfTracksForMatching {
 
   bool searchMatches(MatchableTrack track, TrackMatchParameters parameters) {
     return trackMatcher.matches(track, parameters);
-    // TODO: implement matches
   }
 }

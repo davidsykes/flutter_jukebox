@@ -31,6 +31,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String searchText = '';
+  String artistText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +48,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
     var rows = List<Widget>.empty(growable: true);
     rows.add(makeSearchBar());
-    rows.addAll(searchScreenInformation
-        .getList(TrackMatchParameters(searchText: searchText))
+    rows.addAll(getMatchingTracks(searchScreenInformation)
         .map((track) => trackToText(track)));
 
     return Column(
@@ -56,12 +56,19 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  List<TrackInformation> getMatchingTracks(
+      SearchScreenData searchScreenInformation) {
+    var parameters =
+        TrackMatchParameters(searchText: searchText, artist: artistText);
+    return searchScreenInformation.getList(parameters);
+  }
+
   Widget makeSearchBar() {
     return Row(
       children: [
         const Text('Search'),
         SizedBox(
-          width: 350,
+          width: 250,
           child: TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -72,7 +79,21 @@ class _SearchPageState extends State<SearchPage> {
                   searchText = text;
                 });
               }),
-        )
+        ),
+        const Text('Artist'),
+        SizedBox(
+          width: 250,
+          child: TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Search',
+              ),
+              onChanged: (text) {
+                setState(() {
+                  artistText = text;
+                });
+              }),
+        ),
       ],
     );
   }
