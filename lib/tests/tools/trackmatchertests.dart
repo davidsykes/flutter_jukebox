@@ -18,6 +18,8 @@ class TrackMatcherTests extends TestModule {
       createTest(searchesCoverAllNamedFields),
       createTest(searchesCanBeNarrowedDownByArtist),
       createTest(searchesCanBeNarrowedDownByArtistCaseInsensitive),
+      createTest(searchesCanBeNarrowedDownByAlbum),
+      createTest(searchesCanBeNarrowedDownByAlbumCaseInsensitive),
     ];
   }
 
@@ -65,6 +67,24 @@ class TrackMatcherTests extends TestModule {
     var sp = TrackMatchParameters(searchText: '', artist: 'TIST');
     assertTrue(_item.matches(_track, sp));
     sp = TrackMatchParameters(searchText: '', artist: 'TAST');
+    assertFalse(_item.matches(_track, sp));
+  }
+
+  // end region
+
+  // Album searches
+
+  Future<void> searchesCanBeNarrowedDownByAlbum() async {
+    var sp = TrackMatchParameters(searchText: '', album: 'lbum');
+    assertTrue(_item.matches(_track, sp));
+    sp = TrackMatchParameters(searchText: '', album: 'lbim');
+    assertFalse(_item.matches(_track, sp));
+  }
+
+  Future<void> searchesCanBeNarrowedDownByAlbumCaseInsensitive() async {
+    var sp = TrackMatchParameters(searchText: '', album: 'LBUM');
+    assertTrue(_item.matches(_track, sp));
+    sp = TrackMatchParameters(searchText: '', album: 'LBIM');
     assertFalse(_item.matches(_track, sp));
   }
 

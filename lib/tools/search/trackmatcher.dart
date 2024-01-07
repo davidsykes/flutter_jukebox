@@ -11,6 +11,9 @@ class TrackMatcher extends ITrackMatcher {
     if (requiredTextIsMissing(track.artist, sp.artist)) {
       return false;
     }
+    if (requiredTextIsMissing(track.albumName, sp.album)) {
+      return false;
+    }
 
     if (track.trackName.contains(sp.searchText)) {
       return true;

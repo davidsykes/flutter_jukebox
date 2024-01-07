@@ -32,6 +32,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   String searchText = '';
   String artistText = '';
+  String albumText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +59,8 @@ class _SearchPageState extends State<SearchPage> {
 
   List<TrackInformation> getMatchingTracks(
       SearchScreenData searchScreenInformation) {
-    var parameters =
-        TrackMatchParameters(searchText: searchText, artist: artistText);
+    var parameters = TrackMatchParameters(
+        searchText: searchText, artist: artistText, album: albumText);
     return searchScreenInformation.getList(parameters);
   }
 
@@ -91,6 +92,20 @@ class _SearchPageState extends State<SearchPage> {
               onChanged: (text) {
                 setState(() {
                   artistText = text;
+                });
+              }),
+        ),
+        const Text('Album'),
+        SizedBox(
+          width: 250,
+          child: TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Search',
+              ),
+              onChanged: (text) {
+                setState(() {
+                  albumText = text;
                 });
               }),
         ),
