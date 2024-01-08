@@ -49,8 +49,13 @@ class _SearchPageState extends State<SearchPage> {
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
     var rows = List<Widget>.empty(growable: true);
     rows.add(makeSearchBar());
-    rows.addAll(getMatchingTracks(searchScreenInformation)
-        .map((track) => trackToText(track)));
+
+    rows.add(Expanded(
+        child: ListView(
+      children: getMatchingTracks(searchScreenInformation)
+          .map((track) => trackToText(track))
+          .toList(),
+    )));
 
     return Column(
       children: rows,
