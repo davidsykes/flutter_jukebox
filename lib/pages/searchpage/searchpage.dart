@@ -5,6 +5,7 @@ import '../../tools/search/trackmatcher.dart';
 import '../../tools/search/trackmatchparameters.dart';
 import '../../tools/search/listoftracksformatching.dart';
 import '../../webaccess/servicecontroller.dart';
+import 'trackeditor.dart';
 
 class SearchScreenData {
   late IListOfTracksForMatching _matcher;
@@ -33,6 +34,7 @@ class _SearchPageState extends State<SearchPage> {
   String searchText = '';
   String artistText = '';
   String albumText = '';
+  TrackInformation? _itemToEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,10 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
+    if (_itemToEdit != null) {
+      return makeTrackEditor(_itemToEdit!);
+    }
+
     var rows = List<Widget>.empty(growable: true);
     rows.add(makeSearchBar());
 
@@ -122,6 +128,12 @@ class _SearchPageState extends State<SearchPage> {
     var t = track.trackName;
     var artist = track.artistName;
     var album = track.albumName;
-    return Text('$t - $artist - $album');
+    return GestureDetector(
+        child: Text('$t - $artist - $album'),
+        onTap: () {
+          setState(() {
+            _itemToEdit = track;
+          });
+        });
   }
 }

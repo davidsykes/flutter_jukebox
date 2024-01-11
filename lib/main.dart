@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
-                  label: Text('Search'),
+                  label: Text('Track Search'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.favorite),
