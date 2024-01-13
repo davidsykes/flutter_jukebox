@@ -58,6 +58,9 @@ class TestRunner {
 
     if (error is TestAssertFailException) {
       testResults.results.add(error.causes.join(' - '));
+    } else if (error is JsonUnsupportedObjectError) {
+      testResults.results.add(error.runtimeType.toString());
+      testResults.results.add(error.cause.toString());
     } else if (error is Error) {
       testResults.results.add(error.runtimeType.toString());
     } else {
