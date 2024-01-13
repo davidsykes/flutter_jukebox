@@ -1,8 +1,10 @@
 // DropdownMenuEntry labels and values for the first dropdown menu.
 import 'package:flutter/material.dart';
+import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 
 class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
+  final List<ArtistInformation> artists;
+  const DropdownMenuExample(this.artists, {super.key});
 
   @override
   State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
@@ -13,6 +15,9 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
 
   @override
   Widget build(BuildContext context) {
+    var dropMenus = widget.artists
+        .map((e) => DropdownMenuEntry(value: e.id, label: e.name));
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
@@ -27,11 +32,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
                 selectedColor = artistId.toString();
               });
             },
-            dropdownMenuEntries: const [
-              DropdownMenuEntry(value: 1, label: 'label 1'),
-              DropdownMenuEntry(value: 2, label: 'label 2'),
-              DropdownMenuEntry(value: 3, label: 'label 3'),
-            ],
+            dropdownMenuEntries: dropMenus.toList(),
           ),
         ],
       ),

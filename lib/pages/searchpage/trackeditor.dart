@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import '../../dataobjects/artistinformation.dart';
 import 'artistselector.dart';
 
-Widget makeTrackEditor(TrackInformation track) {
+Widget makeTrackEditor(
+    TrackInformation track, List<ArtistInformation> artists) {
   var rows = List<Widget>.empty(growable: true);
 
   rows.add(Text(track.trackName));
 
-  rows.add(makeArtistRow(track));
+  rows.add(makeArtistRow(track, artists));
   rows.add(const Text('Reset'));
 
   return Column(
@@ -15,7 +17,7 @@ Widget makeTrackEditor(TrackInformation track) {
   );
 }
 
-Widget makeArtistRow(TrackInformation track) {
+Widget makeArtistRow(TrackInformation track, List<ArtistInformation> artists) {
   return Row(children: [
     const SizedBox(
       width: 100,
@@ -25,9 +27,9 @@ Widget makeArtistRow(TrackInformation track) {
       width: 100,
       child: Text(track.artistName),
     ),
-    const SizedBox(
+    SizedBox(
       width: 200,
-      child: DropdownMenuExample(),
+      child: DropdownMenuExample(artists),
     ),
   ]);
 }
