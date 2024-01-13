@@ -1,3 +1,4 @@
+import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
@@ -14,6 +15,7 @@ class ServiceControllerTests extends TestModule {
 
   late List<JukeboxCollection> _testCollections;
   late List<TrackInformation> _testTracks;
+  late List<ArtistInformation> _testArtists;
 
   @override
   Iterable<TestUnit> getTests() {
@@ -22,6 +24,7 @@ class ServiceControllerTests extends TestModule {
       createTest(getCurrentTrackInformationReturnsNullifNoTrackIsPlaying),
       createTest(testGetJukeboxCollections),
       createTest(getAllTracksCallsDbApiGetAllTracks),
+      createTest(getAllArtistsCallsDbApiGetAllArtists),
     ];
   }
 
@@ -52,6 +55,12 @@ class ServiceControllerTests extends TestModule {
     assertEqual(_testTracks, allTracks);
   }
 
+  Future<void> getAllArtistsCallsDbApiGetAllArtists() async {
+    var artists = await _controller.getAllArtists();
+
+    assertEqual(_testArtists, artists);
+  }
+
   // Support Code
 
   @override
@@ -68,11 +77,15 @@ class ServiceControllerTests extends TestModule {
       TrackInformation(
           3, 'Track 3', 'file name', 34, 'album', 'album path', 56, 'artist'),
     ];
+    _testArtists = [
+      ArtistInformation(1, 'artist 1'),
+      ArtistInformation(1, 'artist 2'),
+    ];
   }
 
   @override
   void setUpMocks() {
-    _mockDbAccess = MockDbAccess(_testTracks, _testCollections);
+    _mockDbAccess = MockDbAccess(_testTracks, _testCollections, _testArtists);
     _mockPlayerAccess = MockPlayerAccess();
   }
 
@@ -83,26 +96,32 @@ class ServiceControllerTests extends TestModule {
 }
 
 class MockDbAccess extends IJukeboxDatabaseApiAccess {
-  final List<JukeboxCollection> testCollections;
-  final List<TrackInformation> _testTracks;
-  MockDbAccess(this._testTracks, this.testCollections);
+  final List<JukeboxCollection> collections;
+  final List<TrackInformation> tracks;
+  final List<ArtistInformation> artists;
+  MockDbAccess(this.tracks, this.collections, this.artists);
 
   @override
   Future<List<JukeboxCollection>> getCollections() {
-    return Future<List<JukeboxCollection>>.value(testCollections);
+    return Future<List<JukeboxCollection>>.value(collections);
   }
 
   @override
   Future<TrackInformation> getTrackInformation(int trackId) {
     if (trackId == 12) {
-      return Future<TrackInformation>.value(_testTracks[0]);
+      return Future<TrackInformation>.value(tracks[0]);
     }
     throw UnimplementedError();
   }
 
   @override
   Future<List<TrackInformation>> getAllTracks() {
-    return Future<List<TrackInformation>>.value(_testTracks);
+    return Future<List<TrackInformation>>.value(tracks);
+  }
+
+  @override
+  Future<List<ArtistInformation>> getAllArtists() {
+    return Future<List<ArtistInformation>>.value(artists);
   }
 }
 

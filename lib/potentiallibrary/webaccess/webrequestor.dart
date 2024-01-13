@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter_jukebox/potentiallibrary/programexception.dart';
-
 import 'webaccess.dart';
 
 abstract class IWebRequestor {

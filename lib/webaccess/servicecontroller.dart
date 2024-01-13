@@ -2,10 +2,14 @@ import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 
+import '../dataobjects/artistinformation.dart';
+import '../dataobjects/jukeboxcollection.dart';
+
 abstract class IServiceController {
   Future<TrackInformation?> getCurrentTrackInformation();
-  getJukeboxCollections();
+  Future<List<JukeboxCollection>> getJukeboxCollections();
   Future<List<TrackInformation>> getAllTracks();
+  Future<List<ArtistInformation>> getAllArtists();
 }
 
 class ServiceController extends IServiceController {
@@ -24,12 +28,17 @@ class ServiceController extends IServiceController {
   }
 
   @override
-  getJukeboxCollections() {
+  Future<List<JukeboxCollection>> getJukeboxCollections() {
     return _dbAccess.getCollections();
   }
 
   @override
   Future<List<TrackInformation>> getAllTracks() {
     return _dbAccess.getAllTracks();
+  }
+
+  @override
+  Future<List<ArtistInformation>> getAllArtists() {
+    return _dbAccess.getAllArtists();
   }
 }

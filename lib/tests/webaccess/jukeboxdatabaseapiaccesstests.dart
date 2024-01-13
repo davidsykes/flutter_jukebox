@@ -13,6 +13,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     return [
       createTest(individualTrackInformationCanBeRetrieved),
       createTest(allTrackInformationCanBeRetrieved),
+      createTest(allArtistsCanBeRetrieved),
     ];
   }
 
@@ -36,6 +37,15 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     assertEqual('Track 1', trackInfo[0].trackName);
     assertEqual('Track 2', trackInfo[1].trackName);
     assertEqual('Track 3', trackInfo[2].trackName);
+  }
+
+  Future<void> allArtistsCanBeRetrieved() async {
+    var artistInfo = await _access.getAllArtists();
+
+    assertEqual(3, artistInfo.length);
+    assertEqual('Artist 1', artistInfo[0].name);
+    assertEqual('Artist 2', artistInfo[1].name);
+    assertEqual('Artist 3', artistInfo[2].name);
   }
 
   // Support Code
@@ -102,6 +112,25 @@ class MockMp3WebRequestor extends IWebRequestor {
         "albumPath": "The Very Best Of The Eagles",
         "artistId": 148,
         "artistName": "The Eagles"
+      }
+    ]
+  }''');
+      var obj = deserialise(data);
+      return obj;
+    } else if (url == 'artists') {
+      var data = jsonDecode('''{
+    "artists": [
+      {
+        "artistId": 1,
+        "artistName": "Artist 1"
+      },
+      {
+        "artistId": 2,
+        "artistName": "Artist 2"
+      },
+      {
+        "artistId": 3,
+        "artistName": "Artist 3"
       }
     ]
   }''');
