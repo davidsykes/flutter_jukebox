@@ -14,7 +14,7 @@ class AllTests {
   Future<TestResults> runTests() async {
     var runner = TestRunner();
 
-    runner.addTests(TestStactTraceHandlerTests());
+    runner.addTests(TestStackTraceHandlerTests());
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
     runner.addTests(JukeboxDatabaseApiAccessTests());
