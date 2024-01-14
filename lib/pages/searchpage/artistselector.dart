@@ -2,20 +2,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 
-class DropdownMenuExample extends StatefulWidget {
+class ArtistSelector extends StatefulWidget {
   final List<ArtistInformation> artists;
-  const DropdownMenuExample(this.artists, {super.key});
+  const ArtistSelector(this.artists, {super.key});
 
   @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
+  State<ArtistSelector> createState() => _ArtistSelectorState();
 }
 
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
-  String? selectedColor;
+class _ArtistSelectorState extends State<ArtistSelector> {
+  int? selectedArtist;
+  String searchText = '';
 
   @override
   Widget build(BuildContext context) {
     var dropMenus = widget.artists
+        .where((e) => e.name.toLowerCase().contains(searchText))
+        .take(100)
         .map((e) => DropdownMenuEntry(value: e.id, label: e.name));
 
     return Padding(
@@ -29,10 +32,24 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             label: const Text('Artist'),
             onSelected: (int? artistId) {
               setState(() {
-                selectedColor = artistId.toString();
+                selectedArtist = artistId;
               });
             },
             dropdownMenuEntries: dropMenus.toList(),
+          ),
+          const Text('Filter'),
+          SizedBox(
+            width: 100,
+            child: TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Search',
+                ),
+                onChanged: (text) {
+                  setState(() {
+                    searchText = text;
+                  });
+                }),
           ),
         ],
       ),

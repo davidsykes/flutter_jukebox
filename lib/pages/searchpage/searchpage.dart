@@ -6,7 +6,6 @@ import '../../tools/search/trackmatchparameters.dart';
 import '../../tools/search/listoftracksformatching.dart';
 import '../../webaccess/servicecontroller.dart';
 import 'trackeditor.dart';
-import 'trackeditor2.dart';
 
 class SearchScreenData {
   late IListOfTracksForMatching _matcher;
