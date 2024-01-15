@@ -10,6 +10,7 @@ abstract class IServiceController {
   Future<List<JukeboxCollection>> getJukeboxCollections();
   Future<List<TrackInformation>> getAllTracks();
   Future<List<ArtistInformation>> getAllArtists();
+  void updateArtistForTrack(int trackId, int artistId);
 }
 
 class ServiceController extends IServiceController {
@@ -40,5 +41,10 @@ class ServiceController extends IServiceController {
   @override
   Future<List<ArtistInformation>> getAllArtists() {
     return _dbAccess.getAllArtists();
+  }
+
+  @override
+  void updateArtistForTrack(int trackId, int artistId) {
+    _dbAccess.updateArtistForTrack(trackId, artistId);
   }
 }

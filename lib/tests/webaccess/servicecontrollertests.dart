@@ -10,7 +10,7 @@ import '../../webaccess/servicecontroller.dart';
 class ServiceControllerTests extends TestModule {
   late IServiceController _controller;
 
-  late IJukeboxDatabaseApiAccess _mockDbAccess;
+  late MockDbAccess _mockDbAccess;
   late MockPlayerAccess _mockPlayerAccess;
 
   late List<JukeboxCollection> _testCollections;
@@ -25,6 +25,7 @@ class ServiceControllerTests extends TestModule {
       createTest(testGetJukeboxCollections),
       createTest(getAllTracksCallsDbApiGetAllTracks),
       createTest(getAllArtistsCallsDbApiGetAllArtists),
+      createTest(updateArtistForTrack),
     ];
   }
 
@@ -59,6 +60,13 @@ class ServiceControllerTests extends TestModule {
     var artists = await _controller.getAllArtists();
 
     assertEqual(_testArtists, artists);
+  }
+
+  Future<void> updateArtistForTrack() async {
+    _controller.updateArtistForTrack(12, 34);
+
+    assertEqual(12, _mockDbAccess.updatedTrackId);
+    assertEqual(34, _mockDbAccess.updatedArtistId);
   }
 
   // Support Code
@@ -99,6 +107,8 @@ class MockDbAccess extends IJukeboxDatabaseApiAccess {
   final List<JukeboxCollection> collections;
   final List<TrackInformation> tracks;
   final List<ArtistInformation> artists;
+  int updatedTrackId = 0;
+  int updatedArtistId = 0;
   MockDbAccess(this.tracks, this.collections, this.artists);
 
   @override
@@ -122,6 +132,12 @@ class MockDbAccess extends IJukeboxDatabaseApiAccess {
   @override
   Future<List<ArtistInformation>> getAllArtists() {
     return Future<List<ArtistInformation>>.value(artists);
+  }
+
+  @override
+  void updateArtistForTrack(int trackId, int artistId) {
+    updatedTrackId = trackId;
+    updatedArtistId = artistId;
   }
 }
 
