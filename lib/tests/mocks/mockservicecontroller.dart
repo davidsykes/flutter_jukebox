@@ -1,0 +1,37 @@
+import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
+import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
+import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
+
+class MockServiceController extends IServiceController {
+  void Function(int trackId, int artistId)? mockUpdateArtistForTrack;
+
+  @override
+  Future<List<ArtistInformation>> getAllArtists() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<TrackInformation>> getAllTracks() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<TrackInformation?> getCurrentTrackInformation() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<JukeboxCollection>> getJukeboxCollections() {
+    throw UnimplementedError();
+  }
+
+  @override
+  void updateArtistForTrack(int trackId, int artistId) {
+    if (mockUpdateArtistForTrack != null) {
+      mockUpdateArtistForTrack!(trackId, artistId);
+    } else {
+      throw UnimplementedError();
+    }
+  }
+}

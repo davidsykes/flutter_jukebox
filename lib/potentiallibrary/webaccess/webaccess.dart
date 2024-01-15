@@ -34,7 +34,6 @@ class WebAccess extends IWebAccess {
       Logger().log('getTextWebData $url');
       final httpPackageUrl = Uri.parse(makeUrl(url));
       final httpPackageInfo = await http.read(httpPackageUrl);
-      Logger().log('result $httpPackageInfo');
       return httpPackageInfo;
     } on Exception catch (ex) {
       throw ProgramException('$ex.message $url');

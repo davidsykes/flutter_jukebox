@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import '../../actions/updateartistfortrackaction.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
 import '../../webaccess/servicecontroller.dart';
 import 'artistselector.dart';
@@ -63,8 +64,11 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
         child: Text(track.artistName),
       ),
       SizedBox(
-        width: 500,
-        child: ArtistSelector(artists),
+        width: 700,
+        child: ArtistSelector(
+            artists,
+            UpdateArtistForTrackAction(
+                widget.serviceController, track.trackId)),
       ),
     ]);
   }

@@ -1,10 +1,12 @@
 // DropdownMenuEntry labels and values for the first dropdown menu.
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
+import '../../potentiallibrary/utilities/actionhandler.dart';
 
 class ArtistSelector extends StatefulWidget {
   final List<ArtistInformation> artists;
-  const ArtistSelector(this.artists, {super.key});
+  final ActionHandler artistSelectionHandler;
+  const ArtistSelector(this.artists, this.artistSelectionHandler, {super.key});
 
   @override
   State<ArtistSelector> createState() => _ArtistSelectorState();
@@ -37,6 +39,7 @@ class _ArtistSelectorState extends State<ArtistSelector> {
             },
             dropdownMenuEntries: dropMenus.toList(),
           ),
+          Text('($selectedArtist)'),
           const Text('Filter'),
           SizedBox(
             width: 100,
@@ -51,6 +54,15 @@ class _ArtistSelectorState extends State<ArtistSelector> {
                   });
                 }),
           ),
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              widget.artistSelectionHandler.action(selectedArtist!);
+            },
+            child: const Text('Submit'),
+          )
         ],
       ),
     );

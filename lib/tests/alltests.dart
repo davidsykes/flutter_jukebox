@@ -1,12 +1,14 @@
 import '../potentiallibrary/testframework/testrunner.dart';
+import '../potentiallibrary/testframework/testresults.dart';
+import 'actions/updateartistfortrackactiontests.dart';
 import 'potentiallibrary/testframework/teststacktracehandlertests.dart';
+import 'potentiallibrary/utilities/actionhandlertests.dart';
+import 'potentiallibrary/webrequestortests.dart';
 import 'tools/trackmatchertests.dart';
 import 'tools/listoftracksformatchingtests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
 import 'webaccess/mp3playeraccesstests.dart';
-import 'potentiallibrary/webrequestortests.dart';
 import 'webaccess/servicecontrollertests.dart';
-import '../potentiallibrary/testframework/testresults.dart';
 
 class AllTests {
   String summary = 'not run';
@@ -15,12 +17,14 @@ class AllTests {
     var runner = TestRunner();
 
     runner.addTests(TestStackTraceHandlerTests());
+    runner.addTests(ActionHandlerTests());
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
     runner.addTests(JukeboxDatabaseApiAccessTests());
     runner.addTests(ServiceControllerTests());
     runner.addTests(ListOfTracksForMatchingTests());
     runner.addTests(TrackMatcherTests());
+    runner.addTests(UpdateArtistForTrackActionTests());
 
     var results = await runner.runTests();
 
