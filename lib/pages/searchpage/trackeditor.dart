@@ -45,7 +45,13 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
     rows.add(Text(track.trackName));
 
     rows.add(makeArtistRow(track, artists));
-    rows.add(const Text('Reset'));
+    rows.add(TextButton(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+      ),
+      onPressed: null,
+      child: const Text('Reset'),
+    ));
 
     return Column(
       children: rows,

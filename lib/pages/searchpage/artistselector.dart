@@ -15,6 +15,7 @@ class ArtistSelector extends StatefulWidget {
 class _ArtistSelectorState extends State<ArtistSelector> {
   int? selectedArtist;
   String searchText = '';
+  String submitResponse = '';
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +59,28 @@ class _ArtistSelectorState extends State<ArtistSelector> {
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
             ),
-            onPressed: () {
-              widget.artistSelectionHandler.action(selectedArtist!);
-            },
+            onPressed: isSubmitEnabled()
+                ? () async {
+                    var result = await widget.artistSelectionHandler
+                        .action(selectedArtist!);
+                    setState(() {
+                      if (result) {
+                        submitResponse = 'Ok';
+                      } else {
+                        submitResponse = 'Fail';
+                      }
+                    });
+                  }
+                : null,
             child: const Text('Submit'),
-          )
+          ),
+          Text(submitResponse),
         ],
       ),
     );
+  }
+
+  isSubmitEnabled() {
+    return selectedArtist != null;
   }
 }

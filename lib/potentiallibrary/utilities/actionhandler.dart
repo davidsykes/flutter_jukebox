@@ -1,3 +1,3 @@
 abstract class ActionHandler {
-  void action(int value);
+  Future<bool> action(int value);
 }

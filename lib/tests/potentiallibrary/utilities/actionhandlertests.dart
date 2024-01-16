@@ -4,9 +4,11 @@ import '../../../potentiallibrary/utilities/actionhandler.dart';
 
 class TestAction extends ActionHandler {
   int actionValue = 0;
+
   @override
-  void action(int value) {
+  Future<bool> action(int value) {
     actionValue = value;
+    return Future<bool>.value(true);
   }
 }
 
