@@ -18,9 +18,11 @@ class ServiceController extends IServiceController {
   final IJukeboxDatabaseApiAccess _dbAccess;
   final IMP3PlayerAccess _mp3PlayerAccess;
   late CachedValue<List<TrackInformation>> _allTracks;
+  late CachedValue<List<ArtistInformation>> _allArtists;
 
   ServiceController(this._dbAccess, this._mp3PlayerAccess) {
     _allTracks = CachedValue<List<TrackInformation>>(fetchAllTracks);
+    _allArtists = CachedValue<List<ArtistInformation>>(fetchAllArtists);
   }
 
   @override
@@ -48,6 +50,10 @@ class ServiceController extends IServiceController {
 
   @override
   Future<List<ArtistInformation>> getAllArtists() {
+    return _allArtists.getData();
+  }
+
+  Future<List<ArtistInformation>> fetchAllArtists() {
     return _dbAccess.getAllArtists();
   }
 
