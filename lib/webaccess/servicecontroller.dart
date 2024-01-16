@@ -1,4 +1,5 @@
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 
@@ -16,8 +17,11 @@ abstract class IServiceController {
 class ServiceController extends IServiceController {
   final IJukeboxDatabaseApiAccess _dbAccess;
   final IMP3PlayerAccess _mp3PlayerAccess;
+  late CachedValue<List<TrackInformation>> _allTracks;
 
-  ServiceController(this._dbAccess, this._mp3PlayerAccess);
+  ServiceController(this._dbAccess, this._mp3PlayerAccess) {
+    _allTracks = CachedValue<List<TrackInformation>>(fetchAllTracks);
+  }
 
   @override
   Future<TrackInformation?> getCurrentTrackInformation() async {
@@ -35,6 +39,10 @@ class ServiceController extends IServiceController {
 
   @override
   Future<List<TrackInformation>> getAllTracks() {
+    return _allTracks.getData();
+  }
+
+  Future<List<TrackInformation>> fetchAllTracks() {
     return _dbAccess.getAllTracks();
   }
 
