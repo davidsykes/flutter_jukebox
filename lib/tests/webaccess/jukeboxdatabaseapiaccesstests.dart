@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
+import '../../potentiallibrary/utilities/ilogger.dart';
 import '../../webaccess/jukeboxdatabaseapiaccess.dart';
 
 class JukeboxDatabaseApiAccessTests extends TestModule {
   late IJukeboxDatabaseApiAccess _access;
-  late IWebRequestor _mockWebRequestor;
+  late MockWebRequestor _mockWebRequestor;
+  late MockLogger _mockLogger;
 
   @override
   Iterable<TestUnit> getTests() {
@@ -14,6 +16,8 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
       createTest(individualTrackInformationCanBeRetrieved),
       createTest(allTrackInformationCanBeRetrieved),
       createTest(allArtistsCanBeRetrieved),
+      createTest(updateArtistForTrackPostsTheUpdate),
+      createTest(updateArtistForTrackLogsErrors),
     ];
   }
 
@@ -48,20 +52,39 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     assertEqual('Artist 3', artistInfo[2].name);
   }
 
+  Future<void> updateArtistForTrackPostsTheUpdate() async {
+    var result = await _access.updateArtistForTrack(17, 82);
+
+    assertEqual(true, result);
+    assertEqual('updateartistfortrack?trackId=17&artistId=82',
+        _mockWebRequestor.postValue);
+  }
+
+  Future<void> updateArtistForTrackLogsErrors() async {
+    _mockWebRequestor.postResponse = 'Oops';
+    await _access.updateArtistForTrack(17, 82);
+
+    assertEqual(['Error updating artist for track: Oops'], _mockLogger.logs);
+  }
+
   // Support Code
 
   @override
   void setUpMocks() {
-    _mockWebRequestor = MockMp3WebRequestor();
+    _mockWebRequestor = MockWebRequestor();
+    _mockLogger = MockLogger();
   }
 
   @override
   void setUpObjectUnderTest() {
-    _access = JukeboxDatabaseApiAccess(_mockWebRequestor);
+    _access = JukeboxDatabaseApiAccess(_mockWebRequestor, _mockLogger);
   }
 }
 
-class MockMp3WebRequestor extends IWebRequestor {
+class MockWebRequestor extends IWebRequestor {
+  String postValue = '';
+  String postResponse = 'all ok';
+
   @override
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise) async {
@@ -138,5 +161,19 @@ class MockMp3WebRequestor extends IWebRequestor {
       return obj;
     }
     throw UnimplementedError();
+  }
+
+  @override
+  Future<String> post(String url) async {
+    postValue = url;
+    return postResponse;
+  }
+}
+
+class MockLogger extends ILogger {
+  var logs = List<String>.empty(growable: true);
+  @override
+  void log(String log) {
+    logs.add(log);
   }
 }

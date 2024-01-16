@@ -31,9 +31,10 @@ class UpdateArtistForTrackActionTests extends TestModule {
     _mockServiceController.mockUpdateArtistForTrack = updateArtist;
   }
 
-  void updateArtist(int trackId, int artistId) {
+  Future<bool> updateArtist(int trackId, int artistId) async {
     _updatedTrack = trackId;
     _updatedArtist = artistId;
+    return Future<bool>.value(true);
   }
 
   @override

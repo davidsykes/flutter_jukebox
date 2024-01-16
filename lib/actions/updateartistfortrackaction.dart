@@ -7,7 +7,7 @@ class UpdateArtistForTrackAction extends ActionHandler {
   UpdateArtistForTrackAction(this._serviceController, this._trackId);
 
   @override
-  void action(int value) {
-    _serviceController.updateArtistForTrack(_trackId, value);
+  Future<bool> action(int value) {
+    return _serviceController.updateArtistForTrack(_trackId, value);
   }
 }

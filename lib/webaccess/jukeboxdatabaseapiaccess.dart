@@ -3,17 +3,20 @@ import 'package:flutter_jukebox/version.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
+import '../potentiallibrary/utilities/ilogger.dart';
 
 abstract class IJukeboxDatabaseApiAccess {
   Future<TrackInformation> getTrackInformation(int trackId);
   Future<List<JukeboxCollection>> getCollections();
   Future<List<TrackInformation>> getAllTracks();
   Future<List<ArtistInformation>> getAllArtists();
+  Future<bool> updateArtistForTrack(int trackId, int artistId);
 }
 
 class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
   final IWebRequestor _webRequestor;
-  JukeboxDatabaseApiAccess(this._webRequestor);
+  final ILogger _logger;
+  JukeboxDatabaseApiAccess(this._webRequestor, this._logger);
 
   @override
   Future<TrackInformation> getTrackInformation(int trackId) async {
@@ -102,5 +105,16 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
         url, deserialiseArtistsInformation);
 
     return artists;
+  }
+
+  @override
+  Future<bool> updateArtistForTrack(int trackId, int artistId) async {
+    var url = 'updateartistfortrack?trackId=$trackId&artistId=$artistId';
+    var response = await _webRequestor.post(url);
+    if (response != 'all ok') {
+      _logger.log('Error updating artist for track: $response');
+      return false;
+    }
+    return true;
   }
 }

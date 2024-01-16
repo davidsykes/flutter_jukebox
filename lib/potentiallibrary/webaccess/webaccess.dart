@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../tools/logger.dart';
 import '../programexception.dart';
 
 abstract class IWebAccess {
   Future<String> getTextWebData(String url);
-  dynamic getJsonWebData(String url);
+  Future<String> post(String url);
 }
 
 class WebAccess extends IWebAccess {
@@ -20,15 +19,6 @@ class WebAccess extends IWebAccess {
   }
 
   @override
-  dynamic getJsonWebData(String url) async {
-    Logger().log('getJsonWebData $url');
-    final httpPackageUrl = Uri.parse(makeUrl(url));
-    final httpPackageInfo = await http.read(httpPackageUrl);
-    final decoded = json.decode(httpPackageInfo);
-    return decoded;
-  }
-
-  @override
   Future<String> getTextWebData(String url) async {
     try {
       Logger().log('getTextWebData $url');
@@ -40,6 +30,7 @@ class WebAccess extends IWebAccess {
     }
   }
 
+  @override
   Future<String> post(String url) async {
     var result = await http.post(
       Uri.parse(makeUrl(url)),

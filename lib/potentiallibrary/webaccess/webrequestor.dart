@@ -5,6 +5,7 @@ import 'webaccess.dart';
 abstract class IWebRequestor {
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise);
+  Future<String> post(String url);
 }
 
 class WebRequestor extends IWebRequestor {
@@ -26,5 +27,10 @@ class WebRequestor extends IWebRequestor {
     var response = deserialise(request['response']);
 
     return response;
+  }
+
+  @override
+  Future<String> post(String url) async {
+    return _webAccess.post(url);
   }
 }

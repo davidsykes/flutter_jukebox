@@ -135,9 +135,10 @@ class MockDbAccess extends IJukeboxDatabaseApiAccess {
   }
 
   @override
-  void updateArtistForTrack(int trackId, int artistId) {
+  Future<bool> updateArtistForTrack(int trackId, int artistId) {
     updatedTrackId = trackId;
     updatedArtistId = artistId;
+    return Future<bool>.value(true);
   }
 }
 

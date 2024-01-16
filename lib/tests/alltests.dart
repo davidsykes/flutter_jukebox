@@ -3,7 +3,7 @@ import '../potentiallibrary/testframework/testresults.dart';
 import 'actions/updateartistfortrackactiontests.dart';
 import 'potentiallibrary/testframework/teststacktracehandlertests.dart';
 import 'potentiallibrary/utilities/actionhandlertests.dart';
-import 'potentiallibrary/webrequestortests.dart';
+import 'potentiallibrary/webaccess/webrequestortests.dart';
 import 'tools/trackmatchertests.dart';
 import 'tools/listoftracksformatchingtests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
 
 class MockServiceController extends IServiceController {
-  void Function(int trackId, int artistId)? mockUpdateArtistForTrack;
+  Future<bool> Function(int trackId, int artistId)? mockUpdateArtistForTrack;
 
   @override
   Future<List<ArtistInformation>> getAllArtists() {
@@ -27,9 +27,9 @@ class MockServiceController extends IServiceController {
   }
 
   @override
-  void updateArtistForTrack(int trackId, int artistId) {
+  Future<bool> updateArtistForTrack(int trackId, int artistId) {
     if (mockUpdateArtistForTrack != null) {
-      mockUpdateArtistForTrack!(trackId, artistId);
+      return mockUpdateArtistForTrack!(trackId, artistId);
     } else {
       throw UnimplementedError();
     }

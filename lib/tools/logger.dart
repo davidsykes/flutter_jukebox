@@ -1,4 +1,6 @@
-class Logger {
+import 'package:flutter_jukebox/potentiallibrary/utilities/ilogger.dart';
+
+class Logger extends ILogger {
   static List<String> logs = List.empty(growable: true);
 
   //One instance, needs factory
@@ -6,7 +8,8 @@ class Logger {
   factory Logger() => _instance ??= Logger._();
   Logger._();
 
-  void log(String s) {
-    logs.add(s);
+  @override
+  void log(String log) {
+    logs.add(log);
   }
 }

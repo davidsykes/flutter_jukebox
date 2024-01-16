@@ -1,8 +1,8 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webaccess.dart';
-import '../../potentiallibrary/programexception.dart';
-import '../../potentiallibrary/testframework/testmodule.dart';
-import '../../potentiallibrary/testframework/testunit.dart';
-import '../../potentiallibrary/webaccess/webrequestor.dart';
+import '../../../potentiallibrary/programexception.dart';
+import '../../../potentiallibrary/testframework/testmodule.dart';
+import '../../../potentiallibrary/testframework/testunit.dart';
+import '../../../potentiallibrary/webaccess/webrequestor.dart';
 
 class SimpleClassForRetrieval {
   final int integer;
@@ -23,6 +23,7 @@ class WebRequestorTests extends TestModule {
     return [
       createTest(aSimpleRequestCanBeMade),
       createTest(ifARequestReturnsAnErrorAnExceptionIsThrown),
+      createTest(postPostsAndReturnsResponse),
     ];
   }
 
@@ -62,6 +63,12 @@ class WebRequestorTests extends TestModule {
     return SimpleClassForRetrieval.fromJson(data);
   }
 
+  Future<void> postPostsAndReturnsResponse() async {
+    var response = await _webAccess.post('url');
+
+    assertEqual('expected', response);
+  }
+
   // Support Code
 
   @override
@@ -79,12 +86,15 @@ class MockWebAccess extends IWebAccess {
   String response = '';
 
   @override
-  getJsonWebData(String url) {
-    return response;
+  Future<String> getTextWebData(String url) {
+    return Future<String>.value(response);
   }
 
   @override
-  Future<String> getTextWebData(String url) {
-    return Future<String>.value(response);
+  Future<String> post(String url) {
+    if (url == 'url') {
+      return Future<String>.value('expected');
+    }
+    return Future<String>.value('invalid url');
   }
 }
