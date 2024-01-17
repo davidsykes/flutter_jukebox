@@ -8,6 +8,7 @@ import 'tools/trackmatchertests.dart';
 import 'tools/listoftracksformatchingtests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
 import 'webaccess/mp3playeraccesstests.dart';
+import 'webaccess/requests/updatesrtistfortrackrequesttests.dart';
 import 'webaccess/servicecontrollertests.dart';
 
 class AllTests {
@@ -25,6 +26,7 @@ class AllTests {
     runner.addTests(ListOfTracksForMatchingTests());
     runner.addTests(TrackMatcherTests());
     runner.addTests(UpdateArtistForTrackActionTests());
+    runner.addTests(UpdateArtistForTrackRequestTests());
 
     var results = await runner.runTests();
 
