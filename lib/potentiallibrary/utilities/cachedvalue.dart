@@ -1,11 +1,20 @@
 class CachedValue<T> {
   Future<T> Function() fetchDataFunction;
-  Future<T>? getDataFuture;
+  Future<T>? _getDataFuture;
 
   CachedValue(this.fetchDataFunction);
 
-  Future<T> getData() {
-    getDataFuture ??= fetchDataFunction();
-    return getDataFuture!;
+  Future<T> getDataFuture() {
+    _getDataFuture ??= fetchDataFunction();
+    return _getDataFuture!;
+  }
+
+  Future<T> getData() async {
+    try {
+      return await getDataFuture();
+    } catch (e) {
+      _getDataFuture = null;
+      rethrow;
+    }
   }
 }
