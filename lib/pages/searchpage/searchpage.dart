@@ -51,7 +51,6 @@ class _SearchPageState extends State<SearchPage> {
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
     if (_itemToEdit != null) {
       return TrackEditorPage(widget.serviceController, _itemToEdit!);
-      //return makeTrackEditor(_itemToEdit!);
     }
 
     var rows = List<Widget>.empty(growable: true);
