@@ -49,7 +49,7 @@ class MockMp3WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<String> post(String url) {
+  Future<String> post(String url, dynamic request) {
     throw UnimplementedError();
   }
 }

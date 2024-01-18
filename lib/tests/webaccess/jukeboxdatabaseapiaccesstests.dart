@@ -56,8 +56,9 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     var result = await _access.updateArtistForTrack(17, 82);
 
     assertEqual(true, result);
-    assertEqual('updateartistfortrack?trackId=17&artistId=82',
-        _mockWebRequestor.postValue);
+    assertEqual('updateartistfortrack', _mockWebRequestor.postUrl);
+    assertEqual(17, _mockWebRequestor.postRequest.trackId);
+    assertEqual(82, _mockWebRequestor.postRequest.artistId);
   }
 
   Future<void> updateArtistForTrackLogsErrors() async {
@@ -82,7 +83,8 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
 }
 
 class MockWebRequestor extends IWebRequestor {
-  String postValue = '';
+  String postUrl = '';
+  dynamic postRequest = '';
   String postResponse = 'all ok';
 
   @override
@@ -164,8 +166,9 @@ class MockWebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<String> post(String url) async {
-    postValue = url;
+  Future<String> post(String url, dynamic request) async {
+    postUrl = url;
+    postRequest = request;
     return postResponse;
   }
 }

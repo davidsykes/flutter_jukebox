@@ -64,7 +64,10 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> postPostsAndReturnsResponse() async {
-    var response = await _webAccess.post('url');
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+
+    var request = 'Request';
+    var response = await _requestor.post('url', request);
 
     assertEqual('expected', response);
   }
@@ -84,6 +87,7 @@ class WebRequestorTests extends TestModule {
 
 class MockWebAccess extends IWebAccess {
   String response = '';
+  String expectedBody = 'body';
 
   @override
   Future<String> getTextWebData(String url) {
@@ -91,10 +95,10 @@ class MockWebAccess extends IWebAccess {
   }
 
   @override
-  Future<String> post(String url) {
-    if (url == 'url') {
+  Future<String> post(String url, String body) {
+    if (url == 'url' && body == expectedBody) {
       return Future<String>.value('expected');
     }
-    return Future<String>.value('invalid url');
+    return Future<String>.value('invalid url \'$url\' \'$body\'');
   }
 }

@@ -4,7 +4,7 @@ import '../programexception.dart';
 
 abstract class IWebAccess {
   Future<String> getTextWebData(String url);
-  Future<String> post(String url);
+  Future<String> post(String url, String body);
 }
 
 class WebAccess extends IWebAccess {
@@ -32,13 +32,12 @@ class WebAccess extends IWebAccess {
   }
 
   @override
-  Future<String> post(String url) async {
-    var result = await http.post(
-      Uri.parse(makeUrl(url)),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
+  Future<String> post(String url, String body) async {
+    var result = await http.post(Uri.parse(makeUrl(url)),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
 
     var code = result.statusCode;
     var resultBody = result.body;
