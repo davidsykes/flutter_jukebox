@@ -17,7 +17,7 @@ class WebRequestor extends IWebRequestor {
   @override
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise) async {
-    var requestJson = await _webAccess.getTextWebData(url);
+    var requestJson = await _webAccess.get(url);
     var request = jsonDecode(requestJson);
 
     var error = request['error'];

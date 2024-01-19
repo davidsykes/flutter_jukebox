@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import 'package:flutter_jukebox/potentiallibrary/programexception.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
 import '../../tools/search/trackmatcher.dart';
 import '../../tools/search/trackmatchparameters.dart';
@@ -9,6 +10,7 @@ import 'trackeditor.dart';
 
 class SearchScreenData {
   late IListOfTracksForMatching _matcher;
+  String? errorMessage;
   SearchScreenData(List<TrackInformation> tracks) {
     _matcher = ListOfTracksForMatching(tracks, TrackMatcher());
   }
@@ -43,9 +45,19 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<SearchScreenData> getSearchScreenInformation() async {
-    var searchData = widget.serviceController.getAllTracks();
-    var searchScreen = SearchScreenData(await searchData);
-    return searchScreen;
+    try {
+      var searchData = widget.serviceController.getAllTracks();
+      var searchScreen = SearchScreenData(await searchData);
+      return searchScreen;
+    } catch (e) {
+      var sd = SearchScreenData(List.empty());
+      if (e is ProgramException) {
+        sd.errorMessage = e.cause;
+      } else {
+        sd.errorMessage = e.toString();
+      }
+      return sd;
+    }
   }
 
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
@@ -54,6 +66,9 @@ class _SearchPageState extends State<SearchPage> {
     }
 
     var rows = List<Widget>.empty(growable: true);
+    if (searchScreenInformation.errorMessage != null) {
+      rows.add(Text(searchScreenInformation.errorMessage!));
+    }
     rows.add(makeSearchBar());
 
     rows.add(Expanded(

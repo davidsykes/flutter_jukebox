@@ -90,7 +90,7 @@ class MockWebAccess extends IWebAccess {
   String expectedBody = 'body';
 
   @override
-  Future<String> getTextWebData(String url) {
+  Future<String> get(String url) {
     return Future<String>.value(response);
   }
 

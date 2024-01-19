@@ -19,7 +19,7 @@ createFutureBuilder<T extends Object>(
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16),
-            child: Text('Error: ${snapshot.error}'),
+            child: Text('Future Loading Error: ${snapshot.error}'),
           ),
         ];
       } else {

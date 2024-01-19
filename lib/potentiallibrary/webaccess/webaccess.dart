@@ -4,7 +4,7 @@ import '../programexception.dart';
 import '../utilities/ilogger.dart';
 
 abstract class IWebAccess {
-  Future<String> getTextWebData(String url);
+  Future<String> get(String url);
   Future<String> post(String url, String body);
 }
 
@@ -19,7 +19,7 @@ class WebAccess extends IWebAccess {
   }
 
   @override
-  Future<String> getTextWebData(String url) async {
+  Future<String> get(String url) async {
     try {
       Logger().log('getTextWebData $url');
       final fullurl = makeUrl(url);
@@ -27,7 +27,9 @@ class WebAccess extends IWebAccess {
       final httpPackageInfo = await http.read(httpPackageUrl);
       return httpPackageInfo;
     } on Exception catch (ex) {
-      throw ProgramException('$ex.message $url');
+      var m = ex.toString();
+      _logger.log('WebAccess get exception $m');
+      throw ProgramException('WebAccess get exception $m');
     }
   }
 

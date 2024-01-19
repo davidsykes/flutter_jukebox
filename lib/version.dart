@@ -33,6 +33,12 @@ class Version {
       mp3PlayerIpAddress: '192.168.1.126:5001',
       selectedTabOnStartUp: 4,
       testAllTracks: false);
+  var versionLocal = VersionDetails(
+      name: 'local',
+      jbdbApiIpAddress: 'localhost:5003',
+      mp3PlayerIpAddress: 'localhost:5001',
+      selectedTabOnStartUp: 4,
+      testAllTracks: false);
 
   late VersionDetails version;
 
@@ -40,7 +46,7 @@ class Version {
   static Version? _instance;
   factory Version() => _instance ??= Version._();
   Version._() {
-    version = version83;
+    version = versionLocal;
   }
 
   String mainTitle() => 'Lynda\'s Super Jukebox (${version.name})';
