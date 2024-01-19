@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import '../../tools/logger.dart';
 import '../programexception.dart';
+import '../utilities/ilogger.dart';
 
 abstract class IWebAccess {
   Future<String> getTextWebData(String url);
@@ -8,11 +9,10 @@ abstract class IWebAccess {
 }
 
 class WebAccess extends IWebAccess {
-  late String ipAddress;
+  final String ipAddress;
+  final ILogger _logger;
 
-  WebAccess(String ip) {
-    ipAddress = ip;
-  }
+  WebAccess(this.ipAddress, this._logger);
 
   String makeUrl(String u) {
     return 'http://$ipAddress/$u';
@@ -39,9 +39,11 @@ class WebAccess extends IWebAccess {
         },
         body: body);
 
-    var code = result.statusCode;
-    var resultBody = result.body;
-    return '$code : $resultBody';
+    if (result.statusCode == 200) {
+      return 'Ok';
+    }
+    _logger.log('Post Error ${result.statusCode}: ${result.body}');
+    return 'Fail';
   }
 
   Future<String> put(String url, String? putBody) async {

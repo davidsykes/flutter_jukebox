@@ -11,13 +11,13 @@ class Dependencies {
   static Dependencies? _instance;
   factory Dependencies() => _instance ??= Dependencies._();
   Dependencies._() {
-    var mp3WebAccess = WebAccess(Version().version.mp3PlayerIpAddress);
-    var jbdbWebAccess = WebAccess(Version().version.jbdbApiIpAddress);
+    var logger = Logger();
+    var mp3WebAccess = WebAccess(Version().version.mp3PlayerIpAddress, logger);
+    var jbdbWebAccess = WebAccess(Version().version.jbdbApiIpAddress, logger);
     var mp3WebRequestor = WebRequestor(mp3WebAccess);
     mp3PlayerAccess = MP3PlayerAccess(
         mp3WebRequestor, Version().version.currentlyPlayingTrackId);
     var jbdbWebRequestor = WebRequestor(jbdbWebAccess);
-    var logger = Logger();
     jukeboxDatabaseApiAccess =
         JukeboxDatabaseApiAccess(jbdbWebRequestor, logger);
     serviceController =

@@ -85,7 +85,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
 class MockWebRequestor extends IWebRequestor {
   String postUrl = '';
   dynamic postRequest = '';
-  String postResponse = 'all ok';
+  String postResponse = 'Ok';
 
   @override
   Future<T> get<T>(

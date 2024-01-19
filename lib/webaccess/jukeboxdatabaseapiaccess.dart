@@ -113,7 +113,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
     var url = 'updateartistfortrack';
     var request = UpdateArtistForTrackRequest(trackId, artistId);
     var response = await _webRequestor.post(url, request);
-    if (response != 'all ok') {
+    if (response != 'Ok') {
       _logger.log('Error updating artist for track: $response');
       return false;
     }
