@@ -68,15 +68,16 @@ class _SearchPageState extends State<SearchPage> {
     var rows = List<Widget>.empty(growable: true);
     if (searchScreenInformation.errorMessage != null) {
       rows.add(Text(searchScreenInformation.errorMessage!));
-    }
-    rows.add(makeSearchBar());
+    } else {
+      rows.add(makeSearchBar());
 
-    rows.add(Expanded(
-        child: ListView(
-      children: getMatchingTracks(searchScreenInformation)
-          .map((track) => trackToText(track))
-          .toList(),
-    )));
+      rows.add(Expanded(
+          child: ListView(
+        children: getMatchingTracks(searchScreenInformation)
+            .map((track) => trackToText(track))
+            .toList(),
+      )));
+    }
 
     return Column(
       children: rows,

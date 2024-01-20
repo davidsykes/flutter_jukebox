@@ -39,6 +39,12 @@ class Version {
       mp3PlayerIpAddress: 'localhost:5001',
       selectedTabOnStartUp: 4,
       testAllTracks: false);
+  var versionDockerLocal = VersionDetails(
+      name: 'host.docker.internal',
+      jbdbApiIpAddress: 'host.docker.internal:5003',
+      mp3PlayerIpAddress: 'host.docker.internal:5001',
+      selectedTabOnStartUp: 4,
+      testAllTracks: false);
 
   late VersionDetails version;
 
@@ -46,7 +52,7 @@ class Version {
   static Version? _instance;
   factory Version() => _instance ??= Version._();
   Version._() {
-    version = versionLocal;
+    version = versionDockerLocal;
   }
 
   String mainTitle() => 'Lynda\'s Super Jukebox (${version.name})';

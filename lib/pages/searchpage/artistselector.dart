@@ -61,6 +61,9 @@ class _ArtistSelectorState extends State<ArtistSelector> {
             ),
             onPressed: isSubmitEnabled()
                 ? () async {
+                    setState(() {
+                      submitResponse = 'Processing...';
+                    });
                     var result = await widget.artistSelectionHandler
                         .action(selectedArtist!);
                     setState(() {

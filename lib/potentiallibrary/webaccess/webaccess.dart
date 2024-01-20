@@ -21,8 +21,8 @@ class WebAccess extends IWebAccess {
   @override
   Future<String> get(String url) async {
     try {
-      Logger().log('getTextWebData $url');
       final fullurl = makeUrl(url);
+      Logger().log('get $fullurl');
       final httpPackageUrl = Uri.parse(fullurl);
       final httpPackageInfo = await http.read(httpPackageUrl);
       return httpPackageInfo;
@@ -35,11 +35,14 @@ class WebAccess extends IWebAccess {
 
   @override
   Future<String> post(String url, String body) async {
-    var result = await http.post(Uri.parse(makeUrl(url)),
+    final fullurl = makeUrl(url);
+    Logger().log('get $fullurl');
+    var result = await http.post(Uri.parse(fullurl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
+    Logger().log('post returned ${result.statusCode}: ${result.body}');
 
     if (result.statusCode == 200) {
       return 'Ok';
