@@ -1,0 +1,36 @@
+When running on the PC the flutter application successfully made GET operations.
+When running through a browser like firefox, however, the GET failed with
+'CORS Missing Allow Origin'
+
+Using curl to perform the GET resulted in the Headers
+
+< HTTP/1.1 200 OK
+< Content-Type: text/plain; charset=utf-8
+< Date: Mon, 22 Jan 2024 07:48:27 GMT
+< Server: Kestrel
+< Transfer-Encoding: chunked
+
+Adding the following code
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+    context.Response.Headers.Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+    context.Response.Headers.Add("Access-Control-Allow-Headers", "content-type");
+    await next.Invoke();
+});
+
+Now the GET returned these headers
+
+< HTTP/1.1 200 OK
+< Content-Type: text/plain; charset=utf-8
+< Date: Mon, 22 Jan 2024 07:49:18 GMT
+< Server: Kestrel
+< Access-Control-Allow-Credentials: true
+< Access-Control-Allow-Headers: content-type
+< Access-Control-Allow-Methods: POST, GET, OPTIONS
+< Access-Control-Allow-Origin: *
+< Transfer-Encoding: chunked
+
+and now the GET succeeded

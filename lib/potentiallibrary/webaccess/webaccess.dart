@@ -36,7 +36,7 @@ class WebAccess extends IWebAccess {
   @override
   Future<String> post(String url, String body) async {
     final fullurl = makeUrl(url);
-    Logger().log('get $fullurl');
+    Logger().log('post $fullurl');
     var result = await http.post(Uri.parse(fullurl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -47,7 +47,7 @@ class WebAccess extends IWebAccess {
     if (result.statusCode == 200) {
       return 'Ok';
     }
-    _logger.log('Post Error ${result.statusCode}: ${result.body}');
+    _logger.log('Post Error ${result.statusCode}: ${result.reasonPhrase}');
     return 'Fail';
   }
 
