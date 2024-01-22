@@ -47,13 +47,16 @@ class Version {
       testAllTracks: false);
 
   late VersionDetails version;
+  String extraText = '';
 
   //One instance, needs factory
   static Version? _instance;
   factory Version() => _instance ??= Version._();
-  Version._() {
-    version = versionDockerLocal;
-  }
 
-  String mainTitle() => 'Lynda\'s Super Jukebox (${version.name})';
+  String mainTitle() => 'Lynda\'s Super Jukebox (${version.name}) $extraText';
+
+  Version._() {
+    version = version126;
+    extraText = '705';
+  }
 }
