@@ -56,7 +56,7 @@ class Version {
   String mainTitle() => 'Lynda\'s Super Jukebox (${version.name}) $extraText';
 
   Version._() {
-    version = productionVersion;
+    version = version126;
     extraText = '624';
   }
 }
