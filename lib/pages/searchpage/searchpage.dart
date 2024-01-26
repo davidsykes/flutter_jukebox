@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/programexception.dart';
+import '../../potentiallibrary/utilities/actionbutton.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
 import '../../tools/search/trackmatcher.dart';
 import '../../tools/search/trackmatchparameters.dart';
@@ -62,7 +63,9 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
     if (_itemToEdit != null) {
-      return TrackEditorPage(widget.serviceController, _itemToEdit!);
+      var actionButton = ActionButton(clearItemToEdit);
+      return TrackEditorPage(
+          widget.serviceController, _itemToEdit!, actionButton);
     }
 
     var rows = List<Widget>.empty(growable: true);
@@ -82,6 +85,12 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       children: rows,
     );
+  }
+
+  void clearItemToEdit() {
+    setState(() {
+      _itemToEdit = null;
+    });
   }
 
   List<TrackInformation> getMatchingTracks(

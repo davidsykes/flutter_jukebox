@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import 'package:flutter_jukebox/potentiallibrary/utilities/actionbutton.dart';
 import '../../actions/updateartistfortrackaction.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
 import '../../webaccess/servicecontroller.dart';
@@ -15,7 +16,10 @@ class TrackEditorPageData {
 class TrackEditorPage extends StatefulWidget {
   final IServiceController serviceController;
   final TrackInformation track;
-  const TrackEditorPage(this.serviceController, this.track, {super.key});
+  final ActionButton returnToSearchPageActionButton;
+  const TrackEditorPage(
+      this.serviceController, this.track, this.returnToSearchPageActionButton,
+      {super.key});
 
   @override
   State<TrackEditorPage> createState() => _TrackEditorPageState();
@@ -49,13 +53,17 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
       ),
-      onPressed: null,
-      child: const Text('Reset'),
+      onPressed: goBackToSearchPage,
+      child: const Text('Back'),
     ));
 
     return Column(
       children: rows,
     );
+  }
+
+  void goBackToSearchPage() {
+    widget.returnToSearchPageActionButton.toggle();
   }
 
   Widget makeArtistRow(

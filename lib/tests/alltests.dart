@@ -2,6 +2,7 @@ import '../potentiallibrary/testframework/testrunner.dart';
 import '../potentiallibrary/testframework/testresults.dart';
 import 'actions/updateartistfortrackactiontests.dart';
 import 'potentiallibrary/testframework/teststacktracehandlertests.dart';
+import 'potentiallibrary/utilities/actionbuttontests.dart';
 import 'potentiallibrary/utilities/actionhandlertests.dart';
 import 'potentiallibrary/webaccess/webrequestortests.dart';
 import 'tools/trackmatchertests.dart';
@@ -27,6 +28,7 @@ class AllTests {
     runner.addTests(TrackMatcherTests());
     runner.addTests(UpdateArtistForTrackActionTests());
     runner.addTests(UpdateArtistForTrackRequestTests());
+    runner.addTests(ActionButtonTests());
 
     var results = await runner.runTests();
 
