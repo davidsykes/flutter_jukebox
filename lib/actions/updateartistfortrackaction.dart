@@ -1,8 +1,8 @@
 import 'package:flutter_jukebox/potentiallibrary/utilities/actionhandler.dart';
-import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
+import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 
 class UpdateArtistForTrackAction extends ActionHandler {
-  final IServiceController _serviceController;
+  final IMicroServiceController _serviceController;
   final int _trackId;
   UpdateArtistForTrackAction(this._serviceController, this._trackId);
 

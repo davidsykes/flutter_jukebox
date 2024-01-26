@@ -1,6 +1,6 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import 'package:flutter_jukebox/tools/logger.dart';
-import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
+import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import 'potentiallibrary/webaccess/webaccess.dart';
 import 'version.dart';
 import 'webaccess/jukeboxdatabaseapiaccess.dart';
@@ -21,10 +21,10 @@ class Dependencies {
     jukeboxDatabaseApiAccess =
         JukeboxDatabaseApiAccess(jbdbWebRequestor, logger);
     serviceController =
-        ServiceController(jukeboxDatabaseApiAccess, mp3PlayerAccess);
+        MicroServiceController(jukeboxDatabaseApiAccess, mp3PlayerAccess);
   }
 
   late IMP3PlayerAccess mp3PlayerAccess;
   late IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
-  late IServiceController serviceController;
+  late IMicroServiceController serviceController;
 }

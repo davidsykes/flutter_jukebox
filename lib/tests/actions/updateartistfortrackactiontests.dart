@@ -1,11 +1,11 @@
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
 import '../../actions/updateartistfortrackaction.dart';
-import '../mocks/mockservicecontroller.dart';
+import '../mocks/mockmicroservicecontroller.dart';
 
 class UpdateArtistForTrackActionTests extends TestModule {
   late UpdateArtistForTrackAction _action;
-  late MockServiceController _mockServiceController;
+  late MockMicroServiceController _mockMicroServiceController;
   int _updatedTrack = 0;
   int _updatedArtist = 0;
 
@@ -27,8 +27,8 @@ class UpdateArtistForTrackActionTests extends TestModule {
 
   @override
   void setUpMocks() {
-    _mockServiceController = MockServiceController();
-    _mockServiceController.mockUpdateArtistForTrack = updateArtist;
+    _mockMicroServiceController = MockMicroServiceController();
+    _mockMicroServiceController.mockUpdateArtistForTrack = updateArtist;
   }
 
   Future<bool> updateArtist(int trackId, int artistId) async {
@@ -39,6 +39,6 @@ class UpdateArtistForTrackActionTests extends TestModule {
 
   @override
   void setUpObjectUnderTest() {
-    _action = UpdateArtistForTrackAction(_mockServiceController, 86);
+    _action = UpdateArtistForTrackAction(_mockMicroServiceController, 86);
   }
 }

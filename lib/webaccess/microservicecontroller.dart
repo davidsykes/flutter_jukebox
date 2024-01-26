@@ -6,7 +6,7 @@ import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
 
-abstract class IServiceController {
+abstract class IMicroServiceController {
   Future<TrackInformation?> getCurrentTrackInformation();
   Future<List<JukeboxCollection>> getJukeboxCollections();
   Future<List<TrackInformation>> getAllTracks();
@@ -14,13 +14,13 @@ abstract class IServiceController {
   Future<bool> updateArtistForTrack(int trackId, int artistId);
 }
 
-class ServiceController extends IServiceController {
+class MicroServiceController extends IMicroServiceController {
   final IJukeboxDatabaseApiAccess _dbAccess;
   final IMP3PlayerAccess _mp3PlayerAccess;
   late CachedValue<List<TrackInformation>> _allTracks;
   late CachedValue<List<ArtistInformation>> _allArtists;
 
-  ServiceController(this._dbAccess, this._mp3PlayerAccess) {
+  MicroServiceController(this._dbAccess, this._mp3PlayerAccess) {
     _allTracks = CachedValue<List<TrackInformation>>(fetchAllTracks);
     _allArtists = CachedValue<List<ArtistInformation>>(fetchAllArtists);
   }

@@ -6,7 +6,7 @@ import '../../potentiallibrary/widgets/futurebuilder.dart';
 import '../../tools/search/trackmatcher.dart';
 import '../../tools/search/trackmatchparameters.dart';
 import '../../tools/search/listoftracksformatching.dart';
-import '../../webaccess/servicecontroller.dart';
+import '../../webaccess/microservicecontroller.dart';
 import 'trackeditor.dart';
 
 class SearchScreenData {
@@ -26,7 +26,7 @@ class SearchScreenData {
 }
 
 class SearchPage extends StatefulWidget {
-  final IServiceController serviceController;
+  final IMicroServiceController serviceController;
   const SearchPage(this.serviceController, {super.key});
 
   @override

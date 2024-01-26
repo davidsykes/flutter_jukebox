@@ -5,10 +5,10 @@ import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
-import '../../webaccess/servicecontroller.dart';
+import '../../webaccess/microservicecontroller.dart';
 
 class ServiceControllerTests extends TestModule {
-  late IServiceController _controller;
+  late IMicroServiceController _controller;
 
   late MockDbAccess _mockDbAccess;
   late MockPlayerAccess _mockPlayerAccess;
@@ -99,7 +99,7 @@ class ServiceControllerTests extends TestModule {
 
   @override
   void setUpObjectUnderTest() {
-    _controller = ServiceController(_mockDbAccess, _mockPlayerAccess);
+    _controller = MicroServiceController(_mockDbAccess, _mockPlayerAccess);
   }
 }
 

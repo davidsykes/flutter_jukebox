@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/pages/homepage/homepage.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
-import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
+import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import 'dependencies.dart';
 import 'pages/logspage/logspage.dart';
 import 'pages/searchpage/searchpage.dart';
@@ -49,7 +49,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
-  final IServiceController serviceController;
+  final IMicroServiceController serviceController;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();

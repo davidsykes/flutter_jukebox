@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
+import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import '../../dataobjects/homescreendata.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/programexception.dart';
@@ -13,7 +13,7 @@ import 'jukeboxcollectionselectorwidget.dart';
 class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
-  final IServiceController serviceController;
+  final IMicroServiceController serviceController;
   const HomePage(this.mp3PlayerAccess, this.jukeboxDatabaseApiAccess,
       this.serviceController,
       {super.key});

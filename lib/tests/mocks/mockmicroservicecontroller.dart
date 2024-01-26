@@ -1,9 +1,9 @@
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
-import 'package:flutter_jukebox/webaccess/servicecontroller.dart';
+import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 
-class MockServiceController extends IServiceController {
+class MockMicroServiceController extends IMicroServiceController {
   Future<bool> Function(int trackId, int artistId)? mockUpdateArtistForTrack;
 
   @override

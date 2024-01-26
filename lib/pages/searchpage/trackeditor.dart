@@ -4,7 +4,7 @@ import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/actionbutton.dart';
 import '../../actions/updateartistfortrackaction.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
-import '../../webaccess/servicecontroller.dart';
+import '../../webaccess/microservicecontroller.dart';
 import 'artistselector.dart';
 
 class TrackEditorPageData {
@@ -14,7 +14,7 @@ class TrackEditorPageData {
 }
 
 class TrackEditorPage extends StatefulWidget {
-  final IServiceController serviceController;
+  final IMicroServiceController serviceController;
   final TrackInformation track;
   final ActionButton returnToSearchPageActionButton;
   const TrackEditorPage(
