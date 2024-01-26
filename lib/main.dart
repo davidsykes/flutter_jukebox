@@ -119,15 +119,15 @@ class _MyHomePageState extends State<MyHomePage> {
               extended: true,
               destinations: const [
                 NavigationRailDestination(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.library_music),
                   label: Text('Home 23'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('Track Search'),
+                  icon: Icon(Icons.find_in_page),
+                  label: Text('T Search'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
+                  icon: Icon(Icons.history),
                   label: Text('Logs'),
                 ),
                 NavigationRailDestination(
@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: Text('TO DO'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
+                  icon: Icon(Icons.question_mark),
                   label: Text('Tests'),
                 ),
               ],
