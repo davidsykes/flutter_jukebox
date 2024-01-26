@@ -37,18 +37,24 @@ class WebAccess extends IWebAccess {
   Future<String> post(String url, String body) async {
     final fullurl = makeUrl(url);
     Logger().log('post $fullurl');
-    var result = await http.post(Uri.parse(fullurl),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: body);
-    Logger().log('post returned ${result.statusCode}: ${result.body}');
+    try {
+      var result = await http.post(Uri.parse(fullurl),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      Logger().log('post returned ${result.statusCode}: ${result.body}');
 
-    if (result.statusCode == 200) {
-      return 'Ok';
+      if (result.statusCode == 200) {
+        return 'Ok';
+      }
+      _logger.log('Post Error ${result.statusCode}: ${result.reasonPhrase}');
+      return 'Fail';
+    } on Exception catch (ex) {
+      var m = ex.toString();
+      _logger.log('WebAccess post exception $m');
+      throw ProgramException('WebAccess post exception $m');
     }
-    _logger.log('Post Error ${result.statusCode}: ${result.reasonPhrase}');
-    return 'Fail';
   }
 
   Future<String> put(String url, String? putBody) async {
