@@ -4,6 +4,7 @@ import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/actionbutton.dart';
 import '../../actions/updateartistfortrackaction.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
+import '../../tools/mp3trackplayerwidget.dart';
 import '../../webaccess/microservicecontroller.dart';
 import 'artistselector.dart';
 
@@ -14,11 +15,11 @@ class TrackEditorPageData {
 }
 
 class TrackEditorPage extends StatefulWidget {
-  final IMicroServiceController serviceController;
+  final IMicroServiceController microServiceController;
   final TrackInformation track;
   final ActionButton returnToSearchPageActionButton;
-  const TrackEditorPage(
-      this.serviceController, this.track, this.returnToSearchPageActionButton,
+  const TrackEditorPage(this.microServiceController, this.track,
+      this.returnToSearchPageActionButton,
       {super.key});
 
   @override
@@ -33,7 +34,7 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
   }
 
   Future<TrackEditorPageData> getSearchScreenInformation() async {
-    var artists = widget.serviceController.getAllArtists();
+    var artists = widget.microServiceController.getAllArtists();
     var data = TrackEditorPageData(await artists, widget.track);
     return data;
   }
@@ -47,6 +48,8 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
     var rows = List<Widget>.empty(growable: true);
 
     rows.add(Text(track.trackName));
+    rows.add(Mp3TrackPlayerWidget(
+        track.gatJukeboxTrackPathAndFileName(), widget.microServiceController));
 
     rows.add(makeArtistRow(track, artists));
     rows.add(TextButton(
@@ -82,7 +85,7 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
         child: ArtistSelector(
             artists,
             UpdateArtistForTrackAction(
-                widget.serviceController, track.trackId)),
+                widget.microServiceController, track.trackId)),
       ),
     ]);
   }

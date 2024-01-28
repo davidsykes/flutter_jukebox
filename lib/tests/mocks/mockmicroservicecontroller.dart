@@ -2,6 +2,7 @@ import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
+import '../../dataobjects/jukeboxtrackpathandsilename.dart';
 
 class MockMicroServiceController extends IMicroServiceController {
   Future<bool> Function(int trackId, int artistId)? mockUpdateArtistForTrack;
@@ -33,5 +34,10 @@ class MockMicroServiceController extends IMicroServiceController {
     } else {
       throw UnimplementedError();
     }
+  }
+
+  @override
+  Future<bool> playMp3(JukeboxTrackPathAndFileName track) {
+    throw UnimplementedError();
   }
 }

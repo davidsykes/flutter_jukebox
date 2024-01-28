@@ -12,6 +12,7 @@ abstract class IMicroServiceController {
   Future<List<TrackInformation>> getAllTracks();
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
+  void playMp3(int trackId);
 }
 
 class MicroServiceController extends IMicroServiceController {
@@ -60,5 +61,11 @@ class MicroServiceController extends IMicroServiceController {
   @override
   Future<bool> updateArtistForTrack(int trackId, int artistId) {
     return _dbAccess.updateArtistForTrack(trackId, artistId);
+  }
+
+  @override
+  void playMp3(int trackId) {
+    // TODO: implement playMp3
+    throw UnimplementedError();
   }
 }

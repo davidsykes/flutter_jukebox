@@ -1,3 +1,5 @@
+import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
+
 class TrackInformation {
   final int trackId;
   final String trackName;
@@ -28,5 +30,9 @@ class TrackInformation {
       'artistId': artistId,
       'artistName': artistName,
     };
+  }
+
+  JukeboxTrackPathAndFileName gatJukeboxTrackPathAndFileName() {
+    return JukeboxTrackPathAndFileName(trackId, albumPath, trackFileName);
   }
 }

@@ -40,7 +40,6 @@ class _ArtistSelectorState extends State<ArtistSelector> {
             },
             dropdownMenuEntries: dropMenus.toList(),
           ),
-          Text('($selectedArtist)'),
           const Text('Filter'),
           SizedBox(
             width: 100,
