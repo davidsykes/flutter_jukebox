@@ -1,5 +1,6 @@
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
+import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 import '../../dataobjects/trackinformation.dart';
@@ -148,5 +149,10 @@ class MockPlayerAccess extends IMP3PlayerAccess {
   @override
   Future<int> getCurrentTrackId() {
     return Future<int>.value(currentPlayingTrackId);
+  }
+
+  @override
+  Future<bool> playMp3(JukeboxTrackPathAndFileName track) {
+    throw UnimplementedError();
   }
 }

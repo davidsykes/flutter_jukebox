@@ -4,4 +4,12 @@ class JukeboxTrackPathAndFileName {
   final String trackFileName;
 
   JukeboxTrackPathAndFileName(this.trackId, this.trackPath, this.trackFileName);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'trackId': trackId,
+      'trackPath': trackPath,
+      'trackFileName': trackFileName,
+    };
+  }
 }

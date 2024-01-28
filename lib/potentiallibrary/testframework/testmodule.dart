@@ -15,13 +15,13 @@ abstract class TestModule {
 
   void assertTrue(bool value) {
     if (!value) {
-      throwAssert([]);
+      throwAssert(['Expected true']);
     }
   }
 
   void assertFalse(bool value) {
     if (value) {
-      throwAssert([]);
+      throwAssert(['expected false']);
     }
   }
 

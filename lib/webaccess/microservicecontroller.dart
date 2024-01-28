@@ -2,7 +2,7 @@ import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
-
+import '../dataobjects/jukeboxtrackpathandsilename.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
 
@@ -12,7 +12,7 @@ abstract class IMicroServiceController {
   Future<List<TrackInformation>> getAllTracks();
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
-  void playMp3(int trackId);
+  Future<bool> playMp3(JukeboxTrackPathAndFileName track);
 }
 
 class MicroServiceController extends IMicroServiceController {
@@ -64,8 +64,7 @@ class MicroServiceController extends IMicroServiceController {
   }
 
   @override
-  void playMp3(int trackId) {
-    // TODO: implement playMp3
-    throw UnimplementedError();
+  Future<bool> playMp3(JukeboxTrackPathAndFileName track) {
+    return _mp3PlayerAccess.playMp3(track);
   }
 }
