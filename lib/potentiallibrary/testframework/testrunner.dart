@@ -24,7 +24,8 @@ class TestRunner {
         await test
             .runTest()
             .then((_) => aTestHasPassed(testResults))
-            .catchError((error) => aTestHasFailed(test, testResults, error));
+            .catchError((error, stackTrace) =>
+                aTestHasFailed(test, testResults, error, stackTrace));
       } on TestAssertFailException catch (e) {
         var cause = e.testName;
         testResults.results.add('Fail: $cause');
@@ -51,13 +52,14 @@ class TestRunner {
     testResults.numberOfPassingTests++;
   }
 
-  aTestHasFailed(TestUnit test, TestResults testResults, dynamic error) {
+  aTestHasFailed(
+      TestUnit test, TestResults testResults, dynamic error, stackTrace) {
     testResults.numberOfTests++;
-    var testName = findTestName(error);
+    var testName = getTestNameFromAssertStackTrace(stackTrace.toString());
     testResults.results.add('------------ Failed: $testName --------------');
 
     if (error is TestAssertFailException) {
-      testResults.results.add(error.causes.join(' - '));
+      testResults.results.addAll(error.causes);
     } else if (error is JsonUnsupportedObjectError) {
       testResults.results.add(error.runtimeType.toString());
       testResults.results.add(error.cause.toString());
@@ -66,31 +68,5 @@ class TestRunner {
     } else {
       testResults.results.add(error.toString());
     }
-
-    if (error is Error) {
-      var ls = getMethodNameThatThrewTheException(error);
-      testResults.results.add(ls);
-    }
-  }
-
-  String getMethodNameThatThrewTheException(Error error) {
-    var st = error.stackTrace.toString();
-    var ls = const LineSplitter().convert(st)[0];
-    return ls;
-  }
-
-  String findTestName(dynamic error) {
-    if (error is Error) {
-      return findTestNameFromError(error);
-    } else if (error is TestAssertFailException) {
-      return error.testName;
-    } else {
-      return 'The Error Type ${error.runtimeType.toString()} has not been recognised';
-    }
-  }
-
-  String findTestNameFromError(Error error) {
-    var st = error.stackTrace.toString();
-    return getTestNameFromAssertStackTrace(st);
   }
 }

@@ -20,10 +20,17 @@ class Version {
       jbdbApiIpAddress: '192.168.1.125:5003',
       mp3PlayerIpAddress: '192.168.1.125:5001',
       selectedTabOnStartUp: 0);
-  var version83 = VersionDetails(
+  var versionLocalPcForDb = VersionDetails(
       name: '83 (local pc for db)',
       jbdbApiIpAddress: 'localhost:5051',
       mp3PlayerIpAddress: '192.168.1.126:5001',
+      selectedTabOnStartUp: 4,
+      currentlyPlayingTrackId: 999,
+      testAllTracks: false);
+  var versionLocalPcForMp3 = VersionDetails(
+      name: '83 (local pc for mp3)',
+      jbdbApiIpAddress: '192.168.1.126:5003',
+      mp3PlayerIpAddress: 'localhost:5197',
       selectedTabOnStartUp: 4,
       currentlyPlayingTrackId: 999,
       testAllTracks: false);
@@ -56,7 +63,7 @@ class Version {
   String mainTitle() => 'Lynda\'s Super Jukebox (${version.name}) $extraText';
 
   Version._() {
-    version = version126;
+    version = versionLocalPcForMp3;
     extraText = '624';
   }
 }

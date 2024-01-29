@@ -35,7 +35,7 @@ abstract class TestModule {
     var vj = json.encode(actual);
     var ej = json.encode(expected);
     if (vj != ej) {
-      throwAssert(['got $vj', 'Expected $ej']);
+      throwAssert(['Expected $ej', 'got $vj']);
     }
   }
 

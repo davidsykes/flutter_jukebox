@@ -166,10 +166,11 @@ class MockWebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<String> post(String url, dynamic request) async {
+  Future<T> postApiRequest<T>(String url, dynamic request,
+      T Function(Map<String, dynamic> data) deserialise) async {
     postUrl = url;
     postRequest = request;
-    return postResponse;
+    return deserialise(jsonDecode(postResponse));
   }
 }
 

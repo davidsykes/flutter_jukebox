@@ -5,7 +5,7 @@ import '../utilities/ilogger.dart';
 
 abstract class IWebAccess {
   Future<String> get(String url);
-  Future<String> post(String url, String body);
+  Future<String> postText(String url, String body);
 }
 
 class WebAccess extends IWebAccess {
@@ -34,7 +34,7 @@ class WebAccess extends IWebAccess {
   }
 
   @override
-  Future<String> post(String url, String body) async {
+  Future<String> postText(String url, String body) async {
     final fullurl = makeUrl(url);
     Logger().log('post $fullurl');
     try {
@@ -46,7 +46,7 @@ class WebAccess extends IWebAccess {
       Logger().log('post returned ${result.statusCode}: ${result.body}');
 
       if (result.statusCode == 200) {
-        return 'Ok';
+        return result.body;
       }
       _logger.log('Post Error ${result.statusCode}: ${result.reasonPhrase}');
       return 'Fail';

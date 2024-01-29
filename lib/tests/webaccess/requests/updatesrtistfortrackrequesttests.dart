@@ -2,7 +2,7 @@ import 'dart:convert';
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
 import '../../../potentiallibrary/webaccess/webapirequest.dart';
-import '../../../webaccess/requests/updatesrtistfortrackrequest.dart';
+import '../../../webaccess/requests/updatesrtistfortrack.dart';
 
 class UpdateArtistForTrackRequestTests extends TestModule {
   @override
