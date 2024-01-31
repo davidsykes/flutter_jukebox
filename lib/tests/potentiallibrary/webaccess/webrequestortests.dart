@@ -86,7 +86,7 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> postPostsAndReturnsResponse() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"\\"Request\\""}';
     _webAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
 
     var response = await _requestor.postApiRequest(
@@ -96,7 +96,7 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> postIfARequestReturnsAnErrorAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"\\"Request\\""}';
     _webAccess.response = makeUnsuccessfulResponse('Error Message');
 
     try {
@@ -112,7 +112,7 @@ class WebRequestorTests extends TestModule {
 
   Future<void>
       postIfARequestReturnsAMalformedResponseAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"\\"Request\\""}';
     _webAccess.response = makeUnsuccessfulResponse('":":":":"');
 
     try {
@@ -158,6 +158,6 @@ class MockWebAccess extends IWebAccess {
     if (url == 'url' && body == expectedBody) {
       return Future<String>.value(response);
     }
-    return Future<String>.value('invalid url \'$url\' \'$body\'');
+    throw ('invalid url \'$url\' \'$body\'');
   }
 }

@@ -1,17 +1,21 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_jukebox/dataobjects/currenttrack.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
+import '../../dataobjects/jukeboxtrackpathandsilename.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../webaccess/mp3playeraccess.dart';
 
 class MP3PlayerAccessTests extends TestModule {
   late IMP3PlayerAccess _access;
-  late IWebRequestor _mockMp3WebRequestor;
+  late MockMp3WebRequestor _mockMp3WebRequestor;
 
   @override
   Iterable<TestUnit> getTests() {
     return [
       createTest(theCurrentTrackCanBeRequested),
+      createTest(anMp3CanBePlayed),
     ];
   }
 
@@ -19,6 +23,20 @@ class MP3PlayerAccessTests extends TestModule {
     var trackId = await _access.getCurrentTrackId();
 
     assertEqual(5411, trackId);
+  }
+
+  Future<void> anMp3CanBePlayed() async {
+    var track =
+        JukeboxTrackPathAndFileName(123, 'track path', 'track file name');
+    _mockMp3WebRequestor.postResponse = jsonEncode(CurrentTrack(123));
+
+    await _access.playMp3(track);
+
+    //assertTrue(result);
+    assertEqual('playtracks', _mockMp3WebRequestor.postUrl);
+    assertEqual(
+        '{"trackId":123,"trackPath":"track path","trackFileName":"track file name"}',
+        _mockMp3WebRequestor.postRequest);
   }
 
   // Support Code
@@ -35,6 +53,10 @@ class MP3PlayerAccessTests extends TestModule {
 }
 
 class MockMp3WebRequestor extends IWebRequestor {
+  String postUrl = '';
+  String postRequest = '';
+  String postResponse = '';
+
   @override
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise) async {
@@ -49,7 +71,19 @@ class MockMp3WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<String> post(String url, dynamic request) {
-    throw UnimplementedError();
+  Future<TResponse> postApiRequest<TRequest, TResponse>(
+      String url,
+      TRequest request,
+      TResponse Function(Map<String, dynamic> data) deserialiseResponse) {
+    postUrl = url;
+    postRequest = jsonEncode(request);
+    return Future(
+        () => deserialiseResponse2(deserialiseResponse, postResponse));
+  }
+
+  TResponse deserialiseResponse2<TResponse>(
+      Function(Map<String, dynamic> data) deserialiseResponse, dynamic data) {
+    // TODO: remove this
+    return deserialiseResponse(jsonDecode(data));
   }
 }

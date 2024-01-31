@@ -11,12 +11,18 @@ class UpdateArtistForTrackRequest {
   }
 }
 
-class UpdateArtistForTrackResponse {
+class PlaceholderWebApiResponse {
   final int integer;
-  UpdateArtistForTrackResponse(this.integer);
+  PlaceholderWebApiResponse(this.integer);
 
-  factory UpdateArtistForTrackResponse.fromJson(Map<String, dynamic> data) {
+  Map<String, dynamic> toJson() {
+    return {
+      'integer': integer,
+    };
+  }
+
+  factory PlaceholderWebApiResponse.fromJson(Map<String, dynamic> data) {
     final integer = data['integer'];
-    return UpdateArtistForTrackResponse(integer);
+    return PlaceholderWebApiResponse(integer);
   }
 }

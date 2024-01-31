@@ -1,8 +1,10 @@
+import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../dataobjects/currenttrack.dart';
 
 abstract class IMP3PlayerAccess {
   Future<int> getCurrentTrackId();
+  Future<bool> playMp3(JukeboxTrackPathAndFileName track);
 }
 
 class MP3PlayerAccess extends IMP3PlayerAccess {
@@ -25,5 +27,15 @@ class MP3PlayerAccess extends IMP3PlayerAccess {
 
   CurrentTrack deserialiseCurrentTrack(Map<String, dynamic> data) {
     return CurrentTrack(data['currentTrackId']);
+  }
+
+  @override
+  Future<bool> playMp3(JukeboxTrackPathAndFileName track) async {
+    // TODO: implement playMp3
+
+    await _webRequestor.postApiRequest(
+        'playtracks', track, deserialiseCurrentTrack);
+
+    return true;
   }
 }

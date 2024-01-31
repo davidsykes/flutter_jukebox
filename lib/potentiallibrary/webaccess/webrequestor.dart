@@ -6,8 +6,10 @@ import 'webaccess.dart';
 abstract class IWebRequestor {
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise);
-  Future<T> postApiRequest<T>(String url, dynamic request,
-      T Function(Map<String, dynamic> data) deserialise);
+  Future<TResponse> postApiRequest<TRequest, TResponse>(
+      String url,
+      TRequest request,
+      TResponse Function(Map<String, dynamic> data) deserialiseResponse);
 }
 
 class WebRequestor extends IWebRequestor {
@@ -46,12 +48,15 @@ class WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<T> postApiRequest<T>(String url, dynamic request,
-      T Function(Map<String, dynamic> data) deserialise) async {
-    var api = WebApiRequest(request);
+  Future<TResponse> postApiRequest<TRequest, TResponse>(
+      String url,
+      TRequest request,
+      TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
+    var requestJson = jsonEncode(request);
+    var api = WebApiRequest(requestJson);
     var json = jsonEncode(api);
     var postResponse = await _webAccess.postText(url, json);
 
-    return decodeResponse(postResponse, deserialise);
+    return decodeResponse(postResponse, deserialiseResponse);
   }
 }

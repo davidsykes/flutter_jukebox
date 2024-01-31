@@ -4,7 +4,7 @@ import '../../dataobjects/trackinformation.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
 import '../potentiallibrary/utilities/ilogger.dart';
-import 'requests/updatesrtistfortrack.dart';
+import 'requests/updateartistfortrackrequest.dart';
 
 abstract class IJukeboxDatabaseApiAccess {
   Future<TrackInformation> getTrackInformation(int trackId);
@@ -113,8 +113,8 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
     var url = 'updateartistfortrack';
     var request = UpdateArtistForTrackRequest(trackId, artistId);
     var response = await _webRequestor.postApiRequest(
-        url, request, UpdateArtistForTrackResponse.fromJson);
-    if (response != 'Ok') {
+        url, request, PlaceholderWebApiResponse.fromJson);
+    if (true) {
       _logger.log('Error updating artist for track: $response');
       return false;
     }

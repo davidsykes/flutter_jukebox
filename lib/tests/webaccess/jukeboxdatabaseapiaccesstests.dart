@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
+import 'package:flutter_jukebox/webaccess/requests/updateartistfortrackrequest.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../potentiallibrary/utilities/ilogger.dart';
@@ -53,6 +54,9 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
   }
 
   Future<void> updateArtistForTrackPostsTheUpdate() async {
+    _mockWebRequestor.postResponse =
+        jsonEncode(PlaceholderWebApiResponse(5419));
+
     var result = await _access.updateArtistForTrack(17, 82);
 
     assertEqual(true, result);
@@ -85,7 +89,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
 class MockWebRequestor extends IWebRequestor {
   String postUrl = '';
   dynamic postRequest = '';
-  String postResponse = 'Ok';
+  String postResponse = '"Ok"';
 
   @override
   Future<T> get<T>(
@@ -166,11 +170,13 @@ class MockWebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<T> postApiRequest<T>(String url, dynamic request,
-      T Function(Map<String, dynamic> data) deserialise) async {
+  Future<TResponse> postApiRequest<TRequest, TResponse>(
+      String url,
+      TRequest request,
+      TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
     postUrl = url;
     postRequest = request;
-    return deserialise(jsonDecode(postResponse));
+    return deserialiseResponse(jsonDecode(postResponse));
   }
 }
 
