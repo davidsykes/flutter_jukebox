@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
-import 'package:flutter_jukebox/webaccess/requests/updateartistfortrackrequest.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../potentiallibrary/utilities/ilogger.dart';
+import '../../potentiallibrary/webaccess/webrequestorresponse.dart';
 import '../../webaccess/jukeboxdatabaseapiaccess.dart';
 
 class JukeboxDatabaseApiAccessTests extends TestModule {
@@ -54,9 +54,6 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
   }
 
   Future<void> updateArtistForTrackPostsTheUpdate() async {
-    _mockWebRequestor.postResponse =
-        jsonEncode(PlaceholderWebApiResponse(5419));
-
     var result = await _access.updateArtistForTrack(17, 82);
 
     assertEqual(true, result);
@@ -66,7 +63,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
   }
 
   Future<void> updateArtistForTrackLogsErrors() async {
-    _mockWebRequestor.postResponse = 'Oops';
+    _mockWebRequestor.postError = 'Oops';
     await _access.updateArtistForTrack(17, 82);
 
     assertEqual(['Error updating artist for track: Oops'], _mockLogger.logs);
@@ -89,7 +86,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
 class MockWebRequestor extends IWebRequestor {
   String postUrl = '';
   dynamic postRequest = '';
-  String postResponse = '"Ok"';
+  String? postError;
 
   @override
   Future<T> get<T>(
@@ -170,13 +167,19 @@ class MockWebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<TResponse> postApiRequest<TRequest, TResponse>(
+  Future<TResponse> postRequestResponse<TRequest, TResponse>(
       String url,
       TRequest request,
       TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+      String url, TRequest request) async {
     postUrl = url;
     postRequest = request;
-    return deserialiseResponse(jsonDecode(postResponse));
+    return WebRequesterResponse(postError);
   }
 }
 

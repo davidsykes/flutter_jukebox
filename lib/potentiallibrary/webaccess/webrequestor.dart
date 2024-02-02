@@ -2,14 +2,17 @@ import 'dart:convert';
 import 'package:flutter_jukebox/potentiallibrary/programexception.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webapirequest.dart';
 import 'webaccess.dart';
+import 'webrequestorresponse.dart';
 
 abstract class IWebRequestor {
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise);
-  Future<TResponse> postApiRequest<TRequest, TResponse>(
+  Future<TResponse> postRequestResponse<TRequest, TResponse>(
       String url,
       TRequest request,
       TResponse Function(Map<String, dynamic> data) deserialiseResponse);
+  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+      String url, TRequest request);
 }
 
 class WebRequestor extends IWebRequestor {
@@ -20,13 +23,49 @@ class WebRequestor extends IWebRequestor {
   @override
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise) async {
-    var requestJson = await _webAccess.get(url);
-
-    return decodeResponse(requestJson, deserialise);
+    var webApiResponse = await _webAccess.get(url);
+    var response = getResponseFromWebApiResponse(webApiResponse);
+    if (response == null) {
+      throw ProgramException('WebApi missing response.');
+    } else {
+      return deserialise(response);
+    }
   }
 
-  T decodeResponse<T>(
-      String responseJson, T Function(Map<String, dynamic> data) deserialise) {
+  @override
+  Future<TResponse> postRequestResponse<TRequest, TResponse>(
+      String url,
+      TRequest request,
+      TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
+    var postResponse = await getPostResponseFromPostRequest(url, request);
+    var response = getResponseFromWebApiResponse(postResponse);
+    if (response == null) {
+      throw ProgramException('WebApi missing response.');
+    } else {
+      return deserialiseResponse(response);
+    }
+  }
+
+  @override
+  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+      String url, TRequest request) async {
+    var postResponse = await getPostResponseFromPostRequest(url, request);
+    var response = decodeJson(postResponse);
+
+    var error = response['error'];
+    if (error != null) {
+      return WebRequesterResponse(error);
+    }
+    return WebRequesterResponse();
+  }
+
+  Future<String> getPostResponseFromPostRequest(String url, request) async {
+    var api = WebApiRequest(request);
+    var json = jsonEncode(api);
+    return _webAccess.postText(url, json);
+  }
+
+  Map<String, dynamic>? getResponseFromWebApiResponse(String responseJson) {
     var response = decodeJson(responseJson);
 
     var error = response['error'];
@@ -34,9 +73,7 @@ class WebRequestor extends IWebRequestor {
       throw ProgramException('WebRequest error: $error');
     }
 
-    var responseBody = deserialise(response['response']);
-
-    return responseBody;
+    return response['response'];
   }
 
   dynamic decodeJson(String json) {
@@ -45,18 +82,5 @@ class WebRequestor extends IWebRequestor {
     } on FormatException catch (e) {
       throw ProgramException('WebApi malformed response ${e.toString()}');
     }
-  }
-
-  @override
-  Future<TResponse> postApiRequest<TRequest, TResponse>(
-      String url,
-      TRequest request,
-      TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
-    var requestJson = jsonEncode(request);
-    var api = WebApiRequest(requestJson);
-    var json = jsonEncode(api);
-    var postResponse = await _webAccess.postText(url, json);
-
-    return decodeResponse(postResponse, deserialiseResponse);
   }
 }

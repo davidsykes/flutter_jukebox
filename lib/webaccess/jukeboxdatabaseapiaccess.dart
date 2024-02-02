@@ -112,12 +112,10 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
   Future<bool> updateArtistForTrack(int trackId, int artistId) async {
     var url = 'updateartistfortrack';
     var request = UpdateArtistForTrackRequest(trackId, artistId);
-    var response = await _webRequestor.postApiRequest(
-        url, request, PlaceholderWebApiResponse.fromJson);
-    if (true) {
-      _logger.log('Error updating artist for track: $response');
-      return false;
+    var result = await _webRequestor.postRequestOk(url, request);
+    if (!result.success) {
+      _logger.log('Error updating artist for track: ${result.error}');
     }
-    return true;
+    return result.success;
   }
 }

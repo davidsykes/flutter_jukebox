@@ -10,19 +10,3 @@ class UpdateArtistForTrackRequest {
     };
   }
 }
-
-class PlaceholderWebApiResponse {
-  final int integer;
-  PlaceholderWebApiResponse(this.integer);
-
-  Map<String, dynamic> toJson() {
-    return {
-      'integer': integer,
-    };
-  }
-
-  factory PlaceholderWebApiResponse.fromJson(Map<String, dynamic> data) {
-    final integer = data['integer'];
-    return PlaceholderWebApiResponse(integer);
-  }
-}

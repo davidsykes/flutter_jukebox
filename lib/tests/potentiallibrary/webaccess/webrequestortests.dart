@@ -23,14 +23,21 @@ class WebRequestorTests extends TestModule {
     return [
       createTest(getASimpleRequestCanBeMade),
       createTest(getIfARequestReturnsAnErrorAnExceptionIsThrown),
+      createTest(getIfARequestReturnsNoResponseAnExceptionIsThrown),
       createTest(getIfARequestReturnsAMalformedResponseAnExceptionIsThrown),
-      createTest(postPostsAndReturnsResponse),
-      createTest(postIfARequestReturnsAnErrorAnExceptionIsThrown),
-      createTest(postIfARequestReturnsAMalformedResponseAnExceptionIsThrown),
+      createTest(postRequestResponsePostsAndReturnsResponse),
+      createTest(ifPostRequestResponseReturnsAnErrorAnExceptionIsThrown),
+      createTest(ifPostRequestResponseReturnsNoResponseAnExceptionIsThrown),
+      createTest(
+          ifPostRequestResponseReturnsAMalformedResponseAnExceptionIsThrown),
+      createTest(postRequestOkPostsAndReturnsTrue),
+      createTest(ifPostRequestOkReturnsAResponseTrueIsReturned),
+      createTest(ifPostRequestOkReturnsAnErrorFalseAndTheErrorIsReturned),
+      createTest(ifPostRequestOkReturnsAMalformedResponseAnExceptionIsThrown),
     ];
   }
 
-  String makeSuccessfulResponse(String response) {
+  String makeSuccessfulResponse(String? response) {
     return '''{
   "responseType": "Response Type",
   "response": $response,
@@ -60,11 +67,23 @@ class WebRequestorTests extends TestModule {
     _webAccess.response = makeUnsuccessfulResponse('Error Message');
 
     try {
-      var result = await _requestor.get<SimpleClassForRetrieval>(
+      await _requestor.get<SimpleClassForRetrieval>(
           'url', deserialiseSimpleClassForRetrieval);
-      assertEqual(5411, result.integer);
     } on ProgramException catch (e) {
       assertEqual('WebRequest error: Error Message', e.cause);
+      return;
+    }
+    throwAssert(['Exception expected']);
+  }
+
+  Future<void> getIfARequestReturnsNoResponseAnExceptionIsThrown() async {
+    _webAccess.response = makeSuccessfulResponse(null);
+
+    try {
+      await _requestor.get<SimpleClassForRetrieval>(
+          'url', deserialiseSimpleClassForRetrieval);
+    } on ProgramException catch (e) {
+      assertEqual('WebApi missing response.', e.cause.substring(0, 24));
       return;
     }
     throwAssert(['Exception expected']);
@@ -75,9 +94,8 @@ class WebRequestorTests extends TestModule {
     _webAccess.response = makeUnsuccessfulResponse('":":":":"');
 
     try {
-      var result = await _requestor.get<SimpleClassForRetrieval>(
+      await _requestor.get<SimpleClassForRetrieval>(
           'url', deserialiseSimpleClassForRetrieval);
-      assertEqual(5411, result.integer);
     } on ProgramException catch (e) {
       assertEqual('WebApi malformed response', e.cause.substring(0, 25));
       return;
@@ -85,24 +103,23 @@ class WebRequestorTests extends TestModule {
     throwAssert(['Exception expected']);
   }
 
-  Future<void> postPostsAndReturnsResponse() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"\\"Request\\""}';
+  Future<void> postRequestResponsePostsAndReturnsResponse() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
     _webAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
 
-    var response = await _requestor.postApiRequest(
+    var response = await _requestor.postRequestResponse(
         'url', 'Request', SimpleClassForRetrieval.fromJson);
 
     assertEqual(5411, response.integer);
   }
 
-  Future<void> postIfARequestReturnsAnErrorAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"\\"Request\\""}';
+  Future<void> ifPostRequestResponseReturnsAnErrorAnExceptionIsThrown() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
     _webAccess.response = makeUnsuccessfulResponse('Error Message');
 
     try {
-      var result = await _requestor.postApiRequest(
+      await _requestor.postRequestResponse(
           'url', 'Request', SimpleClassForRetrieval.fromJson);
-      assertEqual(5411, result.integer);
     } on ProgramException catch (e) {
       assertEqual('WebRequest error: Error Message', e.cause);
       return;
@@ -111,14 +128,70 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void>
-      postIfARequestReturnsAMalformedResponseAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"\\"Request\\""}';
+      ifPostRequestResponseReturnsNoResponseAnExceptionIsThrown() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.response = makeSuccessfulResponse(null);
+
+    try {
+      await _requestor.postRequestResponse(
+          'url', 'Request', SimpleClassForRetrieval.fromJson);
+    } on ProgramException catch (e) {
+      assertEqual('WebApi missing response.', e.cause.substring(0, 24));
+      return;
+    }
+    throwAssert(['Exception expected']);
+  }
+
+  Future<void>
+      ifPostRequestResponseReturnsAMalformedResponseAnExceptionIsThrown() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
     _webAccess.response = makeUnsuccessfulResponse('":":":":"');
 
     try {
-      var result = await _requestor.postApiRequest(
+      await _requestor.postRequestResponse(
           'url', 'Request', SimpleClassForRetrieval.fromJson);
-      assertEqual(5411, result.integer);
+    } on ProgramException catch (e) {
+      assertEqual('WebApi malformed response', e.cause.substring(0, 25));
+      return;
+    }
+    throwAssert(['Exception expected']);
+  }
+
+  Future<void> postRequestOkPostsAndReturnsTrue() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.response = makeSuccessfulResponse(null);
+
+    var result = await _requestor.postRequestOk('url', 'Request');
+
+    assertTrue(result.success);
+  }
+
+  Future<void> ifPostRequestOkReturnsAResponseTrueIsReturned() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
+
+    var result = await _requestor.postRequestOk('url', 'Request');
+
+    assertTrue(result.success);
+  }
+
+  Future<void> ifPostRequestOkReturnsAnErrorFalseAndTheErrorIsReturned() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.response = makeUnsuccessfulResponse('Error Message');
+
+    var result = await _requestor.postRequestOk('url', 'Request');
+
+    assertFalse(result.success);
+    assertEqual('Error Message', result.error);
+  }
+
+  Future<void>
+      ifPostRequestOkReturnsAMalformedResponseAnExceptionIsThrown() async {
+    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _webAccess.response = makeUnsuccessfulResponse('":":":":"');
+
+    try {
+      await _requestor.postRequestOk('url', 'Request');
     } on ProgramException catch (e) {
       assertEqual('WebApi malformed response', e.cause.substring(0, 25));
       return;

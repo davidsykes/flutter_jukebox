@@ -5,6 +5,7 @@ import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../dataobjects/jukeboxtrackpathandsilename.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
+import '../../potentiallibrary/webaccess/webrequestorresponse.dart';
 import '../../webaccess/mp3playeraccess.dart';
 
 class MP3PlayerAccessTests extends TestModule {
@@ -71,19 +72,20 @@ class MockMp3WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<TResponse> postApiRequest<TRequest, TResponse>(
+  Future<TResponse> postRequestResponse<TRequest, TResponse>(
       String url,
       TRequest request,
       TResponse Function(Map<String, dynamic> data) deserialiseResponse) {
     postUrl = url;
     postRequest = jsonEncode(request);
-    return Future(
-        () => deserialiseResponse2(deserialiseResponse, postResponse));
+    return Future(() => deserialiseResponse(jsonDecode(postResponse)));
   }
 
-  TResponse deserialiseResponse2<TResponse>(
-      Function(Map<String, dynamic> data) deserialiseResponse, dynamic data) {
-    // TODO: remove this
-    return deserialiseResponse(jsonDecode(data));
+  @override
+  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+      String url, TRequest request) async {
+    postUrl = url;
+    postRequest = jsonEncode(request);
+    return WebRequesterResponse();
   }
 }

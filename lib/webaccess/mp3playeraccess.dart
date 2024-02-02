@@ -31,11 +31,7 @@ class MP3PlayerAccess extends IMP3PlayerAccess {
 
   @override
   Future<bool> playMp3(JukeboxTrackPathAndFileName track) async {
-    // TODO: implement playMp3
-
-    await _webRequestor.postApiRequest(
-        'playtracks', track, deserialiseCurrentTrack);
-
-    return true;
+    var result = await _webRequestor.postRequestOk('playtracks', track);
+    return result.success;
   }
 }
