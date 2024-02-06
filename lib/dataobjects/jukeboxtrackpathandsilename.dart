@@ -7,9 +7,9 @@ class JukeboxTrackPathAndFileName {
 
   Map<String, dynamic> toJson() {
     return {
-      'trackId': trackId,
-      'trackPath': trackPath,
-      'trackFileName': trackFileName,
+      'Identifier': trackId,
+      'TrackPath': trackPath,
+      'TrackFileName': trackFileName,
     };
   }
 }

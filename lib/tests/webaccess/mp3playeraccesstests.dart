@@ -36,7 +36,7 @@ class MP3PlayerAccessTests extends TestModule {
     //assertTrue(result);
     assertEqual('playtracks', _mockMp3WebRequestor.postUrl);
     assertEqual(
-        '{"trackId":123,"trackPath":"track path","trackFileName":"track file name"}',
+        '{"TracksToPlay":[{"Identifier":123,"TrackPath":"track path","TrackFileName":"track file name"}]}',
         _mockMp3WebRequestor.postRequest);
   }
 

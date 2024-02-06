@@ -1,6 +1,7 @@
 import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../dataobjects/currenttrack.dart';
+import 'requests/mp3playerplaytracksrequest.dart';
 
 abstract class IMP3PlayerAccess {
   Future<int> getCurrentTrackId();
@@ -31,7 +32,8 @@ class MP3PlayerAccess extends IMP3PlayerAccess {
 
   @override
   Future<bool> playMp3(JukeboxTrackPathAndFileName track) async {
-    var result = await _webRequestor.postRequestOk('playtracks', track);
+    var request = MP3PlayerPlayTracksRequest([track]);
+    var result = await _webRequestor.postRequestOk('playtracks', request);
     return result.success;
   }
 }

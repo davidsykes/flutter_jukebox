@@ -63,7 +63,7 @@ class Version {
   String mainTitle() => 'Lynda\'s Super Jukebox (${version.name}) $extraText';
 
   Version._() {
-    version = versionLocalPcForDb;
-    extraText = '624';
+    version = productionVersion;
+    extraText = '710';
   }
 }
