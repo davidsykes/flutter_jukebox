@@ -32,7 +32,7 @@ class TrackInformation {
     };
   }
 
-  JukeboxTrackPathAndFileName gatJukeboxTrackPathAndFileName() {
+  JukeboxTrackPathAndFileName getJukeboxTrackPathAndFileName() {
     return JukeboxTrackPathAndFileName(trackId, albumPath, trackFileName);
   }
 }

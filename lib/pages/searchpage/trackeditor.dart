@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jukebox/actions/playmp3action.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/actionbutton.dart';
 import '../../actions/updateartistfortrackaction.dart';
+import '../../potentiallibrary/widgets/elevatedbuttonactionwidget.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
-import '../../tools/mp3trackplayerwidget.dart';
 import '../../webaccess/microservicecontroller.dart';
 import 'artistselector.dart';
 
@@ -48,8 +49,10 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
     var rows = List<Widget>.empty(growable: true);
 
     rows.add(Text(track.trackName));
-    rows.add(Mp3TrackPlayerWidget(
-        track.gatJukeboxTrackPathAndFileName(), widget.microServiceController));
+
+    var playMp3Action = PlayMP3ActionAction(
+        widget.microServiceController, track.getJukeboxTrackPathAndFileName());
+    rows.add(ElevatedButtonActionWidget(playMp3Action));
 
     rows.add(makeArtistRow(track, artists));
     rows.add(TextButton(

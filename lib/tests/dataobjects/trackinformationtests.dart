@@ -14,7 +14,7 @@ class TrackInformationTests extends TestModule {
     var track = TrackInformation(1024, 'track name', 'track file name', 0,
         'albun name', 'album path', 0, 'artist');
 
-    var jtpafn = track.gatJukeboxTrackPathAndFileName();
+    var jtpafn = track.getJukeboxTrackPathAndFileName();
     assertEqual(1024, jtpafn.trackId);
     assertEqual('album path', jtpafn.trackPath);
     assertEqual('track file name', jtpafn.trackFileName);

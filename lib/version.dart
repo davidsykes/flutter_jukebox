@@ -40,18 +40,6 @@ class Version {
       mp3PlayerIpAddress: '192.168.1.126:5001',
       selectedTabOnStartUp: 4,
       testAllTracks: false);
-  var versionLocal = VersionDetails(
-      name: 'local',
-      jbdbApiIpAddress: 'localhost:5003',
-      mp3PlayerIpAddress: 'localhost:5001',
-      selectedTabOnStartUp: 4,
-      testAllTracks: false);
-  var versionDockerLocal = VersionDetails(
-      name: 'host.docker.internal',
-      jbdbApiIpAddress: 'host.docker.internal:5003',
-      mp3PlayerIpAddress: 'host.docker.internal:5001',
-      selectedTabOnStartUp: 4,
-      testAllTracks: false);
 
   late VersionDetails version;
   String extraText = '';
@@ -63,7 +51,7 @@ class Version {
   String mainTitle() => 'Lynda\'s Super Jukebox (${version.name}) $extraText';
 
   Version._() {
-    version = productionVersion;
-    extraText = '710';
+    version = version126;
+    extraText = '626';
   }
 }
