@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         title: Version().mainTitle(),
         mp3PlayerAccess: dependencies.mp3PlayerAccess,
         jukeboxDatabaseApiAccess: dependencies.jukeboxDatabaseApiAccess,
-        serviceController: dependencies.serviceController,
+        microServiceController: dependencies.microServiceController,
       ),
     );
   }
@@ -44,12 +44,12 @@ class MyHomePage extends StatefulWidget {
       required this.title,
       required this.mp3PlayerAccess,
       required this.jukeboxDatabaseApiAccess,
-      required this.serviceController});
+      required this.microServiceController});
 
   final String title;
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
-  final IMicroServiceController serviceController;
+  final IMicroServiceController microServiceController;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -78,10 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (selectedIndex) {
       case 0:
         page = HomePage(widget.mp3PlayerAccess, widget.jukeboxDatabaseApiAccess,
-            widget.serviceController);
+            widget.microServiceController);
         break;
       case 1:
-        page = SearchPage(widget.serviceController);
+        page = SearchPage(widget.microServiceController);
         break;
       case 2:
         page = const LogsPage();

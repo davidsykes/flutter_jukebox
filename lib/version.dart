@@ -52,6 +52,6 @@ class Version {
 
   Version._() {
     version = version126;
-    extraText = '626';
+    extraText = '648';
   }
 }

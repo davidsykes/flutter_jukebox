@@ -13,9 +13,9 @@ import 'jukeboxcollectionselectorwidget.dart';
 class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
-  final IMicroServiceController serviceController;
+  final IMicroServiceController microServiceController;
   const HomePage(this.mp3PlayerAccess, this.jukeboxDatabaseApiAccess,
-      this.serviceController,
+      this.microServiceController,
       {super.key});
 
   @override
@@ -32,9 +32,9 @@ class _HomePageState extends State<HomePage> {
   Future<HomeScreenData> getHomeScreenInformation() async {
     try {
       var currentTrackInformationFuture =
-          widget.serviceController.getCurrentTrackInformation();
+          widget.microServiceController.getCurrentTrackInformation();
       var jukeboxCollectionsFuture =
-          widget.serviceController.getJukeboxCollections();
+          widget.microServiceController.getJukeboxCollections();
 
       var homeScreen = HomeScreenData(
           await jukeboxCollectionsFuture, await currentTrackInformationFuture);
@@ -81,8 +81,8 @@ class _HomePageState extends State<HomePage> {
   Widget makeHomePage(HomeScreenData homeScreenInformation) {
     var rows = List<Widget>.empty(growable: true);
     rows.add(const Text(''));
-    rows.add(JukeboxCollectionSelectorWidget(
-        widget.serviceController, homeScreenInformation.jukeboxCollections));
+    rows.add(JukeboxCollectionSelectorWidget(widget.microServiceController,
+        homeScreenInformation.jukeboxCollections));
     rows.add(const Text(''));
     rows.add(CurrentlyPlayingWidget(homeScreenInformation.trackInformation));
 

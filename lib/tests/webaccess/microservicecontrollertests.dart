@@ -3,12 +3,13 @@ import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
+import 'package:flutter_jukebox/webaccess/trackcollectionplayer.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../webaccess/microservicecontroller.dart';
 
-class ServiceControllerTests extends TestModule {
+class MicroServiceControllerTests extends TestModule {
   late IMicroServiceController _controller;
 
   late MockDbAccess _mockDbAccess;
@@ -100,7 +101,8 @@ class ServiceControllerTests extends TestModule {
 
   @override
   void setUpObjectUnderTest() {
-    _controller = MicroServiceController(_mockDbAccess, _mockPlayerAccess);
+    _controller = MicroServiceController(
+        _mockDbAccess, _mockPlayerAccess, MockTrackCollectionPlayer());
   }
 }
 
@@ -153,6 +155,13 @@ class MockPlayerAccess extends IMP3PlayerAccess {
 
   @override
   Future<bool> playMp3(JukeboxTrackPathAndFileName track) {
+    throw UnimplementedError();
+  }
+}
+
+class MockTrackCollectionPlayer extends ITrackCollectionPlayer {
+  @override
+  Future<bool> playCollection(int collectionId) {
     throw UnimplementedError();
   }
 }

@@ -11,7 +11,8 @@ import 'tools/listoftracksformatchingtests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
 import 'webaccess/mp3playeraccesstests.dart';
 import 'webaccess/requests/updatesrtistfortrackrequesttests.dart';
-import 'webaccess/servicecontrollertests.dart';
+import 'webaccess/microservicecontrollertests.dart';
+import 'webaccess/trackcollectionplayertests.dart';
 
 class AllTests {
   String summary = 'not run';
@@ -23,8 +24,9 @@ class AllTests {
     runner.addTests(ActionHandlerTests());
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
+    runner.addTests(TrackCollectionPlayerTests());
     runner.addTests(JukeboxDatabaseApiAccessTests());
-    runner.addTests(ServiceControllerTests());
+    runner.addTests(MicroServiceControllerTests());
     runner.addTests(ListOfTracksForMatchingTests());
     runner.addTests(TrackMatcherTests());
     runner.addTests(UpdateArtistForTrackActionTests());

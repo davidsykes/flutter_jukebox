@@ -5,6 +5,7 @@ import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 import '../dataobjects/jukeboxtrackpathandsilename.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
+import 'trackcollectionplayer.dart';
 
 abstract class IMicroServiceController {
   Future<TrackInformation?> getCurrentTrackInformation();
@@ -19,11 +20,14 @@ abstract class IMicroServiceController {
 class MicroServiceController extends IMicroServiceController {
   final IJukeboxDatabaseApiAccess _dbAccess;
   final IMP3PlayerAccess _mp3PlayerAccess;
+  final ITrackCollectionPlayer _trackCollectionPlayer;
   late CachedValue<List<TrackInformation>> _allTracks;
   late CachedValue<List<ArtistInformation>> _allArtists;
 
-  MicroServiceController(this._dbAccess, this._mp3PlayerAccess) {
-    _allTracks = CachedValue<List<TrackInformation>>(fetchAllTracks);
+  MicroServiceController(
+      this._dbAccess, this._mp3PlayerAccess, this._trackCollectionPlayer) {
+    _allTracks =
+        CachedValue<List<TrackInformation>>(fetchAllTracksFromTheDatabase);
     _allArtists = CachedValue<List<ArtistInformation>>(fetchAllArtists);
   }
 
@@ -46,7 +50,7 @@ class MicroServiceController extends IMicroServiceController {
     return _allTracks.getData();
   }
 
-  Future<List<TrackInformation>> fetchAllTracks() {
+  Future<List<TrackInformation>> fetchAllTracksFromTheDatabase() {
     return _dbAccess.getAllTracks();
   }
 
@@ -70,8 +74,8 @@ class MicroServiceController extends IMicroServiceController {
   }
 
   @override
-  Future<bool> playCollection(int collectionId) {
-    // TODO: implement playCollection
-    throw UnimplementedError();
+  Future<bool> playCollection(int collectionId) async {
+    _trackCollectionPlayer.playCollection(collectionId);
+    return false;
   }
 }

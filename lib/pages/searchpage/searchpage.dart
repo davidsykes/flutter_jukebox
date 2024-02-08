@@ -26,8 +26,8 @@ class SearchScreenData {
 }
 
 class SearchPage extends StatefulWidget {
-  final IMicroServiceController serviceController;
-  const SearchPage(this.serviceController, {super.key});
+  final IMicroServiceController microServiceController;
+  const SearchPage(this.microServiceController, {super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -47,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<SearchScreenData> getSearchScreenInformation() async {
     try {
-      var searchData = widget.serviceController.getAllTracks();
+      var searchData = widget.microServiceController.getAllTracks();
       var searchScreen = SearchScreenData(await searchData);
       return searchScreen;
     } catch (e) {
@@ -65,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
     if (_itemToEdit != null) {
       var actionButton = ActionButton(clearItemToEdit);
       return TrackEditorPage(
-          widget.serviceController, _itemToEdit!, actionButton);
+          widget.microServiceController, _itemToEdit!, actionButton);
     }
 
     var rows = List<Widget>.empty(growable: true);

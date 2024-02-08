@@ -5,6 +5,7 @@ import 'potentiallibrary/webaccess/webaccess.dart';
 import 'version.dart';
 import 'webaccess/jukeboxdatabaseapiaccess.dart';
 import 'webaccess/mp3playeraccess.dart';
+import 'webaccess/trackcollectionplayer.dart';
 
 class Dependencies {
   //One instance, needs factory
@@ -20,11 +21,12 @@ class Dependencies {
     var jbdbWebRequestor = WebRequestor(jbdbWebAccess);
     jukeboxDatabaseApiAccess =
         JukeboxDatabaseApiAccess(jbdbWebRequestor, logger);
-    serviceController =
-        MicroServiceController(jukeboxDatabaseApiAccess, mp3PlayerAccess);
+    var trackCollectionPlayer = TrackCollectionPlayer();
+    microServiceController = MicroServiceController(
+        jukeboxDatabaseApiAccess, mp3PlayerAccess, trackCollectionPlayer);
   }
 
   late IMP3PlayerAccess mp3PlayerAccess;
   late IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
-  late IMicroServiceController serviceController;
+  late IMicroServiceController microServiceController;
 }
