@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
     var rows = List<Widget>.empty(growable: true);
     rows.add(const Text(''));
     rows.add(JukeboxCollectionSelectorWidget(
-        homeScreenInformation.jukeboxCollections));
+        widget.serviceController, homeScreenInformation.jukeboxCollections));
     rows.add(const Text(''));
     rows.add(CurrentlyPlayingWidget(homeScreenInformation.trackInformation));
 

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../actions/playcollectionaction.dart';
 import '../../dataobjects/jukeboxcollection.dart';
+import '../../potentiallibrary/widgets/elevatedbuttonactionwidget.dart';
+import '../../webaccess/microservicecontroller.dart';
 
 class JukeboxCollectionSelectorWidget extends StatelessWidget {
+  final IMicroServiceController microServiceController;
   final List<JukeboxCollection> jukeboxCollections;
-  const JukeboxCollectionSelectorWidget(this.jukeboxCollections, {super.key});
+  const JukeboxCollectionSelectorWidget(
+      this.microServiceController, this.jukeboxCollections,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +19,9 @@ class JukeboxCollectionSelectorWidget extends StatelessWidget {
   }
 
   Iterable<Widget> makeSelectCollectionButtons() {
-    var w = jukeboxCollections.map((e) => ElevatedButton(
-        onPressed: () {
-          onPressed(e.id);
-        },
-        child: Text(e.name)));
-    return w.cast<Widget>();
-  }
+    var w = jukeboxCollections.map((e) => ElevatedButtonActionWidget(
+        e.name, PlayCollectionAction(microServiceController, e.id)));
 
-  void onPressed(int id) {
-    //print('pressed $id');
+    return w.cast<Widget>();
   }
 }

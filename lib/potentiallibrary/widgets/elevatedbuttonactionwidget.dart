@@ -3,9 +3,10 @@ import 'package:flutter_jukebox/potentiallibrary/utilities/actionhandler.dart';
 import 'jbelevatedbutton.dart';
 
 class ElevatedButtonActionWidget extends StatefulWidget {
+  final String _label;
   final ActionHandler _action;
 
-  const ElevatedButtonActionWidget(this._action, {super.key});
+  const ElevatedButtonActionWidget(this._label, this._action, {super.key});
 
   @override
   State<ElevatedButtonActionWidget> createState() =>
@@ -19,19 +20,26 @@ class _ElevatedButtonActionWidgetState
   @override
   Widget build(Object context) {
     var colour = switch (state) {
-      0 => Colors.green,
-      1 => Colors.amber,
+      0 => Colors.amber,
+      1 => Colors.green,
       _ => Colors.red
     };
 
-    return JbElevatedButton('Play', colour, () async {
+    return JbElevatedButton(widget._label, colour, () async {
       setState(() {
         state = 1;
       });
-      var result = await widget._action.action(0);
-      setState(() {
-        state = result ? 0 : 2;
-      });
+      try {
+        var result = await widget._action.action(0);
+        setState(() {
+          state = result ? 0 : 2;
+        });
+      } catch (e) {
+        setState(() {
+          state = 2;
+        });
+        rethrow;
+      }
     });
   }
 }

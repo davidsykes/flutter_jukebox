@@ -50,9 +50,9 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
 
     rows.add(Text(track.trackName));
 
-    var playMp3Action = PlayMP3ActionAction(
+    var playMp3Action = PlayMP3Action(
         widget.microServiceController, track.getJukeboxTrackPathAndFileName());
-    rows.add(ElevatedButtonActionWidget(playMp3Action));
+    rows.add(ElevatedButtonActionWidget('Play', playMp3Action));
 
     rows.add(makeArtistRow(track, artists));
     rows.add(TextButton(

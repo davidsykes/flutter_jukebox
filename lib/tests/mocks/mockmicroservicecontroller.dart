@@ -40,4 +40,9 @@ class MockMicroServiceController extends IMicroServiceController {
   Future<bool> playMp3(JukeboxTrackPathAndFileName track) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> playCollection(int collectionId) {
+    throw UnimplementedError();
+  }
 }
