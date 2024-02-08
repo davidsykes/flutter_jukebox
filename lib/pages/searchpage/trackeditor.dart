@@ -55,6 +55,7 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
     rows.add(ElevatedButtonActionWidget('Play', playMp3Action));
 
     rows.add(makeArtistRow(track, artists));
+    rows.add(makeArtistSelectorRow(track, artists));
     rows.add(TextButton(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
@@ -83,13 +84,17 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
         width: 100,
         child: Text(track.artistName),
       ),
-      SizedBox(
-        width: 700,
-        child: ArtistSelector(
-            artists,
-            UpdateArtistForTrackAction(
-                widget.microServiceController, track.trackId)),
-      ),
     ]);
+  }
+
+  Widget makeArtistSelectorRow(
+      TrackInformation track, List<ArtistInformation> artists) {
+    return SizedBox(
+      width: 700,
+      child: ArtistSelector(
+          artists,
+          UpdateArtistForTrackAction(
+              widget.microServiceController, track.trackId)),
+    );
   }
 }

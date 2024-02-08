@@ -27,7 +27,7 @@ class _ArtistSelectorState extends State<ArtistSelector> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           DropdownMenu<int>(
             initialSelection: 2,
