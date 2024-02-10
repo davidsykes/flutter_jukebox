@@ -21,7 +21,8 @@ class Dependencies {
     var jbdbWebRequestor = WebRequestor(jbdbWebAccess);
     jukeboxDatabaseApiAccess =
         JukeboxDatabaseApiAccess(jbdbWebRequestor, logger);
-    var trackCollectionPlayer = TrackCollectionPlayer();
+    var trackCollectionPlayer =
+        TrackCollectionPlayer(jukeboxDatabaseApiAccess, mp3PlayerAccess);
     microServiceController = MicroServiceController(
         jukeboxDatabaseApiAccess, mp3PlayerAccess, trackCollectionPlayer);
   }

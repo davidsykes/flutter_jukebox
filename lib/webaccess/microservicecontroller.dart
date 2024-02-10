@@ -13,7 +13,7 @@ abstract class IMicroServiceController {
   Future<List<TrackInformation>> getAllTracks();
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
-  Future<bool> playMp3(JukeboxTrackPathAndFileName track);
+  Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks);
   Future<bool> playCollection(int collectionId);
 }
 
@@ -69,8 +69,8 @@ class MicroServiceController extends IMicroServiceController {
   }
 
   @override
-  Future<bool> playMp3(JukeboxTrackPathAndFileName track) {
-    return _mp3PlayerAccess.playMp3(track);
+  Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks) {
+    return _mp3PlayerAccess.playMp3s(tracks);
   }
 
   @override

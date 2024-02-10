@@ -1,13 +1,12 @@
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
-import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
-import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 import 'package:flutter_jukebox/webaccess/trackcollectionplayer.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../webaccess/microservicecontroller.dart';
+import '../mocks/stubmp3playeraccess.dart';
 
 class MicroServiceControllerTests extends TestModule {
   late IMicroServiceController _controller;
@@ -143,19 +142,18 @@ class MockDbAccess extends IJukeboxDatabaseApiAccess {
     updatedArtistId = artistId;
     return Future<bool>.value(true);
   }
+
+  @override
+  Future<List<TrackInformation>> getTracksInCollection(int collectionId) {
+    throw UnimplementedError();
+  }
 }
 
-class MockPlayerAccess extends IMP3PlayerAccess {
+class MockPlayerAccess extends StubMP3PlayerAccess {
   int currentPlayingTrackId = 12;
-
   @override
-  Future<int> getCurrentTrackId() {
-    return Future<int>.value(currentPlayingTrackId);
-  }
-
-  @override
-  Future<bool> playMp3(JukeboxTrackPathAndFileName track) {
-    throw UnimplementedError();
+  Future<int> getCurrentTrackId() async {
+    return currentPlayingTrackId;
   }
 }
 

@@ -17,6 +17,7 @@ class MP3PlayerAccessTests extends TestModule {
     return [
       createTest(theCurrentTrackCanBeRequested),
       createTest(anMp3CanBePlayed),
+      createTest(severalMp3sCanBePlayed),
     ];
   }
 
@@ -31,12 +32,27 @@ class MP3PlayerAccessTests extends TestModule {
         JukeboxTrackPathAndFileName(123, 'track path', 'track file name');
     _mockMp3WebRequestor.postResponse = jsonEncode(CurrentTrack(123));
 
-    await _access.playMp3(track);
+    await _access.playMp3s([track]);
 
-    //assertTrue(result);
     assertEqual('playtracks', _mockMp3WebRequestor.postUrl);
     assertEqual(
         '{"TracksToPlay":[{"Identifier":123,"TrackPath":"track path","TrackFileName":"track file name"}]}',
+        _mockMp3WebRequestor.postRequest);
+  }
+
+  Future<void> severalMp3sCanBePlayed() async {
+    var tracks = [
+      JukeboxTrackPathAndFileName(123, 'track path', 'track file name'),
+      JukeboxTrackPathAndFileName(124, 'track path', 'track file name'),
+      JukeboxTrackPathAndFileName(125, 'track path', 'track file name')
+    ];
+    _mockMp3WebRequestor.postResponse = jsonEncode(CurrentTrack(123));
+
+    await _access.playMp3s(tracks);
+
+    assertEqual('playtracks', _mockMp3WebRequestor.postUrl);
+    assertEqual(
+        '{"TracksToPlay":[{"Identifier":123,"TrackPath":"track path","TrackFileName":"track file name"},{"Identifier":124,"TrackPath":"track path","TrackFileName":"track file name"},{"Identifier":125,"TrackPath":"track path","TrackFileName":"track file name"}]}',
         _mockMp3WebRequestor.postRequest);
   }
 

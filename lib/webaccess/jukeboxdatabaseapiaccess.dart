@@ -12,6 +12,7 @@ abstract class IJukeboxDatabaseApiAccess {
   Future<List<TrackInformation>> getAllTracks();
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
+  Future<List<TrackInformation>> getTracksInCollection(int collectionId);
 }
 
 class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
@@ -117,5 +118,11 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
       _logger.log('Error updating artist for track: ${result.error}');
     }
     return result.success;
+  }
+
+  @override
+  Future<List<TrackInformation>> getTracksInCollection(int collectionId) {
+    // TODO: implement getTracksInCollection
+    throw UnimplementedError();
   }
 }
