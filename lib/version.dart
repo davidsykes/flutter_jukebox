@@ -4,14 +4,12 @@ class VersionDetails {
   String mp3PlayerIpAddress;
   int selectedTabOnStartUp;
   int currentlyPlayingTrackId;
-  bool testAllTracks;
   VersionDetails(
       {required this.name,
       required this.jbdbApiIpAddress,
       required this.mp3PlayerIpAddress,
       required this.selectedTabOnStartUp,
-      this.currentlyPlayingTrackId = 0,
-      this.testAllTracks = false});
+      this.currentlyPlayingTrackId = 0});
 }
 
 class Version {
@@ -25,26 +23,22 @@ class Version {
       jbdbApiIpAddress: 'localhost:5051',
       mp3PlayerIpAddress: '192.168.1.126:5001',
       selectedTabOnStartUp: 4,
-      currentlyPlayingTrackId: 999,
-      testAllTracks: false);
+      currentlyPlayingTrackId: 999);
   var versionLocalPcForMp3 = VersionDetails(
       name: '83 (local pc for mp3)',
       jbdbApiIpAddress: '192.168.1.126:5003',
       mp3PlayerIpAddress: 'localhost:5197',
       selectedTabOnStartUp: 4,
-      currentlyPlayingTrackId: 999,
-      testAllTracks: false);
+      currentlyPlayingTrackId: 999);
   var version126 = VersionDetails(
       name: '126 (second jukebox)',
       jbdbApiIpAddress: '192.168.1.126:5003',
       mp3PlayerIpAddress: '192.168.1.126:5001',
-      selectedTabOnStartUp: 4,
-      testAllTracks: false);
+      selectedTabOnStartUp: 4);
 
   late VersionDetails version;
   String extraText = '';
 
-  //One instance, needs factory
   static Version? _instance;
   factory Version() => _instance ??= Version._();
 

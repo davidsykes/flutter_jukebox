@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
@@ -10,12 +11,14 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
   late IJukeboxDatabaseApiAccess _access;
   late MockWebRequestor _mockWebRequestor;
   late MockLogger _mockLogger;
+  final _tracksInCollection = [1, 12, 16, 87];
 
   @override
   Iterable<TestUnit> getTests() {
     return [
       createTest(individualTrackInformationCanBeRetrieved),
       createTest(allTrackInformationCanBeRetrieved),
+      createTest(tracksInACollectionCanBeRetrieved),
       createTest(allArtistsCanBeRetrieved),
       createTest(updateArtistForTrackPostsTheUpdate),
       createTest(updateArtistForTrackLogsErrors),
@@ -42,6 +45,20 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     assertEqual('Track 1', trackInfo[0].trackName);
     assertEqual('Track 2', trackInfo[1].trackName);
     assertEqual('Track 3', trackInfo[2].trackName);
+  }
+
+  Future<void> tracksInACollectionCanBeRetrieved() async {
+    _mockWebRequestor.expectedGetUrl = 'tracks?collectionId=101';
+    _mockWebRequestor.getResponse =
+        makeJsonForTestTracks('Collection', _tracksInCollection);
+
+    var trackInfo = await _access.getTracksInCollection(101);
+
+    assertEqual(4, trackInfo.length);
+    assertEqual('Collection Track 1', trackInfo[0].trackName);
+    assertEqual('Collection Track 12', trackInfo[1].trackName);
+    assertEqual('Collection Track 16', trackInfo[2].trackName);
+    assertEqual('Collection Track 87', trackInfo[3].trackName);
   }
 
   Future<void> allArtistsCanBeRetrieved() async {
@@ -81,9 +98,20 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
   void setUpObjectUnderTest() {
     _access = JukeboxDatabaseApiAccess(_mockWebRequestor, _mockLogger);
   }
+
+  String makeJsonForTestTracks(String prefix, List<int> tracks) {
+    var data = tracks
+        .map((e) => TrackInformation(e, '$prefix Track $e', 'file $e', e * 10,
+            'album $e', 'path $e', e * 100, 'artist $e'))
+        .toList();
+    var tracksJson = jsonEncode(data);
+    return '{"tracks": $tracksJson}';
+  }
 }
 
 class MockWebRequestor extends IWebRequestor {
+  String expectedGetUrl = '';
+  String getResponse = '';
   String postUrl = '';
   dynamic postRequest = '';
   String? postError;
@@ -91,8 +119,17 @@ class MockWebRequestor extends IWebRequestor {
   @override
   Future<T> get<T>(
       String url, T Function(Map<String, dynamic> data) deserialise) async {
-    if (url == 'tracks?trackId=123') {
-      var data = jsonDecode('''{
+    var dataJson = getTestDataForUrl(url);
+    var data = jsonDecode(dataJson);
+    var obj = deserialise(data);
+    return obj;
+  }
+
+  String getTestDataForUrl(String url) {
+    if (url == expectedGetUrl) {
+      return getResponse;
+    } else if (url == 'tracks?trackId=123') {
+      return '''{
     "tracks": [
       {
         "trackId": 900,
@@ -105,11 +142,9 @@ class MockWebRequestor extends IWebRequestor {
         "artistName": "The Eagles"
       }
     ]
-  }''');
-      var obj = deserialise(data);
-      return obj;
+  }''';
     } else if (url == 'tracks') {
-      var data = jsonDecode('''{
+      return '''{
     "tracks": [
       {
         "trackId": 900,
@@ -140,11 +175,9 @@ class MockWebRequestor extends IWebRequestor {
         "artistName": "The Eagles"
       }
     ]
-  }''');
-      var obj = deserialise(data);
-      return obj;
+  }''';
     } else if (url == 'artists') {
-      var data = jsonDecode('''{
+      return '''{
     "artists": [
       {
         "artistId": 1,
@@ -159,11 +192,9 @@ class MockWebRequestor extends IWebRequestor {
         "artistName": "Artist 3"
       }
     ]
-  }''');
-      var obj = deserialise(data);
-      return obj;
+  }''';
     }
-    throw UnimplementedError();
+    throw AssertionError('invalid url');
   }
 
   @override
