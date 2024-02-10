@@ -75,7 +75,6 @@ class MicroServiceController extends IMicroServiceController {
 
   @override
   Future<bool> playCollection(int collectionId) async {
-    _trackCollectionPlayer.playCollection(collectionId);
-    return false;
+    return _trackCollectionPlayer.playCollection(collectionId);
   }
 }
