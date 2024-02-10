@@ -84,7 +84,7 @@ class MockMp3WebRequestor extends IWebRequestor {
       var obj = deserialise(data);
       return obj;
     }
-    throw UnimplementedError();
+    throw AssertionError();
   }
 
   @override

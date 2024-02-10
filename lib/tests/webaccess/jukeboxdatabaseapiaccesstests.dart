@@ -202,7 +202,7 @@ class MockWebRequestor extends IWebRequestor {
       String url,
       TRequest request,
       TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
-    throw UnimplementedError();
+    throw AssertionError();
   }
 
   @override

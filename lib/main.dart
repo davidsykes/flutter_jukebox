@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             dataFetcher: testRunner(), pageMaker: testPageMaker);
         break;
       default:
-        throw UnimplementedError('no widget for $selectedIndex');
+        throw AssertionError('no widget for main page index $selectedIndex');
     }
 
     // This method is rerun every time setState is called, for instance as done

@@ -1,12 +1,10 @@
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
+import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
-import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
-import '../../dataobjects/jukeboxtrackpathandsilename.dart';
+import '../../webaccess/microservicecontroller.dart';
 
-class MockMicroServiceController extends IMicroServiceController {
-  Future<bool> Function(int trackId, int artistId)? mockUpdateArtistForTrack;
-
+class StubMicroServiceController extends IMicroServiceController {
   @override
   Future<List<ArtistInformation>> getAllArtists() {
     throw UnimplementedError();
@@ -28,12 +26,8 @@ class MockMicroServiceController extends IMicroServiceController {
   }
 
   @override
-  Future<bool> updateArtistForTrack(int trackId, int artistId) {
-    if (mockUpdateArtistForTrack != null) {
-      return mockUpdateArtistForTrack!(trackId, artistId);
-    } else {
-      throw UnimplementedError();
-    }
+  Future<bool> playCollection(int collectionId) {
+    throw UnimplementedError();
   }
 
   @override
@@ -42,7 +36,7 @@ class MockMicroServiceController extends IMicroServiceController {
   }
 
   @override
-  Future<bool> playCollection(int collectionId) {
+  Future<bool> updateArtistForTrack(int trackId, int artistId) {
     throw UnimplementedError();
   }
 }

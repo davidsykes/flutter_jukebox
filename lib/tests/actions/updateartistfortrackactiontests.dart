@@ -1,13 +1,11 @@
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
 import '../../actions/updateartistfortrackaction.dart';
-import '../mocks/mockmicroservicecontroller.dart';
+import '../mocks/stubmicroservicecontroller.dart';
 
 class UpdateArtistForTrackActionTests extends TestModule {
   late UpdateArtistForTrackAction _action;
   late MockMicroServiceController _mockMicroServiceController;
-  int _updatedTrack = 0;
-  int _updatedArtist = 0;
 
   @override
   Iterable<TestUnit> getTests() {
@@ -19,8 +17,8 @@ class UpdateArtistForTrackActionTests extends TestModule {
   Future<void> theArtistCanBeUpdated() async {
     _action.action(27);
 
-    assertEqual(86, _updatedTrack);
-    assertEqual(27, _updatedArtist);
+    assertEqual(86, _mockMicroServiceController._updatedTrack);
+    assertEqual(27, _mockMicroServiceController._updatedArtist);
   }
 
   // Support Code
@@ -28,17 +26,22 @@ class UpdateArtistForTrackActionTests extends TestModule {
   @override
   void setUpMocks() {
     _mockMicroServiceController = MockMicroServiceController();
-    _mockMicroServiceController.mockUpdateArtistForTrack = updateArtist;
-  }
-
-  Future<bool> updateArtist(int trackId, int artistId) async {
-    _updatedTrack = trackId;
-    _updatedArtist = artistId;
-    return Future<bool>.value(true);
   }
 
   @override
   void setUpObjectUnderTest() {
     _action = UpdateArtistForTrackAction(_mockMicroServiceController, 86);
+  }
+}
+
+class MockMicroServiceController extends StubMicroServiceController {
+  int _updatedTrack = 0;
+  int _updatedArtist = 0;
+
+  @override
+  Future<bool> updateArtistForTrack(int trackId, int artistId) {
+    _updatedTrack = trackId;
+    _updatedArtist = artistId;
+    return Future(() => true);
   }
 }
