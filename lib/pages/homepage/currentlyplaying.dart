@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import '../../potentiallibrary/utilities/actionhandler.dart';
+import '../../potentiallibrary/widgets/elevatedbuttonactionwidget.dart';
 
 class CurrentlyPlayingWidget extends StatelessWidget {
   final TrackInformation? trackInformation;
+  final void Function() _refreshParent;
 
-  const CurrentlyPlayingWidget(this.trackInformation, {super.key});
+  const CurrentlyPlayingWidget(this.trackInformation, this._refreshParent,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,14 @@ class CurrentlyPlayingWidget extends StatelessWidget {
               'Artist: ${currentTrack.artistName}',
               style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
             ),
+            ElevatedButtonActionWidget(
+                'Refresh', ActionReturningVoid(() => refresh())),
           ],
         ));
+  }
+
+  bool refresh() {
+    _refreshParent();
+    return true;
   }
 }

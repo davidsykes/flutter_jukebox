@@ -8,7 +8,7 @@ class PlayMP3Action extends ActionHandler {
   PlayMP3Action(this._serviceController, this._track);
 
   @override
-  Future<bool> action(int value) {
+  Future<bool> action() {
     return _serviceController.playMp3s([_track]);
   }
 }

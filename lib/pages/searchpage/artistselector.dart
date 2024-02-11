@@ -1,11 +1,11 @@
 // DropdownMenuEntry labels and values for the first dropdown menu.
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
-import '../../potentiallibrary/utilities/actionhandler.dart';
+import '../../actions/updateartistfortrackaction.dart';
 
 class ArtistSelector extends StatefulWidget {
   final List<ArtistInformation> artists;
-  final ActionHandler artistSelectionHandler;
+  final UpdateArtistForTrackAction artistSelectionHandler;
   const ArtistSelector(this.artists, this.artistSelectionHandler, {super.key});
 
   @override
@@ -64,7 +64,7 @@ class _ArtistSelectorState extends State<ArtistSelector> {
                       submitResponse = 'Processing...';
                     });
                     var result = await widget.artistSelectionHandler
-                        .action(selectedArtist!);
+                        .update(selectedArtist!);
                     setState(() {
                       if (result) {
                         submitResponse = 'Ok';

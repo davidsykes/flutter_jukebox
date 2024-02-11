@@ -84,10 +84,15 @@ class _HomePageState extends State<HomePage> {
     rows.add(JukeboxCollectionSelectorWidget(widget.microServiceController,
         homeScreenInformation.jukeboxCollections));
     rows.add(const Text(''));
-    rows.add(CurrentlyPlayingWidget(homeScreenInformation.trackInformation));
+    rows.add(CurrentlyPlayingWidget(
+        homeScreenInformation.trackInformation, refresh));
 
     return Column(
       children: rows,
     );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 }

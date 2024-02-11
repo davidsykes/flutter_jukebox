@@ -7,7 +7,7 @@ class PlayCollectionAction extends ActionHandler {
   PlayCollectionAction(this._serviceController, this._collectionId);
 
   @override
-  Future<bool> action(int value) {
+  Future<bool> action() {
     return _serviceController.playCollection(_collectionId);
   }
 }

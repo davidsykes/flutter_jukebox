@@ -15,7 +15,7 @@ class UpdateArtistForTrackActionTests extends TestModule {
   }
 
   Future<void> theArtistCanBeUpdated() async {
-    _action.action(27);
+    _action.update(27);
 
     assertEqual(86, _mockMicroServiceController._updatedTrack);
     assertEqual(27, _mockMicroServiceController._updatedArtist);
