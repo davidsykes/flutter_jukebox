@@ -4,7 +4,6 @@ import 'actions/updateartistfortrackactiontests.dart';
 import 'dataobjects/trackinformationtests.dart';
 import 'potentiallibrary/testframework/teststacktracehandlertests.dart';
 import 'potentiallibrary/utilities/actionbuttontests.dart';
-import 'potentiallibrary/utilities/actionhandlertests.dart';
 import 'potentiallibrary/webaccess/webrequestortests.dart';
 import 'tools/trackmatchertests.dart';
 import 'tools/listoftracksformatchingtests.dart';
@@ -21,7 +20,6 @@ class AllTests {
     var runner = TestRunner();
 
     runner.addTests(TestStackTraceHandlerTests());
-    runner.addTests(ActionHandlerTests());
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
     runner.addTests(TrackCollectionPlayerTests());

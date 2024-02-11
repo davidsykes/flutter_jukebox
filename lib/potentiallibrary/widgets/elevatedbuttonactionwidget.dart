@@ -30,7 +30,7 @@ class _ElevatedButtonActionWidgetState
         state = 1;
       });
       try {
-        var result = await widget._action.action(0);
+        var result = await widget._action.action();
         setState(() {
           state = result ? 0 : 2;
         });
