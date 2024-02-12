@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
+import '../../dataobjects/cachedcurrentlyplayingtrackinformation.dart';
 import '../../dataobjects/homescreendata.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/programexception.dart';
@@ -32,26 +33,20 @@ class _HomePageState extends State<HomePage> {
   Future<HomeScreenData> getHomeScreenInformation() async {
     try {
       var currentTrackInformationFuture =
-          widget.microServiceController.getCurrentTrackInformation();
+          CurrentlyPlayingTrackInformationFetcher(
+              widget.microServiceController.getCurrentTrackInformation);
       var jukeboxCollectionsFuture =
           widget.microServiceController.getJukeboxCollections();
 
       var homeScreen = HomeScreenData(
-          await jukeboxCollectionsFuture, await currentTrackInformationFuture);
+          await jukeboxCollectionsFuture, currentTrackInformationFuture);
       return homeScreen;
     } on ProgramException catch (e) {
       Logger().log('an exception $e');
       return HomeScreenData(
           [],
-          TrackInformation(
-            0,
-            e.cause,
-            '',
-            2,
-            '',
-            '',
-            1,
-            '',
+          CurrentlyPlayingTrackInformationFetcher(
+            () => Future<TrackInformation?>(() => null),
           ));
     }
   }
@@ -85,7 +80,7 @@ class _HomePageState extends State<HomePage> {
         homeScreenInformation.jukeboxCollections));
     rows.add(const Text(''));
     rows.add(CurrentlyPlayingWidget(
-        homeScreenInformation.trackInformation, refresh));
+        homeScreenInformation.currentTrackInformation, refresh));
 
     return Column(
       children: rows,

@@ -1,9 +1,9 @@
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
-import 'trackinformation.dart';
+import 'cachedcurrentlyplayingtrackinformation.dart';
 
 class HomeScreenData {
-  List<JukeboxCollection> jukeboxCollections;
-  TrackInformation? trackInformation;
+  final CurrentlyPlayingTrackInformationFetcher currentTrackInformation;
+  final List<JukeboxCollection> jukeboxCollections;
 
-  HomeScreenData(this.jukeboxCollections, this.trackInformation);
+  HomeScreenData(this.jukeboxCollections, this.currentTrackInformation);
 }
