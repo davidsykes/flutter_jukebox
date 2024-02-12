@@ -12,6 +12,10 @@ class CurrentlyPlayingTrackInformationFetcher {
   Future<CurrentlyPlayingTrackInformation> getData() async {
     return CurrentlyPlayingTrackInformation(await _info.getData());
   }
+
+  void reset() {
+    _info.reset();
+  }
 }
 
 class CurrentlyPlayingTrackInformation {

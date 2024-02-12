@@ -24,6 +24,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  CurrentlyPlayingTrackInformationFetcher? currentTrackInformationFuture;
+
   @override
   Widget build(BuildContext context) {
     return createFutureBuilder<HomeScreenData>(
@@ -32,14 +34,13 @@ class _HomePageState extends State<HomePage> {
 
   Future<HomeScreenData> getHomeScreenInformation() async {
     try {
-      var currentTrackInformationFuture =
-          CurrentlyPlayingTrackInformationFetcher(
-              widget.microServiceController.getCurrentTrackInformation);
+      currentTrackInformationFuture ??= CurrentlyPlayingTrackInformationFetcher(
+          widget.microServiceController.getCurrentTrackInformation);
       var jukeboxCollectionsFuture =
           widget.microServiceController.getJukeboxCollections();
 
       var homeScreen = HomeScreenData(
-          await jukeboxCollectionsFuture, currentTrackInformationFuture);
+          await jukeboxCollectionsFuture, currentTrackInformationFuture!);
       return homeScreen;
     } on ProgramException catch (e) {
       Logger().log('an exception $e');

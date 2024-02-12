@@ -55,6 +55,7 @@ class CurrentlyPlayingWidget extends StatelessWidget {
   }
 
   bool refresh() {
+    currentTrackInformationFetcher.reset();
     _refreshParent();
     return true;
   }

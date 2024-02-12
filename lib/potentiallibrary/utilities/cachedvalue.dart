@@ -17,4 +17,8 @@ class CachedValue<T> {
       rethrow;
     }
   }
+
+  void reset() {
+    _getDataFuture = null;
+  }
 }
