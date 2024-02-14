@@ -22,6 +22,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
       createTest(allArtistsCanBeRetrieved),
       createTest(updateArtistForTrackPostsTheUpdate),
       createTest(updateArtistForTrackLogsErrors),
+      createTest(recentlyPlayedTracksCanBeRetrieved),
     ];
   }
 
@@ -84,6 +85,18 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     await _access.updateArtistForTrack(17, 82);
 
     assertEqual(['Error updating artist for track: Oops'], _mockLogger.logs);
+  }
+
+  Future<void> recentlyPlayedTracksCanBeRetrieved() async {
+    var tracks = await _access.getRecentlyPlayedTracks();
+
+    assertEqual(3, tracks.length);
+    assertEqual('Track 1', tracks[0].track.trackName);
+    assertEqual('now', tracks[0].time);
+    assertEqual('Track 2', tracks[1].track.trackName);
+    assertEqual('Track 2', tracks[1].time);
+    assertEqual('Track 3', tracks[2].track.trackName);
+    assertEqual('Track 3', tracks[2].time);
   }
 
   // Support Code

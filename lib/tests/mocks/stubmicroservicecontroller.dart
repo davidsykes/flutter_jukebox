@@ -1,7 +1,7 @@
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
-import 'package:flutter_jukebox/dataobjects/recentlyplayedtracksdata.dart';
+import 'package:flutter_jukebox/dataobjects/recentlyplayedtrackdata.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import '../../webaccess/microservicecontroller.dart';
 
@@ -42,7 +42,7 @@ class StubMicroServiceController extends IMicroServiceController {
   }
 
   @override
-  Future<RecentlyPlayedTracksData> getRecentlyPlayedTracks() {
+  Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks() {
     throw UnimplementedError();
   }
 }

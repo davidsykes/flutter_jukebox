@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jukebox/dataobjects/recentlyplayedtracksdata.dart';
+import 'package:flutter_jukebox/dataobjects/recentlyplayedtrackdata.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import 'package:flutter_jukebox/widgets/recentlyplayedtrackswidget.dart';
@@ -28,12 +28,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CurrentlyPlayingTrackInformationFetcher? currentTrackInformationFuture;
-  late CachedValue<RecentlyPlayedTracksData> _recentlyPlayedTracks;
+  late CachedValue<List<RecentlyPlayedTrackData>> _recentlyPlayedTracks;
 
   @override
   void initState() {
     super.initState();
-    _recentlyPlayedTracks = CachedValue<RecentlyPlayedTracksData>(
+    _recentlyPlayedTracks = CachedValue<List<RecentlyPlayedTrackData>>(
         widget.microServiceController.getRecentlyPlayedTracks);
   }
 

@@ -1,11 +1,11 @@
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
-import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
 import 'package:flutter_jukebox/webaccess/trackcollectionplayer.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../webaccess/microservicecontroller.dart';
+import '../mocks/stubjukeboxdatabaseapiaccess.dart';
 import '../mocks/stubmp3playeraccess.dart';
 
 class MicroServiceControllerTests extends TestModule {
@@ -105,7 +105,7 @@ class MicroServiceControllerTests extends TestModule {
   }
 }
 
-class MockDbAccess extends IJukeboxDatabaseApiAccess {
+class MockDbAccess extends StubJukeboxDatabaseApiAccess {
   final List<JukeboxCollection> collections;
   final List<TrackInformation> tracks;
   final List<ArtistInformation> artists;

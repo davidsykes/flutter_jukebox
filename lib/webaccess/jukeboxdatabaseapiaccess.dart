@@ -1,3 +1,4 @@
+import 'package:flutter_jukebox/dataobjects/recentlyplayedtrackdata.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../dataobjects/trackinformation.dart';
 import '../dataobjects/artistinformation.dart';
@@ -12,6 +13,7 @@ abstract class IJukeboxDatabaseApiAccess {
   Future<List<TrackInformation>> getTracksInCollection(int collectionId);
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
+  Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks();
 }
 
 class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
@@ -116,5 +118,11 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
       _logger.log('Error updating artist for track: ${result.error}');
     }
     return result.success;
+  }
+
+  @override
+  Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks() {
+    // TODO: implement getRecentlyPlayedTracks
+    throw UnimplementedError();
   }
 }
