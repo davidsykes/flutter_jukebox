@@ -3,7 +3,6 @@ import 'package:flutter_jukebox/pages/homepage/homepage.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
-import 'package:flutter_jukebox/widgets/mywidgetfactory.dart';
 import 'dependencies.dart';
 import 'pages/logspage/logspage.dart';
 import 'pages/searchpage/searchpage.dart';
@@ -23,7 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var dependencies = Dependencies();
-    var myWidgetFactory = MyWidgetFactory(dependencies.microServiceController);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -31,29 +29,28 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: MyHomePage(
-          title: Version().mainTitle(),
-          mp3PlayerAccess: dependencies.mp3PlayerAccess,
-          jukeboxDatabaseApiAccess: dependencies.jukeboxDatabaseApiAccess,
-          microServiceController: dependencies.microServiceController,
-          myWidgetFactory: myWidgetFactory),
+        title: Version().mainTitle(),
+        mp3PlayerAccess: dependencies.mp3PlayerAccess,
+        jukeboxDatabaseApiAccess: dependencies.jukeboxDatabaseApiAccess,
+        microServiceController: dependencies.microServiceController,
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage(
-      {super.key,
-      required this.title,
-      required this.mp3PlayerAccess,
-      required this.jukeboxDatabaseApiAccess,
-      required this.microServiceController,
-      required this.myWidgetFactory});
+  const MyHomePage({
+    super.key,
+    required this.title,
+    required this.mp3PlayerAccess,
+    required this.jukeboxDatabaseApiAccess,
+    required this.microServiceController,
+  });
 
   final String title;
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
   final IMicroServiceController microServiceController;
-  final MyWidgetFactory myWidgetFactory;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -82,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (selectedIndex) {
       case 0:
         page = HomePage(widget.mp3PlayerAccess, widget.jukeboxDatabaseApiAccess,
-            widget.microServiceController, widget.myWidgetFactory);
+            widget.microServiceController);
         break;
       case 1:
         page = SearchPage(widget.microServiceController);
