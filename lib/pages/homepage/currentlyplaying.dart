@@ -36,20 +36,34 @@ class CurrentlyPlayingWidget extends StatelessWidget {
               'Currently Playing',
               style: TextStyle(fontSize: 18, fontFamily: 'Comic Sans MS'),
             ),
-            Text(
-              'Track: ${currentTrack.trackName}',
-              style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
+            Row(
+              children: [
+                Text(
+                  'Track: ${currentTrack.trackName}',
+                  style: const TextStyle(
+                      fontSize: 24, fontFamily: 'Comic Sans MS'),
+                ),
+                const Spacer(), // use Spacer
+                ElevatedButtonActionWidget(
+                    'Refresh', ActionReturningVoid(() => refresh())),
+              ],
             ),
             Text(
               'Album: ${currentTrack.albumName}',
               style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
             ),
-            Text(
-              'Artist: ${currentTrack.artistName}',
-              style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
+            Row(
+              children: [
+                Text(
+                  'Artist: ${currentTrack.artistName}',
+                  style: const TextStyle(
+                      fontSize: 24, fontFamily: 'Comic Sans MS'),
+                ),
+                const Spacer(), // use Spacer
+                ElevatedButtonActionWidget(
+                    'Delete', ActionReturningVoid(() => deleteTrack())),
+              ],
             ),
-            ElevatedButtonActionWidget(
-                'Refresh', ActionReturningVoid(() => refresh())),
           ],
         ));
   }
@@ -57,6 +71,10 @@ class CurrentlyPlayingWidget extends StatelessWidget {
   bool refresh() {
     currentTrackInformationFetcher.reset();
     _refreshParent();
+    return true;
+  }
+
+  bool deleteTrack() {
     return true;
   }
 }

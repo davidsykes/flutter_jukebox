@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jukebox/dataobjects/recentlyplayedtracksdata.dart';
+import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
+import 'package:flutter_jukebox/widgets/mywidgetfactory.dart';
 import '../../dataobjects/cachedcurrentlyplayingtrackinformation.dart';
 import '../../dataobjects/homescreendata.dart';
 import '../../dataobjects/trackinformation.dart';
@@ -15,8 +18,9 @@ class HomePage extends StatefulWidget {
   final IMP3PlayerAccess mp3PlayerAccess;
   final IJukeboxDatabaseApiAccess jukeboxDatabaseApiAccess;
   final IMicroServiceController microServiceController;
+  final MyWidgetFactory myWidgetFactory;
   const HomePage(this.mp3PlayerAccess, this.jukeboxDatabaseApiAccess,
-      this.microServiceController,
+      this.microServiceController, this.myWidgetFactory,
       {super.key});
 
   @override
@@ -25,6 +29,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CurrentlyPlayingTrackInformationFetcher? currentTrackInformationFuture;
+  late CachedValue<RecentlyPlayedTracksData> _recentlyPlayedTracks;
+
+  @override
+  void initState() {
+    super.initState();
+    _recentlyPlayedTracks = CachedValue<RecentlyPlayedTracksData>(
+        widget.microServiceController.getRecentlyPlayedTracks);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +94,8 @@ class _HomePageState extends State<HomePage> {
     rows.add(const Text(''));
     rows.add(CurrentlyPlayingWidget(
         homeScreenInformation.currentTrackInformation, refresh));
+    rows.add(const Text(''));
+    rows.add(widget.myWidgetFactory.getRecentPlayedTracksWidget());
 
     return Column(
       children: rows,

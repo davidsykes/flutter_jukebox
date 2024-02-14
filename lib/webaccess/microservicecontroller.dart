@@ -5,6 +5,7 @@ import 'package:flutter_jukebox/webaccess/mp3playeraccess.dart';
 import '../dataobjects/jukeboxtrackpathandsilename.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
+import '../dataobjects/recentlyplayedtracksdata.dart';
 import 'trackcollectionplayer.dart';
 
 abstract class IMicroServiceController {
@@ -15,6 +16,7 @@ abstract class IMicroServiceController {
   Future<bool> updateArtistForTrack(int trackId, int artistId);
   Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks);
   Future<bool> playCollection(int collectionId);
+  Future<RecentlyPlayedTracksData> getRecentlyPlayedTracks();
 }
 
 class MicroServiceController extends IMicroServiceController {
@@ -76,5 +78,11 @@ class MicroServiceController extends IMicroServiceController {
   @override
   Future<bool> playCollection(int collectionId) async {
     return _trackCollectionPlayer.playCollection(collectionId);
+  }
+
+  @override
+  Future<RecentlyPlayedTracksData> getRecentlyPlayedTracks() async {
+    // TODO: implement getRecentlyPlayedTracks
+    return RecentlyPlayedTracksData();
   }
 }

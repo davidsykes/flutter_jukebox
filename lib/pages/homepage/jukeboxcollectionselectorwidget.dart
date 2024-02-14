@@ -18,10 +18,12 @@ class JukeboxCollectionSelectorWidget extends StatelessWidget {
     );
   }
 
-  Iterable<Widget> makeSelectCollectionButtons() {
+  List<Widget> makeSelectCollectionButtons() {
+    var list = List<Widget>.empty(growable: true);
+    list.add(const Text('Collections: '));
     var w = jukeboxCollections.map((e) => ElevatedButtonActionWidget(
         e.name, PlayCollectionAction(microServiceController, e.id)));
-
-    return w.cast<Widget>();
+    list.addAll(w);
+    return list;
   }
 }
