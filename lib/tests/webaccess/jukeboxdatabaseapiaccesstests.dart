@@ -91,12 +91,12 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     var tracks = await _access.getRecentlyPlayedTracks();
 
     assertEqual(3, tracks.length);
-    assertEqual('Track 1', tracks[0].track.trackName);
-    assertEqual('now', tracks[0].time);
-    assertEqual('Track 2', tracks[1].track.trackName);
-    assertEqual('Track 2', tracks[1].time);
-    assertEqual('Track 3', tracks[2].track.trackName);
-    assertEqual('Track 3', tracks[2].time);
+    assertEqual('Boots', tracks[0].track.trackName);
+    assertEqual('2024-02-14T08:01:58', tracks[0].time);
+    assertEqual('On A Night Like This', tracks[1].track.trackName);
+    assertEqual('2024-02-14T07:58:24', tracks[1].time);
+    assertEqual('Let It Be Love', tracks[2].track.trackName);
+    assertEqual('2024-02-14T07:55:00', tracks[2].time);
   }
 
   // Support Code
@@ -142,7 +142,35 @@ class MockWebRequestor extends IWebRequestor {
     if (url == expectedGetUrl) {
       return getResponse;
     } else if (url == 'tracks?trackId=123') {
-      return '''{
+      return individualTrackResponse();
+    } else if (url == 'tracks') {
+      return multipleTracksResponse();
+    } else if (url == 'artists') {
+      return artistsResponse();
+    } else if (url == 'recentlyplayedtracks?count=10') {
+      return recentlyPlayedTracksResponse();
+    }
+    throw AssertionError('invalid url');
+  }
+
+  @override
+  Future<TResponse> postRequestResponse<TRequest, TResponse>(
+      String url,
+      TRequest request,
+      TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
+    throw AssertionError();
+  }
+
+  @override
+  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+      String url, TRequest request) async {
+    postUrl = url;
+    postRequest = request;
+    return WebRequesterResponse(postError);
+  }
+
+  String individualTrackResponse() {
+    return '''{
     "tracks": [
       {
         "trackId": 900,
@@ -156,8 +184,10 @@ class MockWebRequestor extends IWebRequestor {
       }
     ]
   }''';
-    } else if (url == 'tracks') {
-      return '''{
+  }
+
+  String multipleTracksResponse() {
+    return '''{
     "tracks": [
       {
         "trackId": 900,
@@ -189,8 +219,10 @@ class MockWebRequestor extends IWebRequestor {
       }
     ]
   }''';
-    } else if (url == 'artists') {
-      return '''{
+  }
+
+  String artistsResponse() {
+    return '''{
     "artists": [
       {
         "artistId": 1,
@@ -206,24 +238,51 @@ class MockWebRequestor extends IWebRequestor {
       }
     ]
   }''';
-    }
-    throw AssertionError('invalid url');
   }
 
-  @override
-  Future<TResponse> postRequestResponse<TRequest, TResponse>(
-      String url,
-      TRequest request,
-      TResponse Function(Map<String, dynamic> data) deserialiseResponse) async {
-    throw AssertionError();
-  }
-
-  @override
-  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
-      String url, TRequest request) async {
-    postUrl = url;
-    postRequest = request;
-    return WebRequesterResponse(postError);
+  String recentlyPlayedTracksResponse() {
+    return '''{
+    "recentlyPlayedTracks": [
+      {
+        "time": "2024-02-14T08:01:58",
+        "track": {
+          "trackId": 10265,
+          "trackName": "Boots",
+          "trackFileName": "10 - Boots.mp3",
+          "albumId": 577,
+          "albumName": "Ocean",
+          "albumPath": "Lady Antebellum/Ocean",
+          "artistId": 1896,
+          "artistName": "Lady Antebellum"
+        }
+      },
+      {
+        "time": "2024-02-14T07:58:24",
+        "track": {
+          "trackId": 10264,
+          "trackName": "On A Night Like This",
+          "trackFileName": "09 - On A Night Like This.mp3",
+          "albumId": 577,
+          "albumName": "Ocean",
+          "albumPath": "Lady Antebellum/Ocean",
+          "artistId": 1896,
+          "artistName": "Lady Antebellum"
+        }
+      },
+      {
+        "time": "2024-02-14T07:55:00",
+        "track": {
+          "trackId": 10263,
+          "trackName": "Let It Be Love",
+          "trackFileName": "08 - Let It Be Love.mp3",
+          "albumId": 577,
+          "albumName": "Ocean",
+          "albumPath": "Lady Antebellum/Ocean",
+          "artistId": 1896,
+          "artistName": "Lady Antebellum"
+        }
+      }
+    ]}''';
   }
 }
 

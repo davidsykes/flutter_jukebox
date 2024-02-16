@@ -87,10 +87,10 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   List<ArtistInformation> deserialiseArtistsInformation(
       Map<String, dynamic> data) {
-    var tracks = data['artists'];
-    var tracks2 = tracks.map((track) => deserialiseArtistInformation(track));
+    var artists =
+        data['artists'].map((track) => deserialiseArtistInformation(track));
 
-    return tracks2.cast<ArtistInformation>().toList();
+    return artists.cast<ArtistInformation>().toList();
   }
 
   ArtistInformation deserialiseArtistInformation(Map<String, dynamic> track) {
@@ -122,7 +122,23 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks() {
-    // TODO: implement getRecentlyPlayedTracks
-    throw UnimplementedError();
+    var url = 'recentlyplayedtracks?count=10';
+    var tracks = _webRequestor.get(url, deserialiseRecentlyPlayedTracks);
+    return tracks;
+  }
+
+  List<RecentlyPlayedTrackData> deserialiseRecentlyPlayedTracks(
+      Map<String, dynamic> response) {
+    var tracks = response['recentlyPlayedTracks'];
+    var tracks2 = tracks.map((t) => deserialiseRecentlyPlyedTrack(t));
+
+    return tracks2.cast<RecentlyPlayedTrackData>().toList();
+  }
+
+  RecentlyPlayedTrackData deserialiseRecentlyPlyedTrack(
+      Map<String, dynamic> json) {
+    var time = json['time'];
+    var track = deserialiseTrackInformation(json['track']);
+    return RecentlyPlayedTrackData(time, track);
   }
 }
