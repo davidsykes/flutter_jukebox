@@ -14,16 +14,18 @@ class JukeboxCollectionSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: makeSelectCollectionButtons().toList(),
+      children: <Widget>[
+            const Text('Collections: '),
+          ] +
+          makeSelectCollectionButtons().toList(),
     );
   }
 
   List<Widget> makeSelectCollectionButtons() {
-    var list = List<Widget>.empty(growable: true);
-    list.add(const Text('Collections: '));
-    var w = jukeboxCollections.map((e) => ElevatedButtonActionWidget(
-        e.name, PlayCollectionAction(microServiceController, e.id)));
-    list.addAll(w);
-    return list;
+    return jukeboxCollections
+        .map((e) => ElevatedButtonActionWidget(
+            e.name, PlayCollectionAction(microServiceController, e.id)))
+        .toList()
+        .cast<Widget>();
   }
 }
