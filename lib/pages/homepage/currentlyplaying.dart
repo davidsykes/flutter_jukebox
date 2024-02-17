@@ -32,9 +32,15 @@ class CurrentlyPlayingWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Currently Playing',
-              style: TextStyle(fontSize: 18, fontFamily: 'Comic Sans MS'),
+            Row(
+              children: [
+                const Text(
+                  'Currently Playing',
+                  style: TextStyle(fontSize: 18, fontFamily: 'Comic Sans MS'),
+                ),
+                ElevatedButtonActionWidget(
+                    'Refresh', ActionReturningVoid(() => refresh())),
+              ],
             ),
             Row(
               children: [
@@ -45,24 +51,16 @@ class CurrentlyPlayingWidget extends StatelessWidget {
                 ),
                 const Spacer(), // use Spacer
                 ElevatedButtonActionWidget(
-                    'Refresh', ActionReturningVoid(() => refresh())),
+                    'Delete', ActionReturningVoid(() => deleteTrack())),
               ],
+            ),
+            Text(
+              'Artist: ${currentTrack.artistName}',
+              style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
             ),
             Text(
               'Album: ${currentTrack.albumName}',
               style: const TextStyle(fontSize: 24, fontFamily: 'Comic Sans MS'),
-            ),
-            Row(
-              children: [
-                Text(
-                  'Artist: ${currentTrack.artistName}',
-                  style: const TextStyle(
-                      fontSize: 24, fontFamily: 'Comic Sans MS'),
-                ),
-                const Spacer(), // use Spacer
-                ElevatedButtonActionWidget(
-                    'Delete', ActionReturningVoid(() => deleteTrack())),
-              ],
             ),
           ],
         ));
