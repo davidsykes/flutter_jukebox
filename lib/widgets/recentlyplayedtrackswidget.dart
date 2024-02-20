@@ -52,7 +52,7 @@ class _RecentlyPlayedTracksWidgetState
           .map((e) => Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                    width: 2.0, color: Color.fromARGB(255, 214, 205, 76)),
+                    width: 2.0, color: const Color.fromARGB(255, 214, 205, 76)),
               ),
               child: Text(e)))
           .toList(),

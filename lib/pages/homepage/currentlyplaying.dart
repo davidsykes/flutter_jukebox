@@ -39,7 +39,8 @@ class CurrentlyPlayingWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontFamily: 'Comic Sans MS'),
                 ),
                 ElevatedButtonActionWidget(
-                    'Refresh', ActionReturningVoid(() => refresh())),
+                    'Refresh', ActionReturningVoid(() => refresh()),
+                    height: 0),
               ],
             ),
             Row(

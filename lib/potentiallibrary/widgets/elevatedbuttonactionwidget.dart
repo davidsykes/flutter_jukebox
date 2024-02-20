@@ -5,8 +5,10 @@ import 'jbelevatedbutton.dart';
 class ElevatedButtonActionWidget extends StatefulWidget {
   final String _label;
   final ActionHandler _action;
+  final double? height;
 
-  const ElevatedButtonActionWidget(this._label, this._action, {super.key});
+  const ElevatedButtonActionWidget(this._label, this._action,
+      {super.key, this.height});
 
   @override
   State<ElevatedButtonActionWidget> createState() =>
@@ -25,21 +27,26 @@ class _ElevatedButtonActionWidgetState
       _ => Colors.red
     };
 
-    return JbElevatedButton(widget._label, colour, () async {
-      setState(() {
-        state = 1;
-      });
-      try {
-        var result = await widget._action.action();
+    return JbElevatedButton(
+      widget._label,
+      colour,
+      () async {
         setState(() {
-          state = result ? 0 : 2;
+          state = 1;
         });
-      } catch (e) {
-        setState(() {
-          state = 2;
-        });
-        rethrow;
-      }
-    });
+        try {
+          var result = await widget._action.action();
+          setState(() {
+            state = result ? 0 : 2;
+          });
+        } catch (e) {
+          setState(() {
+            state = 2;
+          });
+          rethrow;
+        }
+      },
+      height: widget.height ?? 50,
+    );
   }
 }

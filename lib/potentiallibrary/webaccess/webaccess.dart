@@ -22,7 +22,6 @@ class WebAccess extends IWebAccess {
   Future<String> get(String url) async {
     try {
       final fullurl = makeUrl(url);
-      Logger().log('get $fullurl');
       final httpPackageUrl = Uri.parse(fullurl);
       final httpPackageInfo = await http.read(httpPackageUrl);
       return httpPackageInfo;
