@@ -20,7 +20,7 @@ class _ArtistSelectorState extends State<ArtistSelector> {
   @override
   Widget build(BuildContext context) {
     var dropMenus = widget.artists
-        .where((e) => e.name.toLowerCase().contains(searchText))
+        .where((e) => e.name.toLowerCase().contains(searchText.toLowerCase()))
         .take(100)
         .map((e) => DropdownMenuEntry(value: e.id, label: e.name));
 
