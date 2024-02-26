@@ -1,5 +1,5 @@
 class CachedValue<T> {
-  Future<T> Function() fetchDataFunction;
+  final Future<T> Function() fetchDataFunction;
   Future<T>? _getDataFuture;
 
   CachedValue(this.fetchDataFunction);

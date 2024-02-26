@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
+import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import '../../actions/playcollectionaction.dart';
 import '../../dataobjects/jukeboxcollection.dart';
 import '../../potentiallibrary/widgets/elevatedbuttonactionwidget.dart';
@@ -6,23 +8,33 @@ import '../../webaccess/microservicecontroller.dart';
 
 class JukeboxCollectionSelectorWidget extends StatelessWidget {
   final IMicroServiceController microServiceController;
-  final List<JukeboxCollection> jukeboxCollections;
+  final CachedValue<List<JukeboxCollection>> jukeboxCollections;
   const JukeboxCollectionSelectorWidget(
       this.microServiceController, this.jukeboxCollections,
       {super.key});
 
   @override
   Widget build(BuildContext context) {
+    return createFutureBuilder(
+        dataFetcher: dataFetcher(), pageMaker: pageMaker);
+  }
+
+  Future<List<JukeboxCollection>> dataFetcher() {
+    return jukeboxCollections.getData();
+  }
+
+  Widget pageMaker(List<JukeboxCollection> collections) {
     return Row(
       children: <Widget>[
             const Text('Collections: '),
           ] +
-          makeSelectCollectionButtons().toList(),
+          makeSelectCollectionButtons(collections).toList(),
     );
   }
 
-  List<Widget> makeSelectCollectionButtons() {
-    return jukeboxCollections
+  List<Widget> makeSelectCollectionButtons(
+      List<JukeboxCollection> collections) {
+    return collections
         .map((e) => ElevatedButtonActionWidget(
             e.name, PlayCollectionAction(microServiceController, e.id)))
         .toList()
