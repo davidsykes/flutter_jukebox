@@ -14,7 +14,7 @@ class CurrentlyPlayingTrackInformationFetcher {
   }
 
   void reset() {
-    _info.reset();
+    _info.clearCache();
   }
 }
 

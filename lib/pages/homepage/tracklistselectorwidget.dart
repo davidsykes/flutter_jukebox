@@ -7,7 +7,10 @@ class TrackListOption {
 }
 
 class TrackListSelectorWidget extends StatelessWidget {
-  const TrackListSelectorWidget({super.key});
+  final void Function(int trackType) updateSearchScreenInformation;
+
+  const TrackListSelectorWidget(this.updateSearchScreenInformation,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class TrackListSelectorWidget extends StatelessWidget {
       label: const Text('Tracks'),
       onSelected: (int? selection) {
         print('selected $selection');
+        updateSearchScreenInformation(selection!);
       },
       dropdownMenuEntries: dropMenus.toList(),
     );

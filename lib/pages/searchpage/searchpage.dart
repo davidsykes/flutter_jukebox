@@ -8,6 +8,7 @@ import '../../tools/search/trackmatchparameters.dart';
 import '../../tools/search/listoftracksformatching.dart';
 import '../../webaccess/microservicecontroller.dart';
 import '../homepage/tracklistselectorwidget.dart';
+import 'listoftrackstodisplay.dart';
 import 'trackeditor.dart';
 
 class SearchScreenData {
@@ -39,6 +40,13 @@ class _SearchPageState extends State<SearchPage> {
   String artistText = '';
   String albumText = '';
   TrackInformation? _itemToEdit;
+  late ListOfTracksToDisplay trackList;
+
+  @override
+  void initState() {
+    super.initState();
+    trackList = ListOfTracksToDisplay(widget.microServiceController);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +56,8 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<SearchScreenData> getSearchScreenInformation() async {
     try {
-      var searchData = widget.microServiceController.getAllTracks();
+      //var searchData = widget.microServiceController.getAllTracks();
+      var searchData = trackList.getTracks();
       var searchScreen = SearchScreenData(await searchData);
       return searchScreen;
     } catch (e) {
@@ -60,6 +69,12 @@ class _SearchPageState extends State<SearchPage> {
       }
       return sd;
     }
+  }
+
+  void updateSearchScreenInformation(int trackType) {
+    setState(() {
+      trackList.reset(trackType);
+    });
   }
 
   Widget makeSearchPage(SearchScreenData searchScreenInformation) {
@@ -105,7 +120,7 @@ class _SearchPageState extends State<SearchPage> {
     return Row(
       children: [
         const Text('Tracks'),
-        TrackListSelectorWidget(),
+        TrackListSelectorWidget(updateSearchScreenInformation),
         const Text('Search'),
         SizedBox(
           width: 250,
