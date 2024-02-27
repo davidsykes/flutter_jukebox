@@ -7,6 +7,7 @@ import '../../tools/search/trackmatcher.dart';
 import '../../tools/search/trackmatchparameters.dart';
 import '../../tools/search/listoftracksformatching.dart';
 import '../../webaccess/microservicecontroller.dart';
+import '../homepage/tracklistselectorwidget.dart';
 import 'trackeditor.dart';
 
 class SearchScreenData {
@@ -103,6 +104,8 @@ class _SearchPageState extends State<SearchPage> {
   Widget makeSearchBar() {
     return Row(
       children: [
+        const Text('Tracks'),
+        TrackListSelectorWidget(),
         const Text('Search'),
         SizedBox(
           width: 250,

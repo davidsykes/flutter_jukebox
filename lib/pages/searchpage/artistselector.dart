@@ -30,7 +30,7 @@ class _ArtistSelectorState extends State<ArtistSelector> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           DropdownMenu<int>(
-            initialSelection: 2,
+            initialSelection: 0,
             requestFocusOnTap: true,
             label: const Text('Artist'),
             onSelected: (int? artistId) {
