@@ -45,4 +45,9 @@ class StubMicroServiceController extends IMicroServiceController {
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<TrackInformation>> getDeletedTracks() {
+    throw UnimplementedError();
+  }
 }

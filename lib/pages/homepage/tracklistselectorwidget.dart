@@ -22,11 +22,6 @@ class TrackListSelectorWidget extends StatelessWidget {
     var dropMenus =
         items.map((v) => DropdownMenuEntry(value: v.value, label: v.label));
 
-    final sample = ['a', 'b', 'c'];
-    for (final (index, item) in sample.indexed) {
-      f(index, item);
-    }
-
     return DropdownMenu<int>(
       initialSelection: 0,
       requestFocusOnTap: true,
@@ -38,6 +33,4 @@ class TrackListSelectorWidget extends StatelessWidget {
       dropdownMenuEntries: dropMenus.toList(),
     );
   }
-
-  void f(int index, String item) {}
 }

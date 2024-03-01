@@ -12,6 +12,7 @@ abstract class IMicroServiceController {
   Future<TrackInformation?> getCurrentTrackInformation();
   Future<List<JukeboxCollection>> getJukeboxCollections();
   Future<List<TrackInformation>> getAllTracks();
+  Future<List<TrackInformation>> getDeletedTracks();
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
   Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks);
@@ -50,6 +51,11 @@ class MicroServiceController extends IMicroServiceController {
   @override
   Future<List<TrackInformation>> getAllTracks() {
     return _allTracks.getData();
+  }
+
+  @override
+  Future<List<TrackInformation>> getDeletedTracks() {
+    return _dbAccess.getDeletedTracks();
   }
 
   Future<List<TrackInformation>> fetchAllTracksFromTheDatabase() {

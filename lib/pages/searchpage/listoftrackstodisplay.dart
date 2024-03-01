@@ -16,6 +16,9 @@ class ListOfTracksToDisplay {
     if (_trackType == 0) {
       return microServiceController.getAllTracks();
     }
+    if (_trackType == 1) {
+      return microServiceController.getDeletedTracks();
+    }
     return List.empty();
   }
 

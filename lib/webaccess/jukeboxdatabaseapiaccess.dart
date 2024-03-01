@@ -14,6 +14,7 @@ abstract class IJukeboxDatabaseApiAccess {
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks();
+  Future<List<TrackInformation>> getDeletedTracks();
 }
 
 class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
@@ -33,6 +34,15 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
   @override
   Future<List<TrackInformation>> getAllTracks() {
     var url = 'tracks';
+    var trackInfo = _webRequestor.get<List<TrackInformation>>(
+        url, deserialiseTracksInformation);
+
+    return trackInfo;
+  }
+
+  @override
+  Future<List<TrackInformation>> getDeletedTracks() {
+    var url = 'deletedtracks';
     var trackInfo = _webRequestor.get<List<TrackInformation>>(
         url, deserialiseTracksInformation);
 
