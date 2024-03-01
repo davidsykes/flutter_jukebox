@@ -23,6 +23,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
       createTest(updateArtistForTrackPostsTheUpdate),
       createTest(updateArtistForTrackLogsErrors),
       createTest(recentlyPlayedTracksCanBeRetrieved),
+      createTest(aTrackCanBeUnDeleted),
     ];
   }
 
@@ -97,6 +98,14 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     assertEqual('2024-02-14T07:58:24', tracks[1].time);
     assertEqual('Let It Be Love', tracks[2].track.trackName);
     assertEqual('2024-02-14T07:55:00', tracks[2].time);
+  }
+
+  Future<void> aTrackCanBeUnDeleted() async {
+    var result = await _access.unDeleteTrack(149);
+
+    assertEqual(true, result);
+    assertEqual('undeletetrack', _mockWebRequestor.postUrl);
+    assertEqual(149, _mockWebRequestor.postRequest.trackId);
   }
 
   // Support Code

@@ -50,4 +50,9 @@ class StubMicroServiceController extends IMicroServiceController {
   Future<List<TrackInformation>> getDeletedTracks() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> unDeleteTrack(int trackId) {
+    throw UnimplementedError();
+  }
 }

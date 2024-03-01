@@ -18,6 +18,7 @@ abstract class IMicroServiceController {
   Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks);
   Future<bool> playCollection(int collectionId);
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks();
+  Future<bool> unDeleteTrack(int trackId);
 }
 
 class MicroServiceController extends IMicroServiceController {
@@ -89,5 +90,10 @@ class MicroServiceController extends IMicroServiceController {
   @override
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks() {
     return _dbAccess.getRecentlyPlayedTracks();
+  }
+
+  @override
+  Future<bool> unDeleteTrack(int trackId) {
+    return _dbAccess.unDeleteTrack(trackId);
   }
 }

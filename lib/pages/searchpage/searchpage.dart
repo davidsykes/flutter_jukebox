@@ -9,6 +9,7 @@ import '../../tools/search/listoftracksformatching.dart';
 import '../../webaccess/microservicecontroller.dart';
 import '../homepage/tracklistselectorwidget.dart';
 import 'listoftrackstodisplay.dart';
+import 'searchpagetracklisttype.dart';
 import 'trackeditor.dart';
 import 'tracklisttrackentrywidget.dart';
 
@@ -37,6 +38,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  SearchPageTrackListTypeOption searchPageTrackListTypeOption =
+      SearchPageTrackListTypeOption.allTracks;
   String searchText = '';
   String artistText = '';
   String albumText = '';
@@ -71,9 +74,10 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void updateSearchScreenInformation(int trackType) {
+  void updateSearchScreenInformation(SearchPageTrackListTypeOption trackType) {
     setState(() {
-      trackList.reset(trackType);
+      searchPageTrackListTypeOption = trackType;
+      trackList.reset(searchPageTrackListTypeOption);
     });
   }
 
@@ -94,7 +98,10 @@ class _SearchPageState extends State<SearchPage> {
           child: ListView(
         children: getMatchingTracks(searchScreenInformation)
             .map((track) => TrackListTrackEntryWidget(
-                track, setItemToEdit, widget.microServiceController))
+                track,
+                searchPageTrackListTypeOption,
+                setItemToEdit,
+                widget.microServiceController))
             .toList(),
       )));
     }

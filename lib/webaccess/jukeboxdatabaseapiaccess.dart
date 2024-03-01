@@ -4,6 +4,7 @@ import '../../dataobjects/trackinformation.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
 import '../potentiallibrary/utilities/ilogger.dart';
+import 'requests/undeletetrackrequest.dart';
 import 'requests/updateartistfortrackrequest.dart';
 
 abstract class IJukeboxDatabaseApiAccess {
@@ -15,6 +16,7 @@ abstract class IJukeboxDatabaseApiAccess {
   Future<bool> updateArtistForTrack(int trackId, int artistId);
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks();
   Future<List<TrackInformation>> getDeletedTracks();
+  Future<bool> unDeleteTrack(int trackId);
 }
 
 class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
@@ -150,5 +152,13 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
     var time = json['time'];
     var track = deserialiseTrackInformation(json['track']);
     return RecentlyPlayedTrackData(time, track);
+  }
+
+  @override
+  Future<bool> unDeleteTrack(int trackId) async {
+    var url = 'undeletetrack';
+    var request = UnDeleteTrackRequest(trackId);
+    var result = await _webRequestor.postRequestOk(url, request);
+    return result.success;
   }
 }
