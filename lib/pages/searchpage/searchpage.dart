@@ -10,6 +10,7 @@ import '../../webaccess/microservicecontroller.dart';
 import '../homepage/tracklistselectorwidget.dart';
 import 'listoftrackstodisplay.dart';
 import 'trackeditor.dart';
+import 'tracklisttrackentrywidget.dart';
 
 class SearchScreenData {
   late IListOfTracksForMatching _matcher;
@@ -56,7 +57,6 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<SearchScreenData> getSearchScreenInformation() async {
     try {
-      //var searchData = widget.microServiceController.getAllTracks();
       var searchData = trackList.getTracks();
       var searchScreen = SearchScreenData(await searchData);
       return searchScreen;
@@ -93,7 +93,7 @@ class _SearchPageState extends State<SearchPage> {
       rows.add(Expanded(
           child: ListView(
         children: getMatchingTracks(searchScreenInformation)
-            .map((track) => trackToText(track))
+            .map((track) => TrackListTrackEntryWidget(track, setItemToEdit))
             .toList(),
       )));
     }
@@ -101,6 +101,12 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       children: rows,
     );
+  }
+
+  void setItemToEdit(TrackInformation track) {
+    setState(() {
+      _itemToEdit = track;
+    });
   }
 
   void clearItemToEdit() {
@@ -165,18 +171,5 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ],
     );
-  }
-
-  Widget trackToText(TrackInformation track) {
-    var t = track.trackName;
-    var artist = track.artistName;
-    var album = track.albumName;
-    return GestureDetector(
-        child: Text('$t - $artist - $album'),
-        onTap: () {
-          setState(() {
-            _itemToEdit = track;
-          });
-        });
   }
 }

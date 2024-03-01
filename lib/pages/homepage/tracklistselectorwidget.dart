@@ -27,7 +27,6 @@ class TrackListSelectorWidget extends StatelessWidget {
       requestFocusOnTap: true,
       label: const Text('Tracks'),
       onSelected: (int? selection) {
-        print('selected $selection');
         updateSearchScreenInformation(selection!);
       },
       dropdownMenuEntries: dropMenus.toList(),
