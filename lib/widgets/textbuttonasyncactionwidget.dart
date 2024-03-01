@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../potentiallibrary/programexception.dart';
 import '../potentiallibrary/utilities/actionhandler.dart';
 
 class TextButtonAsyncActionWidget extends StatefulWidget {
@@ -26,14 +27,20 @@ class _TextButtonAsyncActionState extends State<TextButtonAsyncActionWidget> {
               setState(() {
                 _color = Colors.yellow;
               });
-              var result = await widget._action.action();
-              setState(() {
-                if (result) {
-                  _color = Colors.green;
-                } else {
+              try {
+                var result = await widget._action.action();
+                setState(() {
+                  if (result) {
+                    _color = Colors.green;
+                  } else {
+                    _color = Colors.red;
+                  }
+                });
+              } on ProgramException catch (e) {
+                setState(() {
                   _color = Colors.red;
-                }
-              });
+                });
+              }
             }
           : null,
       child: Text(widget._buttonText),
