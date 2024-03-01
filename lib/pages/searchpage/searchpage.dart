@@ -93,7 +93,8 @@ class _SearchPageState extends State<SearchPage> {
       rows.add(Expanded(
           child: ListView(
         children: getMatchingTracks(searchScreenInformation)
-            .map((track) => TrackListTrackEntryWidget(track, setItemToEdit))
+            .map((track) => TrackListTrackEntryWidget(
+                track, setItemToEdit, widget.microServiceController))
             .toList(),
       )));
     }

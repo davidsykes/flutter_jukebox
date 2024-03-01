@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import '../../actions/playsinglemp3action.dart';
+import '../../webaccess/microservicecontroller.dart';
 import '../../widgets/textbuttonasyncactionwidget.dart';
 
 class TrackListTrackEntryWidget extends StatelessWidget {
   final TrackInformation track;
   final void Function(TrackInformation track) setItemToEdit;
+  final IMicroServiceController _serviceController;
 
-  const TrackListTrackEntryWidget(this.track, this.setItemToEdit, {super.key});
+  const TrackListTrackEntryWidget(
+      this.track, this.setItemToEdit, this._serviceController,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TextButtonAsyncActionWidget('Play', playTrack),
+        TextButtonAsyncActionWidget(
+            'Play',
+            PlaySingleMP3Action(
+                _serviceController, track.getJukeboxTrackPathAndFileName())),
         trackToText(track),
       ],
     );

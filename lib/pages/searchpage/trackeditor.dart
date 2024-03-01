@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jukebox/actions/playmp3action.dart';
+import 'package:flutter_jukebox/actions/playsinglemp3action.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/actionbutton.dart';
@@ -50,7 +50,7 @@ class _TrackEditorPageState extends State<TrackEditorPage> {
 
     rows.add(Text(track.trackName));
 
-    var playMp3Action = PlayMP3Action(
+    var playMp3Action = PlaySingleMP3Action(
         widget.microServiceController, track.getJukeboxTrackPathAndFileName());
     rows.add(ElevatedButtonActionWidget('Play', playMp3Action));
 

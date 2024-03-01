@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../potentiallibrary/utilities/actionhandler.dart';
 
 class TextButtonAsyncActionWidget extends StatefulWidget {
   final String _buttonText;
-  final Future<bool> Function() _action;
+  final ActionHandler _action;
   const TextButtonAsyncActionWidget(this._buttonText, this._action,
       {super.key});
 
@@ -25,7 +26,7 @@ class _TextButtonAsyncActionState extends State<TextButtonAsyncActionWidget> {
               setState(() {
                 _color = Colors.yellow;
               });
-              var result = await widget._action();
+              var result = await widget._action.action();
               setState(() {
                 if (result) {
                   _color = Colors.green;
