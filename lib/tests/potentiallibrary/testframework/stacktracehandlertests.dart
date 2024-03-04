@@ -2,13 +2,14 @@ import '../../../potentiallibrary/testframework/stacktracehandler.dart';
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
 
-class TestStackTraceHandlerTests extends TestModule {
+class StackTraceHandlerTests extends TestModule {
   @override
   Iterable<TestUnit> getTests() {
     return [
       createTest(theTestNameCanBeRetrieved),
       createTest(testNameCanBeMissing),
       createTest(asyncronousSuspensionsAreIgnored),
+      createTest(theExceptionLocationCanBeRetrieved),
     ];
   }
 
@@ -24,7 +25,8 @@ class TestStackTraceHandlerTests extends TestModule {
 <asynchronous suspension>
 #6      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:624:31)""";
 
-    var testName = getTestNameFromAssertStackTrace(stack);
+    var st = StactTraceHandler(stack);
+    var testName = st.getTestNameFromAssertStackTrace();
     assertEqual(
         'TestStactTraceHandlerTests.theTestNameCanBeRetrieved', testName);
   }
@@ -41,7 +43,8 @@ class TestStackTraceHandlerTests extends TestModule {
 <asynchronous suspension>
 #6      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:624:31)""";
 
-    var testName = getTestNameFromAssertStackTrace(stack);
+    var st = StactTraceHandler(stack);
+    var testName = st.getTestNameFromAssertStackTrace();
     assertEqual('Test name was not found', testName);
   }
 
@@ -58,8 +61,27 @@ some added stack information
 <asynchronous suspension>
 #6      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:624:31)""";
 
-    var testName = getTestNameFromAssertStackTrace(stack);
+    var st = StactTraceHandler(stack);
+    var testName = st.getTestNameFromAssertStackTrace();
     assertEqual('TestStactTraceHandlerTests.asyncronousSuspensionsAreIgnored',
         testName);
+  }
+
+  Future<void> theExceptionLocationCanBeRetrieved() async {
+    var stack = """
+#0      MockWebApiRequestCreator.createWebApiRequestJson (package:flutter_jukebox/tests/potentiallibrary/webaccess/webrequestortests.dart:282:5)
+#1      WebRequestor.putRequestOk (package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart:89:44)
+#2      WebRequestorTests.putRequestOkPassesRequestToTheWebApiRequestCreator (package:flutter_jukebox/tests/potentiallibrary/webaccess/webrequestortests.dart:209:22)
+#3      TestUnit.runTest (package:flutter_jukebox/potentiallibrary/testframework/testunit.dart:22:17)
+#4      TestRunner.runTests (package:flutter_jukebox/potentiallibrary/testframework/testrunner.dart:25:14)
+<asynchronous suspension>
+#5      AllTests.runTests (package:flutter_jukebox/tests/alltests.dart:37:19)
+<asynchronous suspension>
+#6      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:624:31)
+<asynchronous suspension>""";
+
+    var st = StactTraceHandler(stack);
+    var location = st.getExceptionLocationFromStackTrace();
+    assertEqual('webrequestortests.dart:282', location);
   }
 }

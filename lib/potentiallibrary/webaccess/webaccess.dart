@@ -6,6 +6,7 @@ import '../utilities/ilogger.dart';
 abstract class IWebAccess {
   Future<String> get(String url);
   Future<String> postText(String url, String body);
+  Future<String> putText(String url, String body);
 }
 
 class WebAccess extends IWebAccess {
@@ -56,7 +57,31 @@ class WebAccess extends IWebAccess {
     }
   }
 
-  Future<String> put(String url, String? putBody) async {
+  @override
+  Future<String> putText(String url, String body) async {
+    final fullurl = makeUrl(url);
+    Logger().log('put $fullurl');
+    try {
+      var result = await http.put(Uri.parse(fullurl),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      Logger().log('put returned ${result.statusCode}: ${result.body}');
+
+      if (result.statusCode == 200) {
+        return result.body;
+      }
+      _logger.log('Put Error ${result.statusCode}: ${result.reasonPhrase}');
+      return 'Fail';
+    } on Exception catch (ex) {
+      var m = ex.toString();
+      _logger.log('WebAccess put exception $m');
+      throw ProgramException('WebAccess put exception $m');
+    }
+  }
+
+  Future<String> put999(String url, String? putBody) async {
     var result = await http.put(
       Uri.parse(makeUrl(url)),
       headers: <String, String>{

@@ -98,10 +98,16 @@ class MockMp3WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+  Future<WebRequesterResponse> postRequestOk<TRequest>(
       String url, TRequest request) async {
     postUrl = url;
     postRequest = jsonEncode(request);
     return WebRequesterResponse();
+  }
+
+  @override
+  Future<WebRequesterResponse> putRequestOk<TRequest>(
+      String url, TRequest putRequest) {
+    throw UnimplementedError();
   }
 }

@@ -36,7 +36,7 @@ class _TextButtonAsyncActionState extends State<TextButtonAsyncActionWidget> {
                     _color = Colors.red;
                   }
                 });
-              } on ProgramException catch (e) {
+              } on ProgramException {
                 setState(() {
                   _color = Colors.red;
                 });

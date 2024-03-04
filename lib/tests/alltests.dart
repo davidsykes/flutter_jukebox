@@ -2,8 +2,9 @@ import '../potentiallibrary/testframework/testrunner.dart';
 import '../potentiallibrary/testframework/testresults.dart';
 import 'actions/updateartistfortrackactiontests.dart';
 import 'dataobjects/trackinformationtests.dart';
-import 'potentiallibrary/testframework/teststacktracehandlertests.dart';
+import 'potentiallibrary/testframework/stacktracehandlertests.dart';
 import 'potentiallibrary/utilities/actionbuttontests.dart';
+import 'potentiallibrary/webaccess/webapirequestcreatortests.dart';
 import 'potentiallibrary/webaccess/webrequestortests.dart';
 import 'tools/trackmatchertests.dart';
 import 'tools/listoftracksformatchingtests.dart';
@@ -19,7 +20,8 @@ class AllTests {
   Future<TestResults> runTests() async {
     var runner = TestRunner();
 
-    runner.addTests(TestStackTraceHandlerTests());
+    runner.addTests(StackTraceHandlerTests());
+    runner.addTests(WebApiRequestCreatorTests());
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
     runner.addTests(TrackCollectionPlayerTests());

@@ -1,34 +1,55 @@
 import 'dart:convert';
 
-String getTestNameFromAssertStackTrace(String stackTrace) {
-  var lines = const LineSplitter().convert(stackTrace);
-  var testUnitLine = findLineContainingTestUnit(lines);
-  var testNameLine = windBackToLastFunctionPoint(lines, testUnitLine);
-  if (testNameLine > 0) {
-    return _getTestNameFromStackTrace(lines[testNameLine]);
-  }
-  return 'Test name was not found';
-}
+class StactTraceHandler {
+  late List<String> _lines;
 
-int findLineContainingTestUnit(List<String> lines) {
-  for (var i = 1; i < lines.length; i++) {
-    if (lines[i].contains('TestUnit')) {
-      return i;
+  StactTraceHandler(String stackTrace) {
+    _lines = const LineSplitter().convert(stackTrace);
+  }
+
+  String getTestNameFromAssertStackTrace() {
+    var testUnitLine = _findLineContainingTestUnit(_lines);
+    var testNameLine = _windBackToLastFunctionPoint(_lines, testUnitLine);
+    if (testNameLine > 0) {
+      return _getTestNameFromStackTrace(_lines[testNameLine]);
     }
+    return 'Test name was not found';
   }
-  return 0;
-}
 
-int windBackToLastFunctionPoint(List<String> lines, int line) {
-  do {
-    line = line - 1;
-  } while (line > 0 && lines[line][0] != '#');
-  return line;
-}
+  int _findLineContainingTestUnit(List<String> lines) {
+    for (var i = 1; i < lines.length; i++) {
+      if (lines[i].contains('TestUnit')) {
+        return i;
+      }
+    }
+    return 0;
+  }
 
-String _getTestNameFromStackTrace(String line) {
-  final reg = RegExp('#[0-9]+\\s+(\\S+)');
-  final match = reg.firstMatch(line);
-  final matchedText = match?.group(1);
-  return matchedText ?? 'Test name was not found';
+  int _windBackToLastFunctionPoint(List<String> lines, int line) {
+    do {
+      line = line - 1;
+    } while (line > 0 && lines[line][0] != '#');
+    return line;
+  }
+
+  String _getTestNameFromStackTrace(String line) {
+    final reg = RegExp('#[0-9]+\\s+(\\S+)');
+    final match = reg.firstMatch(line);
+    final matchedText = match?.group(1);
+    return matchedText ?? 'Test name was not found';
+  }
+
+  String getExceptionLocationFromStackTrace() {
+    final line = _lines[0];
+    final reg = RegExp('([^/]*):[0-9]+\\)');
+    final match = reg.firstMatch(line);
+    if (match == null) {
+      return '';
+    }
+    var group = match.group(1);
+    if (group == null) {
+      return '';
+    }
+    return group;
+  }
 }

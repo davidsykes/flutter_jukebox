@@ -44,8 +44,8 @@ abstract class TestModule {
   }
 
   void throwAssert(List<String> causes) {
-    var st = StackTrace.current.toString();
-    var test = getTestNameFromAssertStackTrace(st);
+    var st = StactTraceHandler(StackTrace.current.toString());
+    var test = st.getTestNameFromAssertStackTrace();
     throw TestAssertFailException(test, causes);
   }
 }

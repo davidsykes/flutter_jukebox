@@ -1,14 +1,12 @@
-// ignore_for_file: non_constant_identifier_names
-
 class WebApiRequest {
-  final int SecurityCode = 123;
-  final dynamic Request;
-  WebApiRequest(this.Request);
+  final int securityCode = 123;
+  final dynamic request;
+  WebApiRequest(this.request);
 
   Map<String, dynamic> toJson() {
     return {
-      'SecurityCode': SecurityCode,
-      'Request': Request,
+      'SecurityCode': securityCode,
+      'Request': request,
     };
   }
 }

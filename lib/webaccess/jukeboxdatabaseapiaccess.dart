@@ -4,7 +4,7 @@ import '../../dataobjects/trackinformation.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
 import '../potentiallibrary/utilities/ilogger.dart';
-import 'requests/undeletetrackrequest.dart';
+import 'requests/settrackdeletedrequest.dart';
 import 'requests/updateartistfortrackrequest.dart';
 
 abstract class IJukeboxDatabaseApiAccess {
@@ -156,9 +156,9 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<bool> unDeleteTrack(int trackId) async {
-    var url = 'undeletetrack';
-    var request = UnDeleteTrackRequest(trackId);
-    var result = await _webRequestor.postRequestOk(url, request);
+    var url = 'settrackdeleted';
+    var request = SetTrackDeletedRequest(trackId, true);
+    var result = await _webRequestor.putRequestOk(url, request);
     return result.success;
   }
 }

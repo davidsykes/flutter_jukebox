@@ -55,8 +55,14 @@ class TestRunner {
   aTestHasFailed(
       TestUnit test, TestResults testResults, dynamic error, stackTrace) {
     testResults.numberOfTests++;
-    var testName = getTestNameFromAssertStackTrace(stackTrace.toString());
+    var st = StactTraceHandler(stackTrace.toString());
+    var testName = st.getTestNameFromAssertStackTrace();
     testResults.results.add('------------ Failed: $testName --------------');
+
+    final location = st.getExceptionLocationFromStackTrace();
+    if (location.isNotEmpty) {
+      testResults.results.add('Location: $location');
+    }
 
     if (error is TestAssertFailException) {
       testResults.results.addAll(error.causes);

@@ -76,13 +76,14 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     var result = await _access.updateArtistForTrack(17, 82);
 
     assertEqual(true, result);
-    assertEqual('updateartistfortrack', _mockWebRequestor.postUrl);
-    assertEqual(17, _mockWebRequestor.postRequest.trackId);
-    assertEqual(82, _mockWebRequestor.postRequest.artistId);
+    assertEqual('post', _mockWebRequestor.requestType);
+    assertEqual('updateartistfortrack', _mockWebRequestor.requestUrl);
+    assertEqual(17, _mockWebRequestor.request.trackId);
+    assertEqual(82, _mockWebRequestor.request.artistId);
   }
 
   Future<void> updateArtistForTrackLogsErrors() async {
-    _mockWebRequestor.postError = 'Oops';
+    _mockWebRequestor.requestError = 'Oops';
     await _access.updateArtistForTrack(17, 82);
 
     assertEqual(['Error updating artist for track: Oops'], _mockLogger.logs);
@@ -104,8 +105,10 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     var result = await _access.unDeleteTrack(149);
 
     assertEqual(true, result);
-    assertEqual('undeletetrack', _mockWebRequestor.postUrl);
-    assertEqual(149, _mockWebRequestor.postRequest.trackId);
+    assertEqual('put', _mockWebRequestor.requestType);
+    assertEqual('settrackdeleted', _mockWebRequestor.requestUrl);
+    assertEqual(149, _mockWebRequestor.request.trackId);
+    assertEqual(true, _mockWebRequestor.request.isDeleted);
   }
 
   // Support Code
@@ -134,9 +137,10 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
 class MockWebRequestor extends IWebRequestor {
   String expectedGetUrl = '';
   String getResponse = '';
-  String postUrl = '';
-  dynamic postRequest = '';
-  String? postError;
+  String requestType = '';
+  String requestUrl = '';
+  dynamic request = '';
+  String? requestError;
 
   @override
   Future<T> get<T>(
@@ -171,11 +175,21 @@ class MockWebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
-      String url, TRequest request) async {
-    postUrl = url;
-    postRequest = request;
-    return WebRequesterResponse(postError);
+  Future<WebRequesterResponse> postRequestOk<TRequest>(
+      String url, TRequest postRequest) async {
+    requestType = 'post';
+    requestUrl = url;
+    request = postRequest;
+    return WebRequesterResponse(requestError);
+  }
+
+  @override
+  Future<WebRequesterResponse> putRequestOk<TRequest>(
+      String url, TRequest putRequest) async {
+    requestType = 'put';
+    requestUrl = url;
+    request = putRequest;
+    return WebRequesterResponse(requestError);
   }
 
   String individualTrackResponse() {
