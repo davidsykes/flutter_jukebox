@@ -4,6 +4,9 @@ class StactTraceHandler {
   late List<String> _lines;
 
   StactTraceHandler(String stackTrace) {
+    // print('----');
+    // print(stackTrace);
+    // print('----');
     _lines = const LineSplitter().convert(stackTrace);
   }
 
@@ -39,8 +42,16 @@ class StactTraceHandler {
     return matchedText ?? 'Test name was not found';
   }
 
-  String getExceptionLocationFromStackTrace() {
-    final line = _lines[0];
+  String getExceptionLocationFromStackTrace({int lineIndex = 0}) {
+    final line = _lines[lineIndex];
+    final location = _getLocationFromLine(line);
+    if (location.contains('patch.dart')) {
+      return getExceptionLocationFromStackTrace(lineIndex: lineIndex + 1);
+    }
+    return location;
+  }
+
+  String _getLocationFromLine(String line) {
     final reg = RegExp('([^/]*):[0-9]+\\)');
     final match = reg.firstMatch(line);
     if (match == null) {

@@ -10,6 +10,7 @@ class StackTraceHandlerTests extends TestModule {
       createTest(testNameCanBeMissing),
       createTest(asyncronousSuspensionsAreIgnored),
       createTest(theExceptionLocationCanBeRetrieved),
+      createTest(dartLocationsAreExcludedFromTheExceptionLocation),
     ];
   }
 
@@ -83,5 +84,26 @@ some added stack information
     var st = StactTraceHandler(stack);
     var location = st.getExceptionLocationFromStackTrace();
     assertEqual('webrequestortests.dart:282', location);
+  }
+
+  Future<void> dartLocationsAreExcludedFromTheExceptionLocation() async {
+    var stack = """
+#0      Object.noSuchMethod (dart:core-patch/object_patch.dart:38:5)
+#1      JukeboxDatabaseApiAccessTests.aTrackCanBeUnDeleted (package:flutter_jukebox/tests/webaccess/jukeboxdatabaseapiaccesstests.dart:110:48)
+<asynchronous suspension>
+#2      TestUnit.runTest (package:flutter_jukebox/potentiallibrary/testframework/testunit.dart:22:5)
+<asynchronous suspension>
+#3      TestRunner.runTests.<anonymous closure> (package:flutter_jukebox/potentiallibrary/testframework/testrunner.dart:26:19)
+<asynchronous suspension>
+#4      TestRunner.runTests (package:flutter_jukebox/potentiallibrary/testframework/testrunner.dart:24:9)
+<asynchronous suspension>
+#5      AllTests.runTests (package:flutter_jukebox/tests/alltests.dart:37:19)
+<asynchronous suspension>
+#6      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:624:31)
+<asynchronous suspension>""";
+
+    var st = StactTraceHandler(stack);
+    var location = st.getExceptionLocationFromStackTrace();
+    assertEqual('jukeboxdatabaseapiaccesstests.dart:110', location);
   }
 }
