@@ -1,7 +1,10 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webaccess.dart';
+import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestorresponse.dart';
 import '../../../potentiallibrary/programexception.dart';
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
+import '../../../potentiallibrary/webaccess/webapirequestcreator.dart';
+import '../../../potentiallibrary/webaccess/webrequesterresponsecreator.dart';
 import '../../../potentiallibrary/webaccess/webrequestor.dart';
 
 class SimpleClassForRetrieval {
@@ -16,7 +19,9 @@ class SimpleClassForRetrieval {
 
 class WebRequestorTests extends TestModule {
   late IWebRequestor _requestor;
-  late MockWebAccess _webAccess;
+  late MockWebAccess _mockWebAccess;
+  late MockWebApiRequestCreator _mockWebApiRequestCreator;
+  late MockWebRequesterResponseCreator _mockWebRequesterResponseCreator;
 
   @override
   Iterable<TestUnit> getTests() {
@@ -34,6 +39,7 @@ class WebRequestorTests extends TestModule {
       createTest(ifPostRequestOkReturnsAResponseTrueIsReturned),
       createTest(ifPostRequestOkReturnsAnErrorFalseAndTheErrorIsReturned),
       createTest(ifPostRequestOkReturnsAMalformedResponseAnExceptionIsThrown),
+      createTest(putRequestOkPassesRequestToTheWebApiRequestCreator),
     ];
   }
 
@@ -56,7 +62,7 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> getASimpleRequestCanBeMade() async {
-    _webAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
+    _mockWebAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
 
     var result = await _requestor.get<SimpleClassForRetrieval>(
         'url', deserialiseSimpleClassForRetrieval);
@@ -64,7 +70,7 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> getIfARequestReturnsAnErrorAnExceptionIsThrown() async {
-    _webAccess.response = makeUnsuccessfulResponse('Error Message');
+    _mockWebAccess.response = makeUnsuccessfulResponse('Error Message');
 
     try {
       await _requestor.get<SimpleClassForRetrieval>(
@@ -77,7 +83,7 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> getIfARequestReturnsNoResponseAnExceptionIsThrown() async {
-    _webAccess.response = makeSuccessfulResponse(null);
+    _mockWebAccess.response = makeSuccessfulResponse(null);
 
     try {
       await _requestor.get<SimpleClassForRetrieval>(
@@ -91,7 +97,7 @@ class WebRequestorTests extends TestModule {
 
   Future<void>
       getIfARequestReturnsAMalformedResponseAnExceptionIsThrown() async {
-    _webAccess.response = makeUnsuccessfulResponse('":":":":"');
+    _mockWebAccess.response = makeUnsuccessfulResponse('":":":":"');
 
     try {
       await _requestor.get<SimpleClassForRetrieval>(
@@ -104,8 +110,8 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> postRequestResponsePostsAndReturnsResponse() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
 
     var response = await _requestor.postRequestResponse(
         'url', 'Request', SimpleClassForRetrieval.fromJson);
@@ -114,8 +120,8 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> ifPostRequestResponseReturnsAnErrorAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeUnsuccessfulResponse('Error Message');
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeUnsuccessfulResponse('Error Message');
 
     try {
       await _requestor.postRequestResponse(
@@ -129,8 +135,8 @@ class WebRequestorTests extends TestModule {
 
   Future<void>
       ifPostRequestResponseReturnsNoResponseAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeSuccessfulResponse(null);
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeSuccessfulResponse(null);
 
     try {
       await _requestor.postRequestResponse(
@@ -144,8 +150,8 @@ class WebRequestorTests extends TestModule {
 
   Future<void>
       ifPostRequestResponseReturnsAMalformedResponseAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeUnsuccessfulResponse('":":":":"');
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeUnsuccessfulResponse('":":":":"');
 
     try {
       await _requestor.postRequestResponse(
@@ -158,8 +164,8 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> postRequestOkPostsAndReturnsTrue() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeSuccessfulResponse(null);
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeSuccessfulResponse(null);
 
     var result = await _requestor.postRequestOk('url', 'Request');
 
@@ -167,8 +173,8 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> ifPostRequestOkReturnsAResponseTrueIsReturned() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeSuccessfulResponse('{ "integer": 5411 }');
 
     var result = await _requestor.postRequestOk('url', 'Request');
 
@@ -176,8 +182,8 @@ class WebRequestorTests extends TestModule {
   }
 
   Future<void> ifPostRequestOkReturnsAnErrorFalseAndTheErrorIsReturned() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeUnsuccessfulResponse('Error Message');
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeUnsuccessfulResponse('Error Message');
 
     var result = await _requestor.postRequestOk('url', 'Request');
 
@@ -187,8 +193,8 @@ class WebRequestorTests extends TestModule {
 
   Future<void>
       ifPostRequestOkReturnsAMalformedResponseAnExceptionIsThrown() async {
-    _webAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
-    _webAccess.response = makeUnsuccessfulResponse('":":":":"');
+    _mockWebAccess.expectedBody = '{"SecurityCode":123,"Request":"Request"}';
+    _mockWebAccess.response = makeUnsuccessfulResponse('":":":":"');
 
     try {
       await _requestor.postRequestOk('url', 'Request');
@@ -199,16 +205,38 @@ class WebRequestorTests extends TestModule {
     throwAssert(['Exception expected']);
   }
 
+  Future<void> putRequestOkPassesRequestToTheWebApiRequestCreator() async {
+    await _requestor.putRequestOk('url', 'putRequest');
+
+    assertEqual('putRequest', _mockWebApiRequestCreator.request);
+  }
+
+  Future<void> putRequestOkPassesRequestToThePut() async {
+    await _requestor.putRequestOk('url', 'putRequest');
+
+    assertEqual('url', _mockWebAccess.putUrl);
+    assertEqual('put web api request', _mockWebAccess.putRequest);
+  }
+
+  Future<void> putRequestOkReturnsWebRequesterResponse() async {
+    var response = await _requestor.putRequestOk('url', 'putRequest');
+
+    assertEqual('web api response', response);
+  }
+
   // Support Code
 
   @override
   void setUpMocks() {
-    _webAccess = MockWebAccess();
+    _mockWebAccess = MockWebAccess();
+    _mockWebApiRequestCreator = MockWebApiRequestCreator();
+    _mockWebRequesterResponseCreator = MockWebRequesterResponseCreator();
   }
 
   @override
   void setUpObjectUnderTest() {
-    _requestor = WebRequestor(_webAccess);
+    _requestor = WebRequestor(_mockWebAccess, _mockWebApiRequestCreator,
+        _mockWebRequesterResponseCreator);
   }
 
   SimpleClassForRetrieval deserialiseSimpleClassForRetrieval(
@@ -220,6 +248,8 @@ class WebRequestorTests extends TestModule {
 class MockWebAccess extends IWebAccess {
   String response = '';
   String expectedBody = 'body';
+  String putUrl = '';
+  String putRequest = '';
 
   @override
   Future<String> get(String url) {
@@ -232,5 +262,29 @@ class MockWebAccess extends IWebAccess {
       return Future<String>.value(response);
     }
     throw ('invalid url \'$url\' \'$body\'');
+  }
+
+  @override
+  Future<String> putText(String url, String body) async {
+    putUrl = url;
+    putRequest = body;
+    return url + body;
+  }
+}
+
+class MockWebApiRequestCreator extends IWebApiRequestCreator {
+  String? request;
+
+  @override
+  String createWebApiRequestJson(request) {
+    this.request = request;
+    return 'web api request$request';
+  }
+}
+
+class MockWebRequesterResponseCreator extends IWebRequesterResponseCreator {
+  @override
+  WebRequesterResponse createWebRequesterResponse(String textResponse) {
+    return WebRequesterResponse();
   }
 }

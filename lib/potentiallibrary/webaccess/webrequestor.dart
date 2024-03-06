@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter_jukebox/potentiallibrary/programexception.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webapirequest.dart';
 import 'webaccess.dart';
+import 'webapirequestcreator.dart';
+import 'webrequesterresponsecreator.dart';
 import 'webrequestorresponse.dart';
 
 abstract class IWebRequestor {
@@ -11,14 +13,19 @@ abstract class IWebRequestor {
       String url,
       TRequest request,
       TResponse Function(Map<String, dynamic> data) deserialiseResponse);
-  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+  Future<WebRequesterResponse> postRequestOk<TRequest>(
+      String url, TRequest request);
+  Future<WebRequesterResponse> putRequestOk<TRequest>(
       String url, TRequest request);
 }
 
 class WebRequestor extends IWebRequestor {
   final IWebAccess _webAccess;
+  final IWebApiRequestCreator _webApiRequestCreator;
+  final IWebRequesterResponseCreator _webRequesterResponseCreator;
 
-  WebRequestor(this._webAccess);
+  WebRequestor(this._webAccess, this._webApiRequestCreator,
+      this._webRequesterResponseCreator);
 
   @override
   Future<T> get<T>(
@@ -47,7 +54,7 @@ class WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<WebRequesterResponse> postRequestOk<TRequest, TResponse>(
+  Future<WebRequesterResponse> postRequestOk<TRequest>(
       String url, TRequest request) async {
     var postResponse = await getPostResponseFromPostRequest(url, request);
     var response = decodeJson(postResponse);
@@ -74,6 +81,16 @@ class WebRequestor extends IWebRequestor {
     }
 
     return response['response'];
+  }
+
+  @override
+  Future<WebRequesterResponse> putRequestOk<TRequest>(
+      String url, TRequest request) async {
+    var webRequest = _webApiRequestCreator.createWebApiRequestJson(request);
+    var textResponse = await _webAccess.putText(url, webRequest);
+    var webRequesterResponse =
+        _webRequesterResponseCreator.createWebRequesterResponse(textResponse);
+    return webRequesterResponse;
   }
 
   dynamic decodeJson(String json) {

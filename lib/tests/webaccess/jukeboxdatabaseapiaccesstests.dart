@@ -176,19 +176,19 @@ class MockWebRequestor extends IWebRequestor {
 
   @override
   Future<WebRequesterResponse> postRequestOk<TRequest>(
-      String url, TRequest postRequest) async {
+      String url, TRequest request) async {
     requestType = 'post';
     requestUrl = url;
-    request = postRequest;
+    this.request = request;
     return WebRequesterResponse(requestError);
   }
 
   @override
   Future<WebRequesterResponse> putRequestOk<TRequest>(
-      String url, TRequest putRequest) async {
+      String url, TRequest request) async {
     requestType = 'put';
     requestUrl = url;
-    request = putRequest;
+    this.request = request;
     return WebRequesterResponse(requestError);
   }
 
