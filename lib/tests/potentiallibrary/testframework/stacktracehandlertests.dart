@@ -83,7 +83,9 @@ some added stack information
 
     var st = StactTraceHandler(stack);
     var location = st.getExceptionLocationFromStackTrace();
-    assertEqual('webrequestortests.dart:282', location);
+    assertEqual(
+        'flutter_jukebox/tests/potentiallibrary/webaccess/webrequestortests.dart:282',
+        location);
   }
 
   Future<void> dartLocationsAreExcludedFromTheExceptionLocation() async {
@@ -104,6 +106,8 @@ some added stack information
 
     var st = StactTraceHandler(stack);
     var location = st.getExceptionLocationFromStackTrace();
-    assertEqual('jukeboxdatabaseapiaccesstests.dart:110', location);
+    assertEqual(
+        'flutter_jukebox/tests/webaccess/jukeboxdatabaseapiaccesstests.dart:110',
+        location);
   }
 }
