@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 class StactTraceHandler {
+  final ignorableLocations = <String>['patch.dart', '/testmodule.dart'];
   late List<String> _lines;
 
   StactTraceHandler(String stackTrace) {
-    // print('----');
-    // print(stackTrace);
-    // print('----');
     _lines = const LineSplitter().convert(stackTrace);
   }
 
@@ -45,8 +43,8 @@ class StactTraceHandler {
   String getExceptionLocationFromStackTrace({int lineIndex = 0}) {
     final line = _lines[lineIndex];
     final location = _getLocationFromLine(line);
-    final ignorableLocations = <String>['patch.dart', 'testframework'];
-    if (ignorableLocations.any((element) => location.contains(element))) {
+    if (location.isEmpty ||
+        ignorableLocations.any((element) => location.contains(element))) {
       return getExceptionLocationFromStackTrace(lineIndex: lineIndex + 1);
     }
     return location;

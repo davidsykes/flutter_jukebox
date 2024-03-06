@@ -5,6 +5,7 @@ import 'dataobjects/trackinformationtests.dart';
 import 'potentiallibrary/testframework/stacktracehandlertests.dart';
 import 'potentiallibrary/utilities/actionbuttontests.dart';
 import 'potentiallibrary/webaccess/webapirequestcreatortests.dart';
+import 'potentiallibrary/webaccess/webapiresponsecreatortests.dart';
 import 'potentiallibrary/webaccess/webrequestortests.dart';
 import 'tools/trackmatchertests.dart';
 import 'tools/listoftracksformatchingtests.dart';
@@ -22,6 +23,7 @@ class AllTests {
 
     runner.addTests(StackTraceHandlerTests());
     runner.addTests(WebApiRequestCreatorTests());
+    runner.addTests(WebApiResponseCreatorTests());
     runner.addTests(WebRequestorTests());
     runner.addTests(MP3PlayerAccessTests());
     runner.addTests(TrackCollectionPlayerTests());

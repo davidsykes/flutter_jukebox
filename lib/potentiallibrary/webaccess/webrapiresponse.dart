@@ -1,7 +1,7 @@
-class WebRequesterResponse {
+class WebApiResponse {
   late bool success;
-  late String? _error;
-  WebRequesterResponse([String? error]) {
+  String? _error;
+  WebApiResponse([String? error]) {
     if (error == null) {
       success = true;
     } else {

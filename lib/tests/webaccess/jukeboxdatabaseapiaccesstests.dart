@@ -4,7 +4,7 @@ import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../potentiallibrary/utilities/ilogger.dart';
-import '../../potentiallibrary/webaccess/webrequestorresponse.dart';
+import '../../potentiallibrary/webaccess/webrapiresponse.dart';
 import '../../webaccess/jukeboxdatabaseapiaccess.dart';
 
 class JukeboxDatabaseApiAccessTests extends TestModule {
@@ -175,21 +175,21 @@ class MockWebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<WebRequesterResponse> postRequestOk<TRequest>(
+  Future<WebApiResponse> postRequestOk<TRequest>(
       String url, TRequest request) async {
     requestType = 'post';
     requestUrl = url;
     this.request = request;
-    return WebRequesterResponse(requestError);
+    return WebApiResponse(requestError);
   }
 
   @override
-  Future<WebRequesterResponse> putRequestOk<TRequest>(
+  Future<WebApiResponse> putRequestOk<TRequest>(
       String url, TRequest request) async {
     requestType = 'put';
     requestUrl = url;
     this.request = request;
-    return WebRequesterResponse(requestError);
+    return WebApiResponse(requestError);
   }
 
   String individualTrackResponse() {

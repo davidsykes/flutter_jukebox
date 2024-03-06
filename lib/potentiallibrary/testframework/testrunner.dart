@@ -62,6 +62,8 @@ class TestRunner {
     final location = st.getExceptionLocationFromStackTrace();
     if (location.isNotEmpty) {
       testResults.results.add('Location: $location');
+    } else {
+      testResults.results.add('Location not found');
     }
 
     if (error is TestAssertFailException) {

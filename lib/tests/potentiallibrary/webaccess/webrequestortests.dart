@@ -1,10 +1,10 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webaccess.dart';
-import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestorresponse.dart';
 import '../../../potentiallibrary/programexception.dart';
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
 import '../../../potentiallibrary/webaccess/webapirequestcreator.dart';
-import '../../../potentiallibrary/webaccess/webrequesterresponsecreator.dart';
+import '../../../potentiallibrary/webaccess/webapiresponsecreator.dart';
+import '../../../potentiallibrary/webaccess/webrapiresponse.dart';
 import '../../../potentiallibrary/webaccess/webrequestor.dart';
 
 class SimpleClassForRetrieval {
@@ -21,7 +21,7 @@ class WebRequestorTests extends TestModule {
   late IWebRequestor _requestor;
   late MockWebAccess _mockWebAccess;
   late MockWebApiRequestCreator _mockWebApiRequestCreator;
-  late MockWebRequesterResponseCreator _mockWebRequesterResponseCreator;
+  late MockWebApiResponseCreator _mockWebApiResponseCreator;
 
   @override
   Iterable<TestUnit> getTests() {
@@ -218,7 +218,7 @@ class WebRequestorTests extends TestModule {
     assertEqual('put web api request', _mockWebAccess.putRequest);
   }
 
-  Future<void> putRequestOkReturnsWebRequesterResponse() async {
+  Future<void> putRequestOkReturnsWebApiResponse() async {
     var response = await _requestor.putRequestOk('url', 'putRequest');
 
     assertEqual('web api response', response);
@@ -230,13 +230,13 @@ class WebRequestorTests extends TestModule {
   void setUpMocks() {
     _mockWebAccess = MockWebAccess();
     _mockWebApiRequestCreator = MockWebApiRequestCreator();
-    _mockWebRequesterResponseCreator = MockWebRequesterResponseCreator();
+    _mockWebApiResponseCreator = MockWebApiResponseCreator();
   }
 
   @override
   void setUpObjectUnderTest() {
-    _requestor = WebRequestor(_mockWebAccess, _mockWebApiRequestCreator,
-        _mockWebRequesterResponseCreator);
+    _requestor = WebRequestor(
+        _mockWebAccess, _mockWebApiRequestCreator, _mockWebApiResponseCreator);
   }
 
   SimpleClassForRetrieval deserialiseSimpleClassForRetrieval(
@@ -282,9 +282,9 @@ class MockWebApiRequestCreator extends IWebApiRequestCreator {
   }
 }
 
-class MockWebRequesterResponseCreator extends IWebRequesterResponseCreator {
+class MockWebApiResponseCreator extends IWebApiResponseCreator {
   @override
-  WebRequesterResponse createWebRequesterResponse(String textResponse) {
-    return WebRequesterResponse();
+  WebApiResponse createWebApiResponse(String textResponse) {
+    return WebApiResponse();
   }
 }

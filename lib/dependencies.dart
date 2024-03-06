@@ -3,7 +3,7 @@ import 'package:flutter_jukebox/tools/logger.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import 'potentiallibrary/webaccess/webaccess.dart';
 import 'potentiallibrary/webaccess/webapirequestcreator.dart';
-import 'potentiallibrary/webaccess/webrequesterresponsecreator.dart';
+import 'potentiallibrary/webaccess/webapiresponsecreator.dart';
 import 'version.dart';
 import 'webaccess/jukeboxdatabaseapiaccess.dart';
 import 'webaccess/mp3playeraccess.dart';
@@ -18,13 +18,13 @@ class Dependencies {
     var mp3WebAccess = WebAccess(Version().version.mp3PlayerIpAddress, logger);
     var jbdbWebAccess = WebAccess(Version().version.jbdbApiIpAddress, logger);
     var webApiRequestCreator = WebApiRequestCreator();
-    var webRequesterResponseCreator = WebRequesterResponseCreator();
-    var mp3WebRequestor = WebRequestor(
-        mp3WebAccess, webApiRequestCreator, webRequesterResponseCreator);
+    var webApiResponseCreator = WebApiResponseCreator();
+    var mp3WebRequestor =
+        WebRequestor(mp3WebAccess, webApiRequestCreator, webApiResponseCreator);
     mp3PlayerAccess = MP3PlayerAccess(
         mp3WebRequestor, Version().version.currentlyPlayingTrackId);
     var jbdbWebRequestor = WebRequestor(
-        jbdbWebAccess, webApiRequestCreator, webRequesterResponseCreator);
+        jbdbWebAccess, webApiRequestCreator, webApiResponseCreator);
     jukeboxDatabaseApiAccess =
         JukeboxDatabaseApiAccess(jbdbWebRequestor, logger);
     var trackCollectionPlayer =

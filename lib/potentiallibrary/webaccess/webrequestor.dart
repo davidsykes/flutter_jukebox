@@ -3,8 +3,8 @@ import 'package:flutter_jukebox/potentiallibrary/programexception.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webapirequest.dart';
 import 'webaccess.dart';
 import 'webapirequestcreator.dart';
-import 'webrequesterresponsecreator.dart';
-import 'webrequestorresponse.dart';
+import 'webapiresponsecreator.dart';
+import 'webrapiresponse.dart';
 
 abstract class IWebRequestor {
   Future<T> get<T>(
@@ -13,19 +13,17 @@ abstract class IWebRequestor {
       String url,
       TRequest request,
       TResponse Function(Map<String, dynamic> data) deserialiseResponse);
-  Future<WebRequesterResponse> postRequestOk<TRequest>(
-      String url, TRequest request);
-  Future<WebRequesterResponse> putRequestOk<TRequest>(
-      String url, TRequest request);
+  Future<WebApiResponse> postRequestOk<TRequest>(String url, TRequest request);
+  Future<WebApiResponse> putRequestOk<TRequest>(String url, TRequest request);
 }
 
 class WebRequestor extends IWebRequestor {
   final IWebAccess _webAccess;
   final IWebApiRequestCreator _webApiRequestCreator;
-  final IWebRequesterResponseCreator _webRequesterResponseCreator;
+  final IWebApiResponseCreator _webApiResponseCreator;
 
-  WebRequestor(this._webAccess, this._webApiRequestCreator,
-      this._webRequesterResponseCreator);
+  WebRequestor(
+      this._webAccess, this._webApiRequestCreator, this._webApiResponseCreator);
 
   @override
   Future<T> get<T>(
@@ -54,16 +52,16 @@ class WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<WebRequesterResponse> postRequestOk<TRequest>(
+  Future<WebApiResponse> postRequestOk<TRequest>(
       String url, TRequest request) async {
     var postResponse = await getPostResponseFromPostRequest(url, request);
     var response = decodeJson(postResponse);
 
     var error = response['error'];
     if (error != null) {
-      return WebRequesterResponse(error);
+      return WebApiResponse(error);
     }
-    return WebRequesterResponse();
+    return WebApiResponse();
   }
 
   Future<String> getPostResponseFromPostRequest(String url, request) async {
@@ -84,13 +82,13 @@ class WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<WebRequesterResponse> putRequestOk<TRequest>(
+  Future<WebApiResponse> putRequestOk<TRequest>(
       String url, TRequest request) async {
     var webRequest = _webApiRequestCreator.createWebApiRequestJson(request);
     var textResponse = await _webAccess.putText(url, webRequest);
-    var webRequesterResponse =
-        _webRequesterResponseCreator.createWebRequesterResponse(textResponse);
-    return webRequesterResponse;
+    var webApiResponse =
+        _webApiResponseCreator.createWebApiResponse(textResponse);
+    return webApiResponse;
   }
 
   dynamic decodeJson(String json) {

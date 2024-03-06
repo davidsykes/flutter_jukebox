@@ -5,7 +5,7 @@ import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../dataobjects/jukeboxtrackpathandsilename.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
-import '../../potentiallibrary/webaccess/webrequestorresponse.dart';
+import '../../potentiallibrary/webaccess/webrapiresponse.dart';
 import '../../webaccess/mp3playeraccess.dart';
 
 class MP3PlayerAccessTests extends TestModule {
@@ -98,16 +98,15 @@ class MockMp3WebRequestor extends IWebRequestor {
   }
 
   @override
-  Future<WebRequesterResponse> postRequestOk<TRequest>(
+  Future<WebApiResponse> postRequestOk<TRequest>(
       String url, TRequest request) async {
     postUrl = url;
     postRequest = jsonEncode(request);
-    return WebRequesterResponse();
+    return WebApiResponse();
   }
 
   @override
-  Future<WebRequesterResponse> putRequestOk<TRequest>(
-      String url, TRequest request) {
+  Future<WebApiResponse> putRequestOk<TRequest>(String url, TRequest request) {
     throw UnimplementedError();
   }
 }

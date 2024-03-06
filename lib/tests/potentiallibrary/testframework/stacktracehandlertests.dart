@@ -11,6 +11,8 @@ class StackTraceHandlerTests extends TestModule {
       createTest(asyncronousSuspensionsAreIgnored),
       createTest(theExceptionLocationCanBeRetrieved),
       createTest(dartLocationsAreExcludedFromTheExceptionLocation),
+      createTest(includeTestsOfTheTestFramework),
+      createTest(ifTheInitialStactTraceLineIsIncompleteLookAtTheNext),
     ];
   }
 
@@ -108,6 +110,44 @@ some added stack information
     var location = st.getExceptionLocationFromStackTrace();
     assertEqual(
         'flutter_jukebox/tests/webaccess/jukeboxdatabaseapiaccesstests.dart:110',
+        location);
+  }
+
+  Future<void> includeTestsOfTheTestFramework() async {
+    var stack = """
+#0      TestModule.throwAssert (package:flutter_jukebox/potentiallibrary/testframework/testmodule.dart:49:5)
+#1      TestModule.assertEqual (package:flutter_jukebox/potentiallibrary/testframework/testmodule.dart:38:7)
+#2      StackTraceHandlerTests.aProblem (package:flutter_jukebox/tests/potentiallibrary/testframework/stacktracehandlertests.dart:128:5)
+#3      TestUnit.runTest (package:flutter_jukebox/potentiallibrary/testframework/testunit.dart:22:17)
+#4      TestRunner.runTests (package:flutter_jukebox/potentiallibrary/testframework/testrunner.dart:25:14)
+<asynchronous suspension>
+#5      AllTests.runTests (package:flutter_jukebox/tests/alltests.dart:39:19)
+<asynchronous suspension>
+#6      _FutureBuilderState._subscribe.<anonymous closure> (package:flutter/src/widgets/async.dart:624:31)
+<asynchronous suspension>""";
+
+    var st = StactTraceHandler(stack);
+    var location = st.getExceptionLocationFromStackTrace();
+    assertEqual(
+        'flutter_jukebox/tests/potentiallibrary/testframework/stacktracehandlertests.dart:128',
+        location);
+  }
+
+  Future<void> ifTheInitialStactTraceLineIsIncompleteLookAtTheNext() async {
+    var stack = """
+#0      WebApiResponse._error (package:flutter_jukebox/potentiallibrary/webaccess/webrapiresponse.dart)
+#1      WebApiResponse.error (package:flutter_jukebox/potentiallibrary/webaccess/webrapiresponse.dart:13:23)
+#2      WebApiResponseCreatorTests.getASimpleResponseCanBeCreated (package:flutter_jukebox/tests/potentiallibrary/webaccess/webapiresponsecreatortests.dart:23:35)
+#3      TestUnit.runTest (package:flutter_jukebox/potentiallibrary/testframework/testunit.dart:22:17)
+#4      TestRunner.runTests (package:flutter_jukebox/potentiallibrary/testframework/testrunner.dart:25:14)
+<asynchronous suspension>
+#5      AllTests.runTests (package:flutter_jukebox/tests/alltests.dart:39:19)
+<asynchronous suspension>""";
+
+    var st = StactTraceHandler(stack);
+    var location = st.getExceptionLocationFromStackTrace();
+    assertEqual(
+        'flutter_jukebox/potentiallibrary/webaccess/webrapiresponse.dart:13',
         location);
   }
 }
