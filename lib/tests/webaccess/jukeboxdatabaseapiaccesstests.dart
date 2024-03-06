@@ -108,7 +108,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     assertEqual('put', _mockWebRequestor.requestType);
     assertEqual('settrackdeleted', _mockWebRequestor.requestUrl);
     assertEqual(149, _mockWebRequestor.request.trackId);
-    assertEqual(true, _mockWebRequestor.request.isDeleted);
+    assertEqual(false, _mockWebRequestor.request.isDeleted);
   }
 
   // Support Code

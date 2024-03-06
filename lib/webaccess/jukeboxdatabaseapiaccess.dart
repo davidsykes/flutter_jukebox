@@ -157,7 +157,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
   @override
   Future<bool> unDeleteTrack(int trackId) async {
     var url = 'settrackdeleted';
-    var request = SetTrackDeletedRequest(trackId, true);
+    var request = SetTrackDeletedRequest(trackId, false);
     var result = await _webRequestor.putRequestOk(url, request);
     return result.success;
   }
