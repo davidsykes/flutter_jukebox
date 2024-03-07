@@ -6,6 +6,7 @@ import 'requests/mp3playerplaytracksrequest.dart';
 abstract class IMP3PlayerAccess {
   Future<int> getCurrentTrackId();
   Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks);
+  Future<bool> clearPlaylist();
 }
 
 class MP3PlayerAccess extends IMP3PlayerAccess {
@@ -34,6 +35,12 @@ class MP3PlayerAccess extends IMP3PlayerAccess {
   Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks) async {
     var request = MP3PlayerPlayTracksRequest(tracks);
     var result = await _webRequestor.postRequestOk('playtracks', request);
+    return result.success;
+  }
+
+  @override
+  Future<bool> clearPlaylist() async {
+    var result = await _webRequestor.putRequestOk('clearplaylist', '');
     return result.success;
   }
 }

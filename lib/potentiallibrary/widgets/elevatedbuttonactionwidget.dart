@@ -43,7 +43,6 @@ class _ElevatedButtonActionWidgetState
           setState(() {
             state = 2;
           });
-          rethrow;
         }
       },
       height: widget.height ?? 50,

@@ -11,4 +11,9 @@ class StubMP3PlayerAccess extends IMP3PlayerAccess {
   Future<bool> playMp3s(List<JukeboxTrackPathAndFileName> tracks) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> clearPlaylist() {
+    throw UnimplementedError();
+  }
 }

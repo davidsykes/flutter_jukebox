@@ -55,4 +55,9 @@ class StubMicroServiceController extends IMicroServiceController {
   Future<bool> unDeleteTrack(int trackId) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> clearPlaylist() {
+    throw UnimplementedError();
+  }
 }

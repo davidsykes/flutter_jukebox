@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
+import '../../actions/clearcollectionaction.dart';
 import '../../actions/playcollectionaction.dart';
 import '../../dataobjects/jukeboxcollection.dart';
 import '../../potentiallibrary/widgets/elevatedbuttonactionwidget.dart';
@@ -28,7 +29,11 @@ class JukeboxCollectionSelectorWidget extends StatelessWidget {
       children: <Widget>[
             const Text('Collections: '),
           ] +
-          makeSelectCollectionButtons(collections).toList(),
+          makeSelectCollectionButtons(collections).toList() +
+          <Widget>[
+            ElevatedButtonActionWidget(
+                'Clear', ClearCollectionAction(microServiceController)),
+          ],
     );
   }
 
