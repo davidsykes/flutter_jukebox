@@ -60,4 +60,9 @@ class StubMicroServiceController extends IMicroServiceController {
   Future<bool> clearPlaylist() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> playRandomTrack() {
+    throw UnimplementedError();
+  }
 }

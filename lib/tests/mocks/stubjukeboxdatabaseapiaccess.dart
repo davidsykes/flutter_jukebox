@@ -49,4 +49,9 @@ class StubJukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
   Future<bool> unDeleteTrack(int trackId) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> playRandomTrack() {
+    throw UnimplementedError();
+  }
 }

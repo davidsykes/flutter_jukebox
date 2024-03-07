@@ -3,6 +3,7 @@ import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import '../../actions/clearcollectionaction.dart';
 import '../../actions/playcollectionaction.dart';
+import '../../actions/playrandomtrackaction.dart';
 import '../../dataobjects/jukeboxcollection.dart';
 import '../../potentiallibrary/widgets/elevatedbuttonactionwidget.dart';
 import '../../webaccess/microservicecontroller.dart';
@@ -33,6 +34,8 @@ class JukeboxCollectionSelectorWidget extends StatelessWidget {
           <Widget>[
             ElevatedButtonActionWidget(
                 'Clear', ClearCollectionAction(microServiceController)),
+            ElevatedButtonActionWidget(
+                'Random', PlayRandomTrackAction(microServiceController)),
           ],
     );
   }

@@ -17,6 +17,7 @@ abstract class IJukeboxDatabaseApiAccess {
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks();
   Future<List<TrackInformation>> getDeletedTracks();
   Future<bool> unDeleteTrack(int trackId);
+  Future<bool> playRandomTrack();
 }
 
 class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
@@ -159,6 +160,13 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
     var url = 'settrackdeleted';
     var request = SetTrackDeletedRequest(trackId, false);
     var result = await _webRequestor.putRequestOk(url, request);
+    return result.success;
+  }
+
+  @override
+  Future<bool> playRandomTrack() async {
+    var url = 'playrandomtrack';
+    var result = await _webRequestor.putRequestOk(url, '');
     return result.success;
   }
 }
