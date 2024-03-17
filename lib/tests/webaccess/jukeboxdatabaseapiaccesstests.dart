@@ -24,6 +24,7 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
       createTest(updateArtistForTrackLogsErrors),
       createTest(recentlyPlayedTracksCanBeRetrieved),
       createTest(aTrackCanBeUnDeleted),
+      createTest(allAlbumsCanBeRetrieved),
     ];
   }
 
@@ -61,6 +62,15 @@ class JukeboxDatabaseApiAccessTests extends TestModule {
     assertEqual('Collection Track 12', trackInfo[1].trackName);
     assertEqual('Collection Track 16', trackInfo[2].trackName);
     assertEqual('Collection Track 87', trackInfo[3].trackName);
+  }
+
+  Future<void> allAlbumsCanBeRetrieved() async {
+    var albums = await _access.getAllAlbums();
+
+    assertEqual(3, albums.length);
+    assertEqual('Album 1', albums[0].albumName);
+    assertEqual('Album 2', albums[1].albumName);
+    assertEqual('Album 3', albums[2].albumName);
   }
 
   Future<void> allArtistsCanBeRetrieved() async {
@@ -160,10 +170,12 @@ class MockWebRequestor extends IWebRequestor {
       return multipleTracksResponse();
     } else if (url == 'artists') {
       return artistsResponse();
+    } else if (url == 'albums') {
+      return albumsResponse();
     } else if (url == 'recentlyplayedtracks?count=10') {
       return recentlyPlayedTracksResponse();
     }
-    throw AssertionError('invalid url');
+    throw AssertionError('invalid url "$url"');
   }
 
   @override
@@ -258,6 +270,25 @@ class MockWebRequestor extends IWebRequestor {
       {
         "artistId": 3,
         "artistName": "Artist 3"
+      }
+    ]
+  }''';
+  }
+
+  String albumsResponse() {
+    return '''{
+    "albums": [
+      {
+        "albumId": 1,
+        "albumName": "Album 1"
+      },
+      {
+        "albumId": 2,
+        "albumName": "Album 2"
+      },
+      {
+        "albumId": 3,
+        "albumName": "Album 3"
       }
     ]
   }''';

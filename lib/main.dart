@@ -4,6 +4,7 @@ import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import 'dependencies.dart';
+import 'pages/collectionspage/collectionspage.dart';
 import 'pages/logspage/logspage.dart';
 import 'pages/searchpage/searchpage.dart';
 import 'potentiallibrary/testframework/testresults.dart';
@@ -57,7 +58,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   bool _shouldSidebarBeExpanded = false;
   var selectedIndex = Version().version.selectedTabOnStartUp;
 
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      //_counter++;
       _shouldSidebarBeExpanded = !_shouldSidebarBeExpanded;
     });
   }
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = const LogsPage();
         break;
       case 3:
-        page = Text(_counter.toString());
+        page = CollectionsPage(widget.microServiceController);
         break;
       case 4:
         page = createFutureBuilder(
@@ -122,11 +122,11 @@ class _MyHomePageState extends State<MyHomePage> {
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.library_music),
-                  label: Text('Home 23'),
+                  label: Text('Home'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.find_in_page),
-                  label: Text('T Search'),
+                  label: Text('Track Search'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.history),

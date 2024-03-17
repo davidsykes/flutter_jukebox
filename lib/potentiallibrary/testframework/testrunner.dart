@@ -71,6 +71,8 @@ class TestRunner {
     } else if (error is JsonUnsupportedObjectError) {
       testResults.results.add(error.runtimeType.toString());
       testResults.results.add(error.cause.toString());
+    } else if (error is AssertionError) {
+      testResults.results.add('Assertion Error: ${error.message}');
     } else if (error is Error) {
       testResults.results.add(error.runtimeType.toString());
     } else {

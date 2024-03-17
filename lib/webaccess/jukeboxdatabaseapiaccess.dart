@@ -1,6 +1,7 @@
 import 'package:flutter_jukebox/dataobjects/recentlyplayedtrackdata.dart';
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
 import '../../dataobjects/trackinformation.dart';
+import '../dataobjects/albuminformation.dart';
 import '../dataobjects/artistinformation.dart';
 import '../dataobjects/jukeboxcollection.dart';
 import '../potentiallibrary/utilities/ilogger.dart';
@@ -11,6 +12,7 @@ abstract class IJukeboxDatabaseApiAccess {
   Future<TrackInformation> getTrackInformation(int trackId);
   Future<List<JukeboxCollection>> getCollections();
   Future<List<TrackInformation>> getAllTracks();
+  Future<List<AlbumInformation>> getAllAlbums();
   Future<List<TrackInformation>> getTracksInCollection(int collectionId);
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
@@ -36,7 +38,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<TrackInformation>> getAllTracks() {
-    var url = 'tracks';
+    const url = 'tracks';
     var trackInfo = _webRequestor.get<List<TrackInformation>>(
         url, deserialiseTracksInformation);
 
@@ -45,7 +47,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<TrackInformation>> getDeletedTracks() {
-    var url = 'deletedtracks';
+    const url = 'deletedtracks';
     var trackInfo = _webRequestor.get<List<TrackInformation>>(
         url, deserialiseTracksInformation);
 
@@ -83,7 +85,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<JukeboxCollection>> getCollections() {
-    var url = 'collections';
+    const url = 'collections';
     var collections = _webRequestor.get<List<JukeboxCollection>>(
         url, deserialiseJukeboxCollectionList);
     return collections;
@@ -115,7 +117,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<ArtistInformation>> getAllArtists() {
-    var url = 'artists';
+    const url = 'artists';
     var artists = _webRequestor.get<List<ArtistInformation>>(
         url, deserialiseArtistsInformation);
 
@@ -124,7 +126,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<bool> updateArtistForTrack(int trackId, int artistId) async {
-    var url = 'updateartistfortrack';
+    const url = 'updateartistfortrack';
     var request = UpdateArtistForTrackRequest(trackId, artistId);
     var result = await _webRequestor.postRequestOk(url, request);
     if (!result.success) {
@@ -135,7 +137,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<List<RecentlyPlayedTrackData>> getRecentlyPlayedTracks() {
-    var url = 'recentlyplayedtracks?count=10';
+    const url = 'recentlyplayedtracks?count=10';
     var tracks = _webRequestor.get(url, deserialiseRecentlyPlayedTracks);
     return tracks;
   }
@@ -157,7 +159,7 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<bool> unDeleteTrack(int trackId) async {
-    var url = 'settrackdeleted';
+    const url = 'settrackdeleted';
     var request = SetTrackDeletedRequest(trackId, false);
     var result = await _webRequestor.putRequestOk(url, request);
     return result.success;
@@ -165,8 +167,32 @@ class JukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<bool> playRandomTrack() async {
-    var url = 'playrandomtrack';
+    const url = 'playrandomtrack';
     var result = await _webRequestor.putRequestOk(url, '');
     return result.success;
+  }
+
+  List<AlbumInformation> deserialiseAlbumsInformation(
+      Map<String, dynamic> data) {
+    var albums =
+        data['albums'].map((track) => deserialiseAlbumInformation(track));
+
+    return albums.cast<AlbumInformation>().toList();
+  }
+
+  AlbumInformation deserialiseAlbumInformation(Map<String, dynamic> track) {
+    return AlbumInformation(
+      track['albumId'],
+      track['albumName'],
+    );
+  }
+
+  @override
+  Future<List<AlbumInformation>> getAllAlbums() {
+    const url = 'albums';
+    var albums = _webRequestor.get<List<AlbumInformation>>(
+        url, deserialiseAlbumsInformation);
+
+    return albums;
   }
 }

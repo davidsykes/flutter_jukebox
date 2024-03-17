@@ -3,6 +3,7 @@ import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxtrackpathandsilename.dart';
 import 'package:flutter_jukebox/dataobjects/recentlyplayedtrackdata.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
+import '../../dataobjects/albuminformation.dart';
 import '../../webaccess/microservicecontroller.dart';
 
 class StubMicroServiceController extends IMicroServiceController {
@@ -63,6 +64,11 @@ class StubMicroServiceController extends IMicroServiceController {
 
   @override
   Future<bool> playRandomTrack() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<AlbumInformation>> getAllAlbums() {
     throw UnimplementedError();
   }
 }

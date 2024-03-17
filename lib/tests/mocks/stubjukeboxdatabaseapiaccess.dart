@@ -1,3 +1,4 @@
+import 'package:flutter_jukebox/dataobjects/albuminformation.dart';
 import 'package:flutter_jukebox/dataobjects/artistinformation.dart';
 import 'package:flutter_jukebox/dataobjects/jukeboxcollection.dart';
 import 'package:flutter_jukebox/dataobjects/recentlyplayedtrackdata.dart';
@@ -52,6 +53,11 @@ class StubJukeboxDatabaseApiAccess extends IJukeboxDatabaseApiAccess {
 
   @override
   Future<bool> playRandomTrack() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<AlbumInformation>> getAllAlbums() {
     throw UnimplementedError();
   }
 }

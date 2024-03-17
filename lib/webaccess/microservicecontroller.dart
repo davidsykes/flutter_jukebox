@@ -1,3 +1,4 @@
+import 'package:flutter_jukebox/dataobjects/albuminformation.dart';
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
 import 'package:flutter_jukebox/potentiallibrary/utilities/cachedvalue.dart';
 import 'package:flutter_jukebox/webaccess/jukeboxdatabaseapiaccess.dart';
@@ -12,6 +13,7 @@ abstract class IMicroServiceController {
   Future<TrackInformation?> getCurrentTrackInformation();
   Future<List<JukeboxCollection>> getJukeboxCollections();
   Future<List<TrackInformation>> getAllTracks();
+  Future<List<AlbumInformation>> getAllAlbums();
   Future<List<TrackInformation>> getDeletedTracks();
   Future<List<ArtistInformation>> getAllArtists();
   Future<bool> updateArtistForTrack(int trackId, int artistId);
@@ -107,5 +109,10 @@ class MicroServiceController extends IMicroServiceController {
   @override
   Future<bool> playRandomTrack() {
     return _dbAccess.playRandomTrack();
+  }
+
+  @override
+  Future<List<AlbumInformation>> getAllAlbums() {
+    return _dbAccess.getAllAlbums();
   }
 }
