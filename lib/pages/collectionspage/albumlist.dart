@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jukebox/dataobjects/albuminformation.dart';
 import '../../potentiallibrary/widgets/futurebuilder.dart';
-
-class AlbumListPageData {}
+import 'albumpagedata.dart';
 
 class AlbumList extends StatefulWidget {
-  const AlbumList({super.key});
+  final AlbumPageData albumPageData;
+  const AlbumList(this.albumPageData, {super.key});
 
   @override
   State<AlbumList> createState() => _AlbumListState();
@@ -13,22 +14,22 @@ class AlbumList extends StatefulWidget {
 class _AlbumListState extends State<AlbumList> {
   @override
   Widget build(BuildContext context) {
-    return createFutureBuilder<AlbumListPageData>(
+    return createFutureBuilder<List<AlbumInformation>>(
         dataFetcher: getAlbumListData(), pageMaker: makeAlbumListPage);
   }
 
-  Future<AlbumListPageData> getAlbumListData() async {
-    return getAlbumListData();
+  Future<List<AlbumInformation>> getAlbumListData() {
+    return widget.albumPageData.getAlbumList();
   }
 
-  Widget makeAlbumListPage(AlbumListPageData pageData) {
+  Widget makeAlbumListPage(List<AlbumInformation> albumList) {
     return Expanded(
         child: ListView(
-      children: const [
-        Text('Album 1'),
-        Text('Album 2'),
-        Text('Album 3'),
-      ],
+      children: albumList.map((a) => makeAlbumEntry(a)).toList(),
     ));
+  }
+
+  Widget makeAlbumEntry(AlbumInformation album) {
+    return Text(album.albumName);
   }
 }
