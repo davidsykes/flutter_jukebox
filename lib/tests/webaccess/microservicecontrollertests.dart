@@ -5,8 +5,8 @@ import '../../dataobjects/trackinformation.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../webaccess/microservicecontroller.dart';
-import '../mocks/stubjukeboxdatabaseapiaccess.dart';
-import '../mocks/stubmp3playeraccess.dart';
+import '../stubs/stubjukeboxdatabaseapiaccess.dart';
+import '../stubs/stubmp3playeraccess.dart';
 
 class MicroServiceControllerTests extends TestModule {
   late IMicroServiceController _controller;

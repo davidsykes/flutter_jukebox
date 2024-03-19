@@ -1,10 +1,10 @@
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
-import 'package:flutter_jukebox/tests/mocks/stubmp3playeraccess.dart';
+import 'package:flutter_jukebox/tests/stubs/stubmp3playeraccess.dart';
 import '../../dataobjects/jukeboxtrackpathandsilename.dart';
 import '../../potentiallibrary/testframework/testmodule.dart';
 import '../../potentiallibrary/testframework/testunit.dart';
 import '../../webaccess/trackcollectionplayer.dart';
-import '../mocks/stubjukeboxdatabaseapiaccess.dart';
+import '../stubs/stubjukeboxdatabaseapiaccess.dart';
 
 class TrackCollectionPlayerTests extends TestModule {
   late ITrackCollectionPlayer _player;

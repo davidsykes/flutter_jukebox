@@ -1,7 +1,7 @@
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
 import '../../actions/updateartistfortrackaction.dart';
-import '../mocks/stubmicroservicecontroller.dart';
+import '../stubs/stubmicroservicecontroller.dart';
 
 class UpdateArtistForTrackActionTests extends TestModule {
   late UpdateArtistForTrackAction _action;
