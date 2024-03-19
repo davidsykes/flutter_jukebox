@@ -173,6 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var widgets = List<Widget>.empty(growable: true);
     widgets.add(Text(results.summary));
     widgets.addAll(results.results.map((e) => Text(e)));
+    widgets.add(Text(Version().uri));
     return Column(
       children: widgets,
     );
