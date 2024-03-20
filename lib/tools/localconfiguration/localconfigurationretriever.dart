@@ -13,7 +13,7 @@ import 'localconfigurationtextretriever.dart';
 
 class LocalConfigurationRetriever {
   final ILocalConfigurationTextRetriever _localConfigurationTextRetriever;
-  final ILocalConfigrationConstructor _localConfigrationConstructor;
+  final ILocalConfigurationConstructor _localConfigrationConstructor;
 
   LocalConfigurationRetriever(this._localConfigurationTextRetriever,
       this._localConfigrationConstructor);

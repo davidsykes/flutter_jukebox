@@ -1,3 +1,5 @@
+import 'package:flutter_jukebox/tools/localconfiguration/localconfiguration.dart';
+
 import '../../../potentiallibrary/testframework/testmodule.dart';
 import '../../../potentiallibrary/testframework/testunit.dart';
 import '../../../tools/localconfiguration/localconfigurationconstructor.dart';
@@ -7,7 +9,9 @@ import '../../../tools/localconfiguration/localconfigurationtextretriever.dart';
 class LocalConfigurationRetrieverTests extends TestModule {
   late LocalConfigurationRetriever _retriever;
   late ILocalConfigurationTextRetriever _mockLocalConfigurationTextRetriever;
-  late ILocalConfigrationConstructor _mockLocalConfigrationConstructor;
+  late ILocalConfigurationConstructor _mockLocalConfigurationConstructor;
+
+  late LocalConfiguration localConfiguration;
 
   @override
   Iterable<TestUnit> getTests() {
@@ -19,7 +23,7 @@ class LocalConfigurationRetrieverTests extends TestModule {
   Future<void> theConfigurationTextIsRetrievedAndConverted() async {
     var jbapi = _retriever.retrieveLocalConfiguration();
 
-    assertEqual('192.168.1.126:5003', jbapi.baseUri);
+    assertEqual('a fake', jbapi.fake);
   }
 
   // Support Code
@@ -28,13 +32,20 @@ class LocalConfigurationRetrieverTests extends TestModule {
   void setUpMocks() {
     _mockLocalConfigurationTextRetriever =
         MockLocalConfigurationTextRetriever();
+    _mockLocalConfigurationConstructor =
+        MockLocalConfigurationConstructor(localConfiguration);
   }
 
   @override
   void setUpObjectUnderTest() {
     _retriever = LocalConfigurationRetriever(
         _mockLocalConfigurationTextRetriever,
-        _mockLocalConfigrationConstructor);
+        _mockLocalConfigurationConstructor);
+  }
+
+  @override
+  void setUpData() {
+    localConfiguration = LocalConfiguration('a fake');
   }
 }
 
@@ -43,5 +54,17 @@ class MockLocalConfigurationTextRetriever
   @override
   String retrieveLocalConfigurationText() {
     return 'configuration text';
+  }
+}
+
+class MockLocalConfigurationConstructor extends ILocalConfigurationConstructor {
+  final LocalConfiguration _localConfiguration;
+  MockLocalConfigurationConstructor(this._localConfiguration);
+  @override
+  LocalConfiguration constructConfiguration(String configurationText) {
+    if (configurationText == 'configuration text') {
+      return _localConfiguration;
+    }
+    throw UnimplementedError();
   }
 }
