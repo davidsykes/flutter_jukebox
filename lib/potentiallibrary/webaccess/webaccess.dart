@@ -16,7 +16,8 @@ class WebAccess extends IWebAccess {
   WebAccess(this.ipAddress, this._logger);
 
   String makeUrl(String u) {
-    return 'http://$ipAddress/$u';
+    return '$ipAddress$u';
+    //return 'http://$ipAddress/$u';
   }
 
   @override

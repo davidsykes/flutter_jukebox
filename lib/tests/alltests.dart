@@ -7,7 +7,7 @@ import 'potentiallibrary/utilities/actionbuttontests.dart';
 import 'potentiallibrary/webaccess/webapirequestcreatortests.dart';
 import 'potentiallibrary/webaccess/webapiresponsecreatortests.dart';
 import 'potentiallibrary/webaccess/webrequestortests.dart';
-import 'tools/localconfiguration/localconfigurationgeneratortests.dart';
+import 'tools/localconfiguration/localconfigurationretrievertests.dart';
 import 'tools/trackmatchertests.dart';
 import 'tools/listoftracksformatchingtests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
@@ -36,7 +36,7 @@ class AllTests {
     runner.addTests(UpdateArtistForTrackRequestTests());
     runner.addTests(ActionButtonTests());
     runner.addTests(TrackInformationTests());
-    runner.addTests(LocalConfigurationGeneratorTests());
+    runner.addTests(LocalConfigurationRetrieverTests());
 
     var results = await runner.runTests();
 

@@ -3,7 +3,7 @@ import 'package:flutter_jukebox/pages/homepage/homepage.dart';
 import 'package:flutter_jukebox/potentiallibrary/widgets/futurebuilder.dart';
 import 'package:flutter_jukebox/tests/alltests.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
-import 'dependencies.dart';
+import 'dependencies/dependencies.dart';
 import 'pages/collectionspage/collectionspage.dart';
 import 'pages/logspage/logspage.dart';
 import 'pages/searchpage/searchpage.dart';
