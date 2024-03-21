@@ -1,6 +1,6 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
-import 'package:flutter_jukebox/tools/ipaddresscalculator.dart';
 import 'package:flutter_jukebox/tools/logger.dart';
+import 'package:flutter_jukebox/tools/webserviceuricalculator.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import '../potentiallibrary/webaccess/webaccess.dart';
 import '../potentiallibrary/webaccess/webapirequestcreator.dart';
@@ -16,7 +16,8 @@ class Dependencies {
   factory Dependencies() => _instance ??= Dependencies._();
   Dependencies._() {
     var logger = Logger();
-    var ips = IpAddressCalculator(Uri.base.toString());
+    var ips = WebServiceUriCalculator(
+        Uri.base.toString(), 'http://192.168.1.126:5004/');
     var mp3WebAccess = WebAccess(Version().version.mp3PlayerIpAddress, logger);
     var jbdbWebAccess = WebAccess(Version().version.jbdbApiIpAddress, logger);
     var webApiRequestCreator = WebApiRequestCreator();

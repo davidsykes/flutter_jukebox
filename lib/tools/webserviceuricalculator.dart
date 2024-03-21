@@ -1,17 +1,22 @@
-// class WebServiceUriCalculator {
-//   final String baseUri;
-//   late String baseIp;
-//   late String jukeboxApi;
+class WebServiceUriCalculator {
+  late String jbdbApiIpAddress;
+  late String mp3PlayerIpAddress;
 
-//   WebServiceUriCalculator(this.baseUri) {
-//     //final baseUri = Uri.base.toString();
-//     final reg = RegExp('([0-9\.]+)');
-//     final match = reg.firstMatch(baseUri);
-//     if (match == null) {
-//       jukeboxApi = baseUri;
-//     } else {
-//       baseIp = match.group(1)!;
-//       jukeboxApi = '$baseIp:5003';
-//     }
-//   }
-// }
+  WebServiceUriCalculator(String baseUri, String defaultUri) {
+    if (baseUri.substring(0, 4) == 'http') {
+      populateHttpAddresses(baseUri);
+    } else {
+      populateHttpAddresses(defaultUri);
+    }
+  }
+
+  populateHttpAddresses(String uri) {
+    final reg = RegExp('(.+):[0-9]+');
+    final match = reg.firstMatch(uri);
+    if (match != null) {
+      var baseIp = match.group(1)!;
+      jbdbApiIpAddress = '$baseIp:5003/';
+      mp3PlayerIpAddress = '$baseIp:5001/';
+    }
+  }
+}
