@@ -1,4 +1,5 @@
 import 'package:flutter_jukebox/potentiallibrary/webaccess/webrequestor.dart';
+import 'package:flutter_jukebox/tools/ipaddresscalculator.dart';
 import 'package:flutter_jukebox/tools/logger.dart';
 import 'package:flutter_jukebox/webaccess/microservicecontroller.dart';
 import '../potentiallibrary/webaccess/webaccess.dart';
@@ -8,7 +9,6 @@ import '../version.dart';
 import '../webaccess/jukeboxdatabaseapiaccess.dart';
 import '../webaccess/mp3playeraccess.dart';
 import '../webaccess/trackcollectionplayer.dart';
-import 'localconfigurationdependencies.dart';
 
 class Dependencies {
   //One instance, needs factory
@@ -16,8 +16,7 @@ class Dependencies {
   factory Dependencies() => _instance ??= Dependencies._();
   Dependencies._() {
     var logger = Logger();
-    var configuration =
-        LocalConfigurationDependencies().getLocalConfiguration(logger);
+    var ips = IpAddressCalculator(Uri.base.toString());
     var mp3WebAccess = WebAccess(Version().version.mp3PlayerIpAddress, logger);
     var jbdbWebAccess = WebAccess(Version().version.jbdbApiIpAddress, logger);
     var webApiRequestCreator = WebApiRequestCreator();

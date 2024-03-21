@@ -7,9 +7,9 @@ import 'potentiallibrary/utilities/actionbuttontests.dart';
 import 'potentiallibrary/webaccess/webapirequestcreatortests.dart';
 import 'potentiallibrary/webaccess/webapiresponsecreatortests.dart';
 import 'potentiallibrary/webaccess/webrequestortests.dart';
-import 'tools/localconfiguration/localconfigurationretrievertests.dart';
+import 'tools/ipaddresscalculatortests.dart';
 import 'tools/trackmatchertests.dart';
-import 'tools/listoftracksformatchingtests.dart';
+import 'tools/search/listoftracksformatchingtests.dart';
 import 'webaccess/jukeboxdatabaseapiaccesstests.dart';
 import 'webaccess/mp3playeraccesstests.dart';
 import 'webaccess/requests/updatesrtistfortrackrequesttests.dart';
@@ -36,7 +36,7 @@ class AllTests {
     runner.addTests(UpdateArtistForTrackRequestTests());
     runner.addTests(ActionButtonTests());
     runner.addTests(TrackInformationTests());
-    runner.addTests(LocalConfigurationRetrieverTests());
+    runner.addTests(IpAddressCalculatorTests());
 
     var results = await runner.runTests();
 

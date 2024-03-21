@@ -1,10 +1,10 @@
 import 'package:flutter_jukebox/dataobjects/trackinformation.dart';
-import '../../potentiallibrary/testframework/testmodule.dart';
-import '../../potentiallibrary/testframework/testunit.dart';
-import '../../tools/search/matchabletrack.dart';
-import '../../tools/search/trackmatcher.dart';
-import '../../tools/search/trackmatchparameters.dart';
-import '../../tools/search/listoftracksformatching.dart';
+import '../../../potentiallibrary/testframework/testmodule.dart';
+import '../../../potentiallibrary/testframework/testunit.dart';
+import '../../../tools/search/matchabletrack.dart';
+import '../../../tools/search/trackmatcher.dart';
+import '../../../tools/search/trackmatchparameters.dart';
+import '../../../tools/search/listoftracksformatching.dart';
 
 class ListOfTracksForMatchingTests extends TestModule {
   late IListOfTracksForMatching _matcher;
