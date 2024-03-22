@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _shouldSidebarBeExpanded = false;
-  var selectedIndex = Version().version.selectedTabOnStartUp;
+  var selectedIndex = Version().selectedTabOnStartUp;
 
   void _incrementCounter() {
     setState(() {

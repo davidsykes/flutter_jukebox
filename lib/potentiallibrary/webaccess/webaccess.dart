@@ -17,7 +17,6 @@ class WebAccess extends IWebAccess {
 
   String makeUrl(String u) {
     return '$ipAddress$u';
-    //return 'http://$ipAddress/$u';
   }
 
   @override

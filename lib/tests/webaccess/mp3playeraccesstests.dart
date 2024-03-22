@@ -65,7 +65,7 @@ class MP3PlayerAccessTests extends TestModule {
 
   @override
   void setUpObjectUnderTest() {
-    _access = MP3PlayerAccess(_mockMp3WebRequestor, 0);
+    _access = MP3PlayerAccess(_mockMp3WebRequestor);
   }
 }
 

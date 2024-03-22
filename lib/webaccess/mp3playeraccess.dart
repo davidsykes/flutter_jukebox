@@ -11,16 +11,11 @@ abstract class IMP3PlayerAccess {
 
 class MP3PlayerAccess extends IMP3PlayerAccess {
   final IWebRequestor _webRequestor;
-  final int currentlyPlayingTrackId;
 
-  MP3PlayerAccess(this._webRequestor, this.currentlyPlayingTrackId);
+  MP3PlayerAccess(this._webRequestor);
 
   @override
   Future<int> getCurrentTrackId() async {
-    if (currentlyPlayingTrackId > 0) {
-      return currentlyPlayingTrackId;
-    }
-
     var currentTrack = await _webRequestor.get<CurrentTrack>(
         'currenttrack', deserialiseCurrentTrack);
 
